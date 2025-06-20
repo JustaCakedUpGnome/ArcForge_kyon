@@ -1,0 +1,205 @@
+/* SYNTHWAVE COLOR SCHEME - Based on synthwave.jpg */
+/* Add this class to <body> to enable: <body class="synthwave-theme"> */
+
+.synthwave-theme {
+    /* Override main background with synthwave colors */
+    background: linear-gradient(45deg, #1a0d2e 0%, #2d1b47 25%, #4a148c 50%, #7b1fa2 75%, #ad42f5 100%) !important;
+}
+
+.synthwave-theme .cyber-grid {
+    /* Hot pink grid like the image */
+    background-image: 
+        linear-gradient(rgba(255, 20, 147, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 20, 147, 0.15) 1px, transparent 1px) !important;
+}
+
+.synthwave-theme .neon-header {
+    /* Golden sunset header */
+    background: linear-gradient(135deg, #ff6b35 0%, #ffd700 25%, #ff8c00 50%, #ff4500 75%, #ff1493 100%) !important;
+    border-bottom: 3px solid #00ffff !important;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), inset 0 0 30px rgba(255, 20, 147, 0.3) !important;
+}
+
+.synthwave-theme .glitch {
+    color: #00ffff !important;
+    text-shadow: 
+        0 0 8px #00ffff,
+        0 0 16px #00ffff,
+        0 0 24px #ff1493,
+        2px 2px 0px #000 !important;
+}
+
+.synthwave-theme .duty-text {
+    color: #ffd700 !important;
+    text-shadow: 
+        0 0 8px #ffd700,
+        0 0 16px #ffd700,
+        0 0 24px #ff8c00,
+        2px 2px 0px #000 !important;
+}
+
+.synthwave-theme .fortress {
+    color: #ff1493 !important;
+    text-shadow: 
+        0 0 8px #ff1493,
+        0 0 16px #ff1493,
+        0 0 24px #ff69b4,
+        2px 2px 0px #000 !important;
+}
+
+.synthwave-theme .nav-btn {
+    background: linear-gradient(45deg, #ff1493, #ffd700) !important;
+    color: #000 !important;
+    border: 2px solid #00ffff !important;
+    box-shadow: 
+        0 0 15px rgba(0, 255, 255, 0.5),
+        inset 0 0 15px rgba(255, 215, 0, 0.2) !important;
+}
+
+.synthwave-theme .nav-btn:hover {
+    background: linear-gradient(45deg, #00ffff, #ff1493) !important;
+    color: #fff !important;
+    box-shadow: 
+        0 0 25px rgba(255, 20, 147, 0.8),
+        inset 0 0 25px rgba(0, 255, 255, 0.3) !important;
+}
+
+.synthwave-theme .warning-banner {
+    background: linear-gradient(90deg, #ff1493, #ff8c00, #ffd700, #ff8c00, #ff1493) !important;
+    color: #000 !important;
+    border: 2px solid #00ffff !important;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4) !important;
+}
+
+.synthwave-theme .main-panel {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 13, 46, 0.8)) !important;
+    border: 2px solid #00ffff !important;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 255, 0.4),
+        inset 0 0 30px rgba(255, 20, 147, 0.1) !important;
+}
+
+.synthwave-theme .chrome-text {
+    background: linear-gradient(45deg, #ffd700, #ff8c00, #ff1493, #ffd700) !important;
+    background-size: 400% 400% !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+.synthwave-theme .manifesto {
+    color: #00ffff !important;
+}
+
+.synthwave-theme .signature {
+    color: #ffd700 !important;
+}
+
+.synthwave-theme .stat-box {
+    background: linear-gradient(45deg, rgba(255, 20, 147, 0.9), rgba(255, 215, 0, 0.9)) !important;
+    border: 2px solid #00ffff !important;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.4) !important;
+}
+
+.synthwave-theme .stat-number {
+    color: #000 !important;
+    text-shadow: 1px 1px 2px #fff, 0 0 8px rgba(255, 215, 0, 0.6) !important;
+}
+
+.synthwave-theme .stat-label {
+    color: #000 !important;
+}
+
+.synthwave-theme .protocol-card {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 13, 46, 0.8)) !important;
+    border: 2px solid #00ffff !important;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 255, 0.3),
+        inset 0 0 20px rgba(255, 20, 147, 0.1) !important;
+}
+
+.synthwave-theme .protocol-card:hover {
+    box-shadow: 
+        0 5px 30px rgba(0, 255, 255, 0.5),
+        inset 0 0 30px rgba(255, 20, 147, 0.15) !important;
+}
+
+.synthwave-theme .card-header {
+    background: linear-gradient(90deg, #ff1493, #ffd700) !important;
+}
+
+.synthwave-theme .card-header h3 {
+    color: #000 !important;
+    text-shadow: 1px 1px 2px #fff, 0 0 6px rgba(255, 215, 0, 0.5) !important;
+}
+
+.synthwave-theme .card-content {
+    color: #00ffff !important;
+}
+
+.synthwave-theme .emphasis {
+    background: rgba(255, 20, 147, 0.8) !important;
+    color: #fff !important;
+    border: 2px solid #00ffff !important;
+}
+
+.synthwave-theme .philosophy-panel {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 13, 46, 0.9)) !important;
+    border: 2px solid #ffd700 !important;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.3) !important;
+}
+
+.synthwave-theme .philosophy-panel h3 {
+    color: #ff1493 !important;
+    text-shadow: 0 0 8px rgba(255, 20, 147, 0.6) !important;
+}
+
+.synthwave-theme .philosophy-panel p {
+    color: #00ffff !important;
+}
+
+.synthwave-theme .quote-box {
+    background: rgba(255, 20, 147, 0.3) !important;
+    border: 2px solid #ffd700 !important;
+    color: #ffd700 !important;
+}
+
+.synthwave-theme .rotating-banner {
+    background: linear-gradient(90deg, #ff1493, #00ffff, #ffd700, #ff8c00, #ff1493) !important;
+    border: 2px solid #fff !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4) !important;
+}
+
+.synthwave-theme .legacy-section {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 13, 46, 0.9)) !important;
+    border: 3px solid #ffd700 !important;
+    box-shadow: 
+        0 0 30px rgba(255, 215, 0, 0.4),
+        inset 0 0 30px rgba(255, 20, 147, 0.1) !important;
+}
+
+.synthwave-theme .legacy-content p {
+    color: #00ffff !important;
+}
+
+.synthwave-theme .achievement {
+    background: linear-gradient(45deg, #ff1493, #ffd700) !important;
+    color: #000 !important;
+    border: 2px solid #00ffff !important;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.4) !important;
+}
+
+.synthwave-theme .cyber-footer {
+    background: linear-gradient(135deg, #000000, #1a0d2e, #2d1b47) !important;
+    border-top: 3px solid #00ffff !important;
+    box-shadow: 0 -10px 25px rgba(0, 255, 255, 0.3) !important;
+}
+
+.synthwave-theme .footer-content p {
+    color: #00ffff !important;
+}
+
+.synthwave-theme blink {
+    color: #ffd700 !important;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6) !important;
+}

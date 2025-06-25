@@ -318,14 +318,14 @@ body {
     margin: 3rem 0;
 }
 
-.protocol-grid {
+.protocol-grid, .nav-guide-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
     margin-top: 2rem;
 }
 
-.protocol-card {
+.protocol-card, .guide-card {
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(45, 27, 71, 0.8));
     border: 2px solid rgba(0, 206, 209, 0.3);
     box-shadow: 
@@ -334,7 +334,7 @@ body {
     transition: all 0.3s ease;
 }
 
-.protocol-card:hover {
+.protocol-card:hover, .guide-card:hover {
     transform: translateY(-5px);
     box-shadow: 
         0 5px 25px rgba(0, 206, 209, 0.3),

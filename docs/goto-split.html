@@ -53,6 +53,21 @@
                 <div class="signature">— Mike Mentzer</div>
             </div>
 
+            <!-- Download Section -->
+            <div class="download-section">
+                <div class="download-panel">
+                    <h3><span class="emoji">💾</span> DOWNLOAD ORIGINAL <span class="emoji">💾</span></h3>
+                    <p>Get the raw markdown file for offline tracking and customization</p>
+                    <a href="../routines/Goto split.md" download="goto-split-mentzer.md" target="_blank" class="download-btn" onclick="downloadFile(event, '../routines/Goto split.md', 'goto-split-mentzer.md')">
+                        <span class="download-icon">⬇️</span>
+                        DOWNLOAD .MD FILE
+                        <span class="download-icon">⬇️</span>
+                    </a>
+                    <div class="download-note">Perfect for text editors, note apps, or printing<br>
+                    <small>💡 If download doesn't start automatically, right-click the button and select "Save link as..."</small></div>
+                </div>
+            </div>
+
             <!-- Schedule Overview -->
             <div class="protocol-card">
                 <div class="card-header">
@@ -630,6 +645,127 @@
             box-shadow: 0 0 8px rgba(199, 125, 255, 0.2) !important;
             border: 2px solid rgba(199, 125, 255, 0.3) !important;
         }
+
+        /* Download Section Styling */
+        .download-section {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .download-panel {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.15), rgba(199, 125, 255, 0.15));
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-panel::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color), var(--accent-color));
+            border-radius: 8px;
+            z-index: -1;
+            animation: borderGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .download-panel h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .download-panel p {
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: black;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.4);
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .download-icon {
+            color: black;
+            font-size: 1.2rem;
+            margin: 0 0.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-3px); }
+            60% { transform: translateY(-2px); }
+        }
+
+        .download-note {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            font-style: italic;
+            font-family: 'Courier New', monospace;
+        }
     </style>
+
+    <script>
+        function downloadFile(event, url, filename) {
+            event.preventDefault();
+            
+            // Create a temporary link element
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.target = '_blank';
+            
+            // Add to DOM, click, then remove
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Also open in new tab as backup
+            setTimeout(() => {
+                window.open(url, '_blank');
+            }, 100);
+        }
+    </script>
 </body>
 </html>

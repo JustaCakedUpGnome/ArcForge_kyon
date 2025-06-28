@@ -3,200 +3,416 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>★☆★ ARCFORGE: HEAVY DUTY FORTRESS ★☆★ - Mike Mentzer's Iron Philosophy</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/synthwave-theme.css">
+    <title>ARCFORGE - Heavy Duty Training</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: #e0e0e0;
+            font-family: "JetBrains Mono", monospace;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 1.2;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Starfield background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            position: relative;
+        }
+        
+        /* Header with image - kyon.dev style layout */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 80px;
+            position: relative;
+        }
+        
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #333, #111);
+            border: 3px solid #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #888;
+            position: relative;
+            overflow: hidden;
+            filter: grayscale(0.8) contrast(1.2);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            flex-shrink: 0;
+        }
+        
+        .profile-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, transparent 30%, rgba(255, 255, 255, 0.05) 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .header-text {
+            flex: 1;
+        }
+        
+        .title {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: #aaa;
+            letter-spacing: 1px;
+        }
+        
+        /* Sections */
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        
+        .section-content {
+            color: #ccc;
+            line-height: 1.8;
+        }
+        
+        .section-content p {
+            margin-bottom: 15px;
+        }
+        
+        /* Enhanced file tree styling */
+        .file-tree {
+            font-family: "JetBrains Mono", monospace;
+            color: #aaa;
+            margin: 1rem 0;
+        }
+        
+        .tree-path {
+            color: #e0e0e0;
+            margin-bottom: 10px;
+        }
+        
+        .tree-item {
+            padding: 0.2rem 0;
+            margin-left: 1rem;
+        }
+        
+        .tree-item a {
+            color: #e0e0e0;
+            text-decoration: underline;
+            text-decoration-color: #444;
+            transition: all 0.3s ease;
+        }
+        
+        .tree-item a:hover {
+            color: #fff;
+            text-decoration-color: #888;
+        }
+        
+        .tree-branch {
+            color: #666;
+        }
+        
+        .nested {
+            margin-left: 20px;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .nested.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+        
+        .folder-toggle {
+            cursor: pointer;
+            user-select: none;
+            transition: color 0.2s ease;
+        }
+        
+        .folder-toggle:hover {
+            color: #fff;
+        }
+        
+        .folder-icon {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        
+        .folder-toggle.collapsed .folder-icon {
+            transform: rotate(-90deg);
+        }
+        
+        /* Contact section */
+        .contact-text {
+            margin-bottom: 10px;
+        }
+        
+        .contact-text a {
+            color: #e0e0e0;
+            text-decoration: underline;
+            text-decoration-color: #444;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-text a:hover {
+            color: #fff;
+            text-decoration-color: #888;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .title {
+                font-size: 2rem;
+                letter-spacing: 4px;
+            }
+            
+            .container {
+                padding: 40px 15px;
+            }
+            
+            .profile-image {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="cyber-grid"></div>
+    <div class="stars"></div>
     
-    <header class="neon-header">
-        <div class="header-bg"></div>
-        <div class="logo-container">
-            <h1 class="cyber-title">
-                <span class="arcforge">ARCFORGE:</span>
-                <span class="glitch">HEAVY</span>
-                <span class="duty-text">DUTY</span>
-                <span class="fortress">FORTRESS</span>
-            </h1>
-            <div class="subtitle">Mike Mentzer's Iron Philosophy • Est. 1971</div>
-        </div>
+    <div class="container">
+        <header class="header">
+            <div class="profile-image">
+                Mike Mentzer Image
+            </div>
+            <div class="header-text">
+                <h1 class="title">ARCFORGE</h1>
+                <p class="subtitle">heavy duty training & rational philosophy</p>
+            </div>
+        </header>
         
-        <nav class="retro-nav">
-            <div class="nav-bar">
-                <a href="#home" class="nav-btn">⚡ HOME ⚡</a>
-                <a href="docs/training.html" class="nav-btn">💪 TRAINING 💪</a>
-                <a href="docs/routines.html" class="nav-btn">🏋️ ROUTINES 🏋️</a>
-                <a href="docs/philosophy.html" class="nav-btn">🧠 PHILOSOPHY 🧠</a>
-                <a href="docs/forum.html" class="nav-btn">💬 FORUM 💬</a>
+        <section class="section">
+            <h2 class="section-title">WHOAMI</h2>
+            <div class="section-content">
+                <p>mike mentzer's heavy duty fortress. a place dedicated to high intensity training, rational philosophy, and the pursuit of maximum muscular development through scientific principles. no nonsense. no compromise.</p>
             </div>
-        </nav>
-    </header>
-
-    <main class="cyber-main">
-        <div class="construction-banner">
-            <marquee>🚧 UNDER CONSTRUCTION 🚧 BUILDING THE ULTIMATE HEAVY DUTY EXPERIENCE 🚧 STAY TUNED 🚧</marquee>
-        </div>
+        </section>
         
-        <div class="warning-banner">
-            <marquee>⚠️ WARNING: HIGH INTENSITY TRAINING ZONE ⚠️ MAXIMUM EFFORT REQUIRED ⚠️ NO COMPROMISE ⚠️</marquee>
-        </div>
-
-        <section id="home" class="hero-section">
-            <div class="hero-container">
-                <div class="main-panel">
-                    <div class="synthwave-bg"></div>
-                    <h2 class="section-title">
-                        <span class="chrome-text">ENTER THE FORTRESS</span>
-                    </h2>
-                    <div class="philosophy-box">
-                        <p class="manifesto">"The bodybuilding world is filled with myths and misconceptions. 
-                        My purpose is to present the truth about bodybuilding based on scientific principles."</p>
-                        <div class="signature">— Mike Mentzer, Heavy Duty Visionary</div>
-                    </div>
+        <section class="section">
+            <h2 class="section-title">TRAINING</h2>
+            <div class="section-content">
+                <div class="tree-item">
+                    <a href="docs/training.html">the heavy duty method</a>
                 </div>
-                
-                <div class="stats-panel">
-                    <div class="stat-box">
-                        <div class="stat-number">1971</div>
-                        <div class="stat-label">HEAVY DUTY BORN</div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2 class="section-title">FORTRESS</h2>
+            <div class="section-content">
+                <div class="file-tree">
+                    <div class="tree-path">/arcforge/fortress</div>
+                    <div class="tree-item">
+                        <span class="tree-branch">├──</span> 
+                        <span class="folder-toggle" data-target="training-folder">
+                            <span class="folder-icon">▼</span> training/
+                        </span>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">INTENSITY</div>
+                    <div id="training-folder" class="nested">
+                        <div class="tree-item">
+                            <span class="tree-branch">│   ├──</span> <a href="docs/training.html">heavy_duty_method</a>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-branch">│   ├──</span> <a href="docs/training.html">intensity_techniques</a>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-branch">│   └──</span> <a href="docs/training.html">progression_protocols</a>
+                        </div>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-number">∞</div>
-                        <div class="stat-label">PHILOSOPHY</div>
+                    <div class="tree-item">
+                        <span class="tree-branch">├──</span> 
+                        <span class="folder-toggle" data-target="routines-folder">
+                            <span class="folder-icon">▼</span> routines/
+                        </span>
+                    </div>
+                    <div id="routines-folder" class="nested">
+                        <div class="tree-item">
+                            <span class="tree-branch">│   ├──</span> <a href="docs/routines.html">beginner_split</a>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-branch">│   ├──</span> <a href="routines/Goto split.md">goto_split</a>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-branch">│   └──</span> <a href="docs/routines.html">advanced_consolidated</a>
+                        </div>
+                    </div>
+                    <div class="tree-item">
+                        <span class="tree-branch">├──</span> 
+                        <span class="folder-toggle" data-target="philosophy-folder">
+                            <span class="folder-icon">▼</span> philosophy/
+                        </span>
+                    </div>
+                    <div id="philosophy-folder" class="nested">
+                        <div class="tree-item">
+                            <span class="tree-branch">│   ├──</span> <a href="docs/philosophy.html">objectivism_and_iron</a>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-branch">│   ├──</span> <a href="docs/philosophy.html">scientific_method</a>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-branch">│   └──</span> <a href="docs/philosophy.html">rational_training</a>
+                        </div>
+                    </div>
+                    <div class="tree-item">
+                        <span class="tree-branch">└──</span> 
+                        <span class="folder-toggle" data-target="forum-folder">
+                            <span class="folder-icon">▼</span> forum/
+                        </span>
+                    </div>
+                    <div id="forum-folder" class="nested">
+                        <div class="tree-item">
+                            <span class="tree-branch">    ├──</span> <a href="docs/forum.html">training_logs</a>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-branch">    ├──</span> <a href="docs/forum.html">progress_reports</a>
+                        </div>
+                        <div class="tree-item">
+                            <span class="tree-branch">    └──</span> <a href="docs/forum.html">philosophy_discussions</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-
-        <section id="protocols" class="protocols-section">
-            <h2 class="section-title chrome-text">HEAVY DUTY PROTOCOLS</h2>
+        
+        <section class="section">
+            <h2 class="section-title">CONTACT</h2>
+            <div class="section-content">
+                <p class="contact-text">reach out through the <a href="docs/forum.html">forum</a> for training discussions.</p>
+                <p>no spam. no time wasters. heavy duty only.</p>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // Generate random stars
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numStars = 100;
             
-            <div class="protocol-grid">
-                <div class="protocol-card">
-                    <div class="card-header">
-                        <h3>⚡ HIGH INTENSITY ⚡</h3>
-                    </div>
-                    <div class="card-content">
-                        <p>Train with maximum intensity to muscular failure. One properly performed set is superior to multiple half-hearted attempts.</p>
-                        <div class="emphasis">INTENSITY > VOLUME</div>
-                    </div>
-                </div>
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
                 
-                <div class="protocol-card">
-                    <div class="card-header">
-                        <h3>🔥 BRIEF WORKOUTS 🔥</h3>
-                    </div>
-                    <div class="card-content">
-                        <p>45 minutes maximum. Long workouts lead to overtraining and diminished results. Quality over quantity.</p>
-                        <div class="emphasis">BRIEF & BRUTAL</div>
-                    </div>
-                </div>
+                // Random position
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
                 
-                <div class="protocol-card">
-                    <div class="card-header">
-                        <h3>💪 INFREQUENT TRAINING 💪</h3>
-                    </div>
-                    <div class="card-content">
-                        <p>Allow complete recovery between sessions. Growth occurs during rest, not during training.</p>
-                        <div class="emphasis">REST = GROWTH</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="philosophy" class="philosophy-section">
-            <h2 class="section-title chrome-text">PHILOSOPHICAL FOUNDATIONS</h2>
-            
-            <div class="philosophy-container">
-                <div class="philosophy-panel left-panel">
-                    <h3>🧠 OBJECTIVISM & IRON 🧠</h3>
-                    <p>Influenced by Ayn Rand's philosophy, Mentzer applied rational thinking to bodybuilding. 
-                    Reason over emotion, science over tradition.</p>
-                    
-                    <div class="quote-box">
-                        "The mind is man's basic tool of survival."
-                    </div>
-                </div>
+                // Random size
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
                 
-                <div class="philosophy-panel right-panel">
-                    <h3>⚗️ SCIENTIFIC METHOD ⚗️</h3>
-                    <p>Question everything. Test hypotheses. Discard what doesn't work. 
-                    Bodybuilding must be based on scientific principles, not gym folklore.</p>
-                    
-                    <div class="quote-box">
-                        "Logic is the art of non-contradictory identification."
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="rotating-banner">
-            <marquee direction="left">💥 MAXIMUM INTENSITY 💥 BRIEF WORKOUTS 💥 COMPLETE RECOVERY 💥 SCIENTIFIC APPROACH 💥</marquee>
-        </div>
-
-        <section id="navigation-guide" class="navigation-section">
-            <h2 class="section-title chrome-text">FORTRESS NAVIGATION</h2>
-            <div class="nav-guide-grid">
-                <div class="guide-card">
-                    <div class="card-header">
-                        <h3>💪 TRAINING 💪</h3>
-                    </div>
-                    <div class="card-content">
-                        <p>Practical Heavy Duty implementation: proper form, intensity techniques, progression protocols, and how to execute the methodology.</p>
-                        <div class="emphasis">THE HOW-TO GUIDE</div>
-                    </div>
-                </div>
+                // Random animation delay
+                star.style.animationDelay = Math.random() * 3 + 's';
                 
-                <div class="guide-card">
-                    <div class="card-header">
-                        <h3>🏋️ ROUTINES 🏋️</h3>
-                    </div>
-                    <div class="card-content">
-                        <p>Complete workout programs: beginner to advanced splits, exercise selections, and ready-to-use training templates.</p>
-                        <div class="emphasis">READY-TO-USE PROGRAMS</div>
-                    </div>
-                </div>
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        createStars();
+        
+        // Folder toggle functionality
+        document.querySelectorAll('.folder-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const targetFolder = document.getElementById(targetId);
+                const icon = this.querySelector('.folder-icon');
                 
-                <div class="guide-card">
-                    <div class="card-header">
-                        <h3>🧠 PHILOSOPHY 🧠</h3>
-                    </div>
-                    <div class="card-content">
-                        <p>Complete Heavy Duty documentation: scientific principles, recovery theory, Objectivist foundations, and comprehensive study materials.</p>
-                        <div class="emphasis">THE WHY & SCIENCE</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="legacy" class="legacy-section">
-            <h2 class="section-title chrome-text">THE MENTZER LEGACY</h2>
-            <div class="legacy-content">
-                <p>Mike Mentzer revolutionized bodybuilding by challenging conventional wisdom. 
-                His Heavy Duty system produced champions while others burned out from overtraining.</p>
-                
-                <div class="achievement-grid">
-                    <div class="achievement">🏆 1978 Mr. Universe</div>
-                    <div class="achievement">📚 Heavy Duty Author</div>
-                    <div class="achievement">🧠 Philosophy Pioneer</div>
-                    <div class="achievement">⚡ HIT Innovator</div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="cyber-footer">
-        <div class="footer-content">
-            <p>© 2025 ARCFORGE: HEAVY DUTY FORTRESS • Built with 90s HTML Power • Maximum Intensity Always</p>
-            <div class="footer-banner">
-                <blink>★ TRAIN HARD OR GO HOME ★</blink>
-            </div>
-        </div>
-    </footer>
+                if (targetFolder.classList.contains('collapsed')) {
+                    // Expand
+                    targetFolder.classList.remove('collapsed');
+                    targetFolder.style.maxHeight = targetFolder.scrollHeight + 'px';
+                    icon.textContent = '▼';
+                    this.classList.remove('collapsed');
+                } else {
+                    // Collapse
+                    targetFolder.classList.add('collapsed');
+                    targetFolder.style.maxHeight = '0';
+                    icon.textContent = '▶';
+                    this.classList.add('collapsed');
+                }
+            });
+        });
+        
+        // Set initial max-height for smooth animations
+        document.querySelectorAll('.nested').forEach(folder => {
+            folder.style.maxHeight = folder.scrollHeight + 'px';
+        });
+    </script>
 </body>
 </html>

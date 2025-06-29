@@ -48,7 +48,7 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 60px 20px;
             position: relative;
@@ -218,6 +218,51 @@
             text-decoration-color: #888;
         }
         
+        /* Keybind notification bubble */
+        .keybind-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(17, 17, 17, 0.95);
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 14px;
+            color: #e0e0e0;
+            z-index: 1000;
+            max-width: 250px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            opacity: 1;
+            transform: translateX(0);
+            transition: all 0.5s ease;
+        }
+        
+        .keybind-notification.fade-out {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+        
+        .keybind-notification .title {
+            font-size: 12px;
+            color: #fff;
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .keybind-notification .keybind {
+            margin: 4px 0;
+            font-family: "JetBrains Mono", monospace;
+        }
+        
+        .keybind-notification .key {
+            background: #333;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .header {
@@ -239,16 +284,32 @@
                 width: 100px;
                 height: 100px;
             }
+            
+            .keybind-notification {
+                top: 10px;
+                right: 10px;
+                max-width: 200px;
+                font-size: 12px;
+                padding: 12px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="stars"></div>
     
+    <!-- Keybind notification -->
+    <div id="keybind-notification" class="keybind-notification">
+        <div class="title">KEYBINDS</div>
+        <div class="keybind"><span class="key">j</span> expand next folder</div>
+        <div class="keybind"><span class="key">Shift+J</span> expand all</div>
+        <div class="keybind"><span class="key">k</span> collapse all</div>
+    </div>
+    
     <div class="container">
         <header class="header">
             <div class="profile-image">
-                Mike Mentzer Image
+                <img src="images/MikeCrucifix.jpg" alt="Mike Mentzer" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
             </div>
             <div class="header-text">
                 <h1 class="title">ARCFORGE</h1>
@@ -267,7 +328,7 @@
             <h2 class="section-title">TRAINING</h2>
             <div class="section-content">
                 <div class="tree-item">
-                    <a href="docs/training.html">the heavy duty method</a>
+                    <span class="tree-branch">•</span> <a href="docs/training.html">the heavy duty method</a>
                 </div>
             </div>
         </section>
@@ -386,6 +447,17 @@
         
         createStars();
         
+        // Show keybind notification and fade out after 4 seconds
+        setTimeout(() => {
+            const notification = document.getElementById('keybind-notification');
+            notification.classList.add('fade-out');
+            
+            // Remove from DOM after animation completes
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }, 4000);
+        
         // Folder toggle functionality
         document.querySelectorAll('.folder-toggle').forEach(toggle => {
             toggle.addEventListener('click', function() {
@@ -413,6 +485,80 @@
         document.querySelectorAll('.nested').forEach(folder => {
             folder.style.maxHeight = folder.scrollHeight + 'px';
         });
+        
+        // Keyboard shortcuts for folder navigation
+        let currentFolderIndex = -1;
+        const folderToggles = document.querySelectorAll('.folder-toggle');
+        
+        document.addEventListener('keydown', function(e) {
+            // 'j' key - expand next folder (one by one)
+            if (e.key === 'j' && !e.shiftKey) {
+                e.preventDefault();
+                expandNextFolder();
+            }
+            
+            // 'Shift+J' key - expand all folders
+            if (e.key === 'J' && e.shiftKey) {
+                e.preventDefault();
+                expandAllFolders();
+            }
+            
+            // 'k' key - collapse all folders
+            if (e.key === 'k' || e.key === 'K') {
+                e.preventDefault();
+                collapseAllFolders();
+            }
+        });
+        
+        function expandNextFolder() {
+            // Find next collapsed folder
+            for (let i = 0; i < folderToggles.length; i++) {
+                const toggle = folderToggles[i];
+                const targetId = toggle.getAttribute('data-target');
+                const targetFolder = document.getElementById(targetId);
+                
+                if (targetFolder.classList.contains('collapsed')) {
+                    // Expand this folder
+                    targetFolder.classList.remove('collapsed');
+                    targetFolder.style.maxHeight = targetFolder.scrollHeight + 'px';
+                    toggle.querySelector('.folder-icon').textContent = '▼';
+                    toggle.classList.remove('collapsed');
+                    return;
+                }
+            }
+            
+            // If all are expanded, do nothing (don't cycle back)
+        }
+        
+        function expandAllFolders() {
+            folderToggles.forEach(toggle => {
+                const targetId = toggle.getAttribute('data-target');
+                const targetFolder = document.getElementById(targetId);
+                const icon = toggle.querySelector('.folder-icon');
+                
+                if (targetFolder.classList.contains('collapsed')) {
+                    targetFolder.classList.remove('collapsed');
+                    targetFolder.style.maxHeight = targetFolder.scrollHeight + 'px';
+                    icon.textContent = '▼';
+                    toggle.classList.remove('collapsed');
+                }
+            });
+        }
+        
+        function collapseAllFolders() {
+            folderToggles.forEach(toggle => {
+                const targetId = toggle.getAttribute('data-target');
+                const targetFolder = document.getElementById(targetId);
+                const icon = toggle.querySelector('.folder-icon');
+                
+                if (!targetFolder.classList.contains('collapsed')) {
+                    targetFolder.classList.add('collapsed');
+                    targetFolder.style.maxHeight = '0';
+                    icon.textContent = '▶';
+                    toggle.classList.add('collapsed');
+                }
+            });
+        }
     </script>
 </body>
 </html>

@@ -5,8 +5,8 @@
   --accent-color: #ffffff;
   --header-bg: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
   --border-color: #333;
-  --link-color: #e0e0e0;
-  --link-hover: #ffffff;
+  --link-color: #aaa;
+  --link-hover: #fff;
 }
 
 * {
@@ -160,12 +160,16 @@ body {
 
 /* Links */
 a {
-  color: var(--link-color);
+  color: var(--link-color) !important;
   text-decoration: underline;
 }
 
 a:hover {
-  color: var(--link-hover);
+  color: var(--link-hover) !important;
+}
+
+a:visited {
+  color: #888 !important;
 }
 
 /* Responsive */

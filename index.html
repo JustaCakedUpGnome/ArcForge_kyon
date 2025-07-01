@@ -239,7 +239,6 @@
         
         .keybind-notification.fade-out {
             opacity: 0;
-            transform: translateX(100%);
         }
         
         .keybind-notification .title {
@@ -261,6 +260,15 @@
             border-radius: 3px;
             font-weight: 600;
             color: #fff;
+        }
+        
+        .keybind-notification a {
+            color: #aaa !important;
+            text-decoration: underline;
+        }
+        
+        .keybind-notification a:hover {
+            color: #fff !important;
         }
         
         /* Responsive */
@@ -300,9 +308,9 @@
     
     <!-- Keybind notification -->
     <div id="keybind-notification" class="keybind-notification">
-        <div class="title">KEYBINDS</div>
-        <div class="keybind"><span class="key">j</span> expand next folder</div>
-        <div class="keybind"><span class="key">Shift+J</span> expand all</div>
+        <div class="title">NAVIGATION</div>
+        <div class="keybind">check out the <a href="navigation/index.html">terminal interface demo</a></div>
+        <div class="keybind"><span class="key">j</span> expand folders</div>
         <div class="keybind"><span class="key">k</span> collapse all</div>
     </div>
     
@@ -446,6 +454,14 @@
             <div class="section-content">
                 <p class="contact-text">reach out through the <a href="docs/forum.html">forum</a> for training discussions.</p>
                 <p>no spam. no time wasters. heavy duty only.</p>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2 class="section-title">SUPPORT</h2>
+            <div class="section-content">
+                <p>if this content adds value, consider <a href="https://buy.stripe.com/dRm6oH1un367cfl7KabV600" target="_blank" rel="noopener">supporting the work</a>.</p>
+                <p>no obligation. no expectations. pure voluntary contribution.</p>
             </div>
         </section>
     </div>

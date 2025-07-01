@@ -1,0 +1,502 @@
+// Frontend Authentication System for ARCFORGE
+class AuthSystem {
+    constructor() {
+        this.baseURL = 'http://localhost:5000/api';
+        this.token = localStorage.getItem('arcforge_token');
+        this.user = JSON.parse(localStorage.getItem('arcforge_user') || 'null');
+        this.init();
+    }
+
+    init() {
+        this.createLoginModal();
+        this.bindEvents();
+        this.updateUserDisplay();
+    }
+
+    // Create terminal-style login modal
+    createLoginModal() {
+        const modalHTML = `
+            <div id="auth-modal" class="auth-modal hidden">
+                <div class="auth-overlay"></div>
+                <div class="auth-terminal">
+                    <div class="auth-header">
+                        <span class="auth-title">ARCFORGE AUTHENTICATION</span>
+                        <button class="auth-close" id="auth-close">×</button>
+                    </div>
+                    <div class="auth-content">
+                        <div class="auth-prompt">
+                            <span class="auth-user">guest@arcforge:~$</span>
+                            <span class="auth-command" id="auth-mode">login</span>
+                        </div>
+                        <form id="auth-form" class="auth-form">
+                            <div class="auth-field">
+                                <label>email:</label>
+                                <input type="email" id="auth-email" required autocomplete="email">
+                            </div>
+                            <div class="auth-field">
+                                <label>password:</label>
+                                <input type="password" id="auth-password" required autocomplete="current-password">
+                            </div>
+                            <div class="auth-actions">
+                                <button type="submit" id="auth-submit">execute</button>
+                                <button type="button" id="auth-toggle">switch to signup</button>
+                            </div>
+                        </form>
+                        <div id="auth-error" class="auth-error hidden"></div>
+                        <div id="auth-loading" class="auth-loading hidden">
+                            <span>processing...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        this.addAuthStyles();
+    }
+
+    // Add CSS styles for the auth modal
+    addAuthStyles() {
+        const styles = `
+            <style id="auth-styles">
+                .auth-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 10000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .auth-modal.hidden {
+                    display: none;
+                }
+
+                .auth-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                    backdrop-filter: blur(4px);
+                }
+
+                .auth-terminal {
+                    position: relative;
+                    background: #0a0a0a;
+                    border: 2px solid #333;
+                    border-radius: 8px;
+                    width: 90%;
+                    max-width: 500px;
+                    font-family: "JetBrains Mono", monospace;
+                    color: #e0e0e0;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+                }
+
+                .auth-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 15px 20px;
+                    border-bottom: 1px solid #333;
+                    background: #111;
+                    border-radius: 6px 6px 0 0;
+                }
+
+                .auth-title {
+                    font-size: 14px;
+                    font-weight: 700;
+                    letter-spacing: 1px;
+                }
+
+                .auth-close {
+                    background: none;
+                    border: none;
+                    color: #666;
+                    font-size: 20px;
+                    cursor: pointer;
+                    padding: 0;
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: color 0.2s ease;
+                }
+
+                .auth-close:hover {
+                    color: #e0e0e0;
+                }
+
+                .auth-content {
+                    padding: 20px;
+                }
+
+                .auth-prompt {
+                    margin-bottom: 20px;
+                    font-size: 14px;
+                }
+
+                .auth-user {
+                    color: #aaa;
+                }
+
+                .auth-command {
+                    color: #fff;
+                    font-weight: 600;
+                }
+
+                .auth-form {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+                }
+
+                .auth-field {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                }
+
+                .auth-field label {
+                    font-size: 12px;
+                    color: #aaa;
+                    text-transform: lowercase;
+                }
+
+                .auth-field input {
+                    background: #111;
+                    border: 1px solid #333;
+                    border-radius: 4px;
+                    padding: 10px 12px;
+                    color: #e0e0e0;
+                    font-family: "JetBrains Mono", monospace;
+                    font-size: 14px;
+                    transition: border-color 0.2s ease;
+                }
+
+                .auth-field input:focus {
+                    outline: none;
+                    border-color: #666;
+                    background: #0a0a0a;
+                }
+
+                .auth-actions {
+                    display: flex;
+                    gap: 10px;
+                    margin-top: 10px;
+                }
+
+                .auth-actions button {
+                    background: #222;
+                    border: 1px solid #444;
+                    border-radius: 4px;
+                    padding: 8px 16px;
+                    color: #e0e0e0;
+                    font-family: "JetBrains Mono", monospace;
+                    font-size: 12px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .auth-actions button:hover {
+                    background: #333;
+                    border-color: #666;
+                }
+
+                .auth-actions button[type="submit"] {
+                    background: #2a2a2a;
+                    color: #fff;
+                    font-weight: 600;
+                }
+
+                .auth-error {
+                    margin-top: 15px;
+                    padding: 10px;
+                    background: rgba(220, 53, 69, 0.1);
+                    border: 1px solid rgba(220, 53, 69, 0.3);
+                    border-radius: 4px;
+                    color: #ff6b6b;
+                    font-size: 12px;
+                }
+
+                .auth-loading {
+                    margin-top: 15px;
+                    text-align: center;
+                    color: #aaa;
+                    font-size: 12px;
+                }
+
+                .hidden {
+                    display: none !important;
+                }
+
+                /* User indicator in bottom-left */
+                .user-indicator {
+                    position: fixed;
+                    bottom: 20px;
+                    left: 20px;
+                    background: rgba(17, 17, 17, 0.9);
+                    border: 1px solid #333;
+                    border-radius: 4px;
+                    padding: 8px 12px;
+                    font-family: "JetBrains Mono", monospace;
+                    font-size: 12px;
+                    color: #e0e0e0;
+                    z-index: 1000;
+                }
+
+                @media (max-width: 768px) {
+                    .auth-terminal {
+                        width: 95%;
+                        margin: 20px;
+                    }
+                    
+                    .auth-content {
+                        padding: 15px;
+                    }
+                }
+            </style>
+        `;
+
+        document.head.insertAdjacentHTML('beforeend', styles);
+    }
+
+    // Bind event listeners
+    bindEvents() {
+        // Login button (create one if it doesn't exist)
+        this.createLoginButton();
+
+        // Modal events
+        document.getElementById('auth-close').addEventListener('click', () => this.hideModal());
+        document.getElementById('auth-toggle').addEventListener('click', () => this.toggleMode());
+        document.getElementById('auth-form').addEventListener('submit', (e) => this.handleSubmit(e));
+
+        // Close modal on overlay click
+        document.querySelector('.auth-overlay').addEventListener('click', () => this.hideModal());
+
+        // Escape key to close modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !document.getElementById('auth-modal').classList.contains('hidden')) {
+                this.hideModal();
+            }
+        });
+    }
+
+    // Create login button in the top-right
+    createLoginButton() {
+        if (document.getElementById('login-btn')) return; // Already exists
+
+        const loginBtn = document.createElement('button');
+        loginBtn.id = 'login-btn';
+        loginBtn.textContent = 'login';
+        loginBtn.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(17, 17, 17, 0.9);
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 8px 16px;
+            color: #e0e0e0;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.2s ease;
+        `;
+
+        loginBtn.addEventListener('mouseenter', () => {
+            loginBtn.style.background = '#333';
+            loginBtn.style.borderColor = '#666';
+        });
+
+        loginBtn.addEventListener('mouseleave', () => {
+            loginBtn.style.background = 'rgba(17, 17, 17, 0.9)';
+            loginBtn.style.borderColor = '#333';
+        });
+
+        loginBtn.addEventListener('click', () => {
+            if (this.isLoggedIn()) {
+                this.logout();
+            } else {
+                this.showModal();
+            }
+        });
+
+        document.body.appendChild(loginBtn);
+    }
+
+    // Show the auth modal
+    showModal() {
+        document.getElementById('auth-modal').classList.remove('hidden');
+        document.getElementById('auth-email').focus();
+    }
+
+    // Hide the auth modal
+    hideModal() {
+        document.getElementById('auth-modal').classList.add('hidden');
+        this.clearForm();
+        this.hideError();
+        this.hideLoading();
+    }
+
+    // Toggle between login and signup modes
+    toggleMode() {
+        const mode = document.getElementById('auth-mode');
+        const submit = document.getElementById('auth-submit');
+        const toggle = document.getElementById('auth-toggle');
+
+        if (mode.textContent === 'login') {
+            mode.textContent = 'signup';
+            submit.textContent = 'create account';
+            toggle.textContent = 'switch to login';
+        } else {
+            mode.textContent = 'login';
+            submit.textContent = 'execute';
+            toggle.textContent = 'switch to signup';
+        }
+
+        this.clearForm();
+        this.hideError();
+    }
+
+    // Handle form submission
+    async handleSubmit(event) {
+        event.preventDefault();
+        
+        const email = document.getElementById('auth-email').value;
+        const password = document.getElementById('auth-password').value;
+        const mode = document.getElementById('auth-mode').textContent;
+
+        if (!email || !password) {
+            this.showError('Email and password are required');
+            return;
+        }
+
+        this.showLoading();
+        this.hideError();
+
+        try {
+            const endpoint = mode === 'login' ? '/auth/login' : '/auth/signup';
+            const response = await fetch(`${this.baseURL}${endpoint}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                this.handleAuthSuccess(data);
+            } else {
+                this.showError(data.error || 'Authentication failed');
+            }
+        } catch (error) {
+            this.showError('Connection failed. Is the server running?');
+        } finally {
+            this.hideLoading();
+        }
+    }
+
+    // Handle successful authentication
+    handleAuthSuccess(data) {
+        this.token = data.token;
+        this.user = data.user;
+        
+        localStorage.setItem('arcforge_token', this.token);
+        localStorage.setItem('arcforge_user', JSON.stringify(this.user));
+        
+        this.hideModal();
+        this.updateUserDisplay();
+        
+        console.log('Authentication successful:', data.message);
+    }
+
+    // Logout user
+    logout() {
+        this.token = null;
+        this.user = null;
+        localStorage.removeItem('arcforge_token');
+        localStorage.removeItem('arcforge_user');
+        this.updateUserDisplay();
+    }
+
+    // Check if user is logged in
+    isLoggedIn() {
+        return !!this.token && !!this.user;
+    }
+
+    // Update user display in UI
+    updateUserDisplay() {
+        // Update login button
+        const loginBtn = document.getElementById('login-btn');
+        if (loginBtn) {
+            loginBtn.textContent = this.isLoggedIn() ? 'logout' : 'login';
+        }
+
+        // Update user indicator
+        this.updateUserIndicator();
+    }
+
+    // Update user indicator in bottom-left
+    updateUserIndicator() {
+        let indicator = document.getElementById('user-indicator');
+        
+        if (this.isLoggedIn()) {
+            if (!indicator) {
+                indicator = document.createElement('div');
+                indicator.id = 'user-indicator';
+                indicator.className = 'user-indicator';
+                document.body.appendChild(indicator);
+            }
+            
+            const username = this.user.email.split('@')[0];
+            indicator.textContent = `${username}@arcforge`;
+        } else {
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+    }
+
+    // Utility methods
+    showError(message) {
+        const errorEl = document.getElementById('auth-error');
+        errorEl.textContent = message;
+        errorEl.classList.remove('hidden');
+    }
+
+    hideError() {
+        document.getElementById('auth-error').classList.add('hidden');
+    }
+
+    showLoading() {
+        document.getElementById('auth-loading').classList.remove('hidden');
+    }
+
+    hideLoading() {
+        document.getElementById('auth-loading').classList.add('hidden');
+    }
+
+    clearForm() {
+        document.getElementById('auth-email').value = '';
+        document.getElementById('auth-password').value = '';
+    }
+
+    // Get auth token for API requests
+    getAuthHeader() {
+        return this.token ? { 'Authorization': `Bearer ${this.token}` } : {};
+    }
+}
+
+// Initialize auth system when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.authSystem = new AuthSystem();
+});

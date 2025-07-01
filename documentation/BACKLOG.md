@@ -2,25 +2,47 @@
 
 ## Priority 1 (Immediate - 2-4 weeks)
 
-### Critical Bugs
-- [ ] **Fix Mac keybind compatibility** - keyboard shortcuts not working on macOS
-  - Investigate shift key detection differences
-  - Test across Safari/Chrome on Mac
+### Next Sprint - High Priority
+- [ ] **Cross-platform compatibility fixes**
+  - Fix Mac keybind compatibility (keyboard shortcuts not working on macOS)  
+  - Mobile keyboard shortcut alternatives
+  - Test across Safari/Chrome/Firefox on different platforms
+  - Touch-friendly navigation for mobile users
 
-### Core Features (Current Sprint)
-- [ ] **Backend Authentication System**
-  - Set up Express.js server with basic structure
-  - Create PostgreSQL users table
-  - Implement JWT-based authentication
-  - Password hashing with bcrypt
-  - Login/signup API endpoints
+- [ ] **Terminal search/grep functionality**
+  - Add search command (`:search` or `/` like vim)
+  - Search across current page content  
+  - Highlight search results
+  - Navigate between matches with `n`/`N`
+  - Global search across all docs
 
-- [ ] **Frontend Login Integration**
-  - Terminal-style login modal (nvim command palette style)
-  - Session state management in frontend
-  - User indicator in bottom-left (`justin@arcforge`)
-  - "Remember me" functionality
-  - Connect frontend to backend APIs
+- [ ] **Protected content system**
+  - User role management (free/premium)
+  - Content gating for premium docs
+  - "Preview" mode for paywalled content
+
+### Completed Features
+- [x] **Backend Authentication System - COMPLETE** 🎉
+  - ✅ Set up Express.js server with basic structure
+  - ✅ Create placeholder login/signup API endpoints
+  - ✅ Test API endpoints with curl
+  - ✅ Install PostgreSQL (Docker container)
+  - ✅ Create PostgreSQL users table
+  - ✅ Implement JWT-based authentication
+  - ✅ Password hashing with bcrypt (10 salt rounds)
+  - ✅ Connect endpoints to database
+  - ✅ Full user registration and login working
+  - ✅ Complete documentation written
+
+- [x] **Frontend Login Integration - COMPLETE** 🎉
+  - ✅ Terminal-style login modal (nvim command palette style)
+  - ✅ Session state management in frontend (localStorage)
+  - ✅ User indicator in bottom-left (`username@arcforge`)
+  - ✅ Persistent login sessions
+  - ✅ Connect frontend to backend APIs
+  - ✅ Login/logout functionality working
+  - ✅ Error handling and loading states
+  - ✅ Form validation and user feedback
 
 ### Future Features
 - [ ] **Terminal search/grep functionality**

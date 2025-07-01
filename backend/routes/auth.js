@@ -3,18 +3,41 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const router = express.Router();
 
+// Email validation function
+const isValidEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+};
+
+// Password validation function
+const validatePassword = (password) => {
+    if (!password) return { valid: false, message: 'Password is required' };
+    if (password.length < 8) return { valid: false, message: 'Password must be at least 8 characters' };
+    if (!/(?=.*[a-z])/.test(password)) return { valid: false, message: 'Password must contain at least one lowercase letter' };
+    if (!/(?=.*[A-Z])/.test(password)) return { valid: false, message: 'Password must contain at least one uppercase letter' };
+    if (!/(?=.*\d)/.test(password)) return { valid: false, message: 'Password must contain at least one number' };
+    return { valid: true };
+};
+
 // Signup endpoint
 router.post('/signup', async (req, res) => {
     try {
         const { email, password } = req.body;
         
-        // Validate input
+        // Validate input presence
         if (!email || !password) {
             return res.status(400).json({ error: 'Email and password are required' });
         }
         
-        if (password.length < 6) {
-            return res.status(400).json({ error: 'Password must be at least 6 characters' });
+        // Validate email format
+        if (!isValidEmail(email)) {
+            return res.status(400).json({ error: 'Please enter a valid email address' });
+        }
+        
+        // Validate password strength
+        const passwordValidation = validatePassword(password);
+        if (!passwordValidation.valid) {
+            return res.status(400).json({ error: passwordValidation.message });
         }
         
         // Check if user already exists
@@ -53,9 +76,14 @@ router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         
-        // Validate input
+        // Validate input presence
         if (!email || !password) {
             return res.status(400).json({ error: 'Email and password are required' });
+        }
+        
+        // Validate email format
+        if (!isValidEmail(email)) {
+            return res.status(400).json({ error: 'Please enter a valid email address' });
         }
         
         // Find user

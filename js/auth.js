@@ -1,7 +1,7 @@
 // Frontend Authentication System for ARCFORGE
 class AuthSystem {
     constructor() {
-        this.baseURL = 'http://localhost:5000/api';
+        this.baseURL = window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api';
         this.token = localStorage.getItem('arcforge_token');
         this.user = JSON.parse(localStorage.getItem('arcforge_user') || 'null');
         this.init();
@@ -235,6 +235,85 @@ class AuthSystem {
                     display: none !important;
                 }
 
+                /* Field validation styles */
+                .auth-field input.field-success {
+                    border-color: #28a745;
+                    background: rgba(40, 167, 69, 0.1);
+                }
+
+                .auth-field input.field-error {
+                    border-color: #dc3545;
+                    background: rgba(220, 53, 69, 0.1);
+                }
+
+                .field-message {
+                    margin-top: 5px;
+                    font-size: 11px;
+                    padding: 4px 8px;
+                    border-radius: 3px;
+                }
+
+                .field-message-success {
+                    color: #28a745;
+                    background: rgba(40, 167, 69, 0.1);
+                    border: 1px solid rgba(40, 167, 69, 0.3);
+                }
+
+                .field-message-error {
+                    color: #dc3545;
+                    background: rgba(220, 53, 69, 0.1);
+                    border: 1px solid rgba(220, 53, 69, 0.3);
+                }
+
+                /* Password strength indicator */
+                .password-strength {
+                    margin-top: 8px;
+                }
+
+                .strength-bar {
+                    height: 4px;
+                    background: #333;
+                    border-radius: 2px;
+                    overflow: hidden;
+                    margin-bottom: 5px;
+                }
+
+                .strength-fill {
+                    height: 100%;
+                    transition: width 0.3s ease, background-color 0.3s ease;
+                    border-radius: 2px;
+                }
+
+                .strength-fill.strength-0 {
+                    width: 0%;
+                    background: #333;
+                }
+
+                .strength-fill.strength-1 {
+                    width: 25%;
+                    background: #dc3545;
+                }
+
+                .strength-fill.strength-2 {
+                    width: 50%;
+                    background: #fd7e14;
+                }
+
+                .strength-fill.strength-3 {
+                    width: 75%;
+                    background: #ffc107;
+                }
+
+                .strength-fill.strength-4 {
+                    width: 100%;
+                    background: #28a745;
+                }
+
+                .strength-text {
+                    font-size: 11px;
+                    color: #aaa;
+                }
+
                 /* User indicator in bottom-left */
                 .user-indicator {
                     position: fixed;
@@ -275,6 +354,10 @@ class AuthSystem {
         document.getElementById('auth-close').addEventListener('click', () => this.hideModal());
         document.getElementById('auth-toggle').addEventListener('click', () => this.toggleMode());
         document.getElementById('auth-form').addEventListener('submit', (e) => this.handleSubmit(e));
+
+        // Real-time validation
+        document.getElementById('auth-email').addEventListener('input', (e) => this.validateEmailField(e));
+        document.getElementById('auth-password').addEventListener('input', (e) => this.validatePasswordField(e));
 
         // Close modal on overlay click
         document.querySelector('.auth-overlay').addEventListener('click', () => this.hideModal());
@@ -488,6 +571,133 @@ class AuthSystem {
     clearForm() {
         document.getElementById('auth-email').value = '';
         document.getElementById('auth-password').value = '';
+    }
+
+    // Email validation
+    isValidEmail(email) {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailRegex.test(email);
+    }
+
+    // Password strength validation
+    validatePassword(password) {
+        const checks = {
+            length: password.length >= 8,
+            lowercase: /(?=.*[a-z])/.test(password),
+            uppercase: /(?=.*[A-Z])/.test(password),
+            number: /(?=.*\d)/.test(password)
+        };
+        
+        const strength = Object.values(checks).filter(Boolean).length;
+        
+        return {
+            valid: strength >= 4,
+            strength: strength,
+            checks: checks,
+            message: this.getPasswordMessage(checks, strength)
+        };
+    }
+
+    // Get password strength message
+    getPasswordMessage(checks, strength) {
+        if (strength === 0) return 'Enter a password';
+        if (!checks.length) return 'Must be at least 8 characters';
+        if (!checks.lowercase) return 'Must contain a lowercase letter';
+        if (!checks.uppercase) return 'Must contain an uppercase letter';
+        if (!checks.number) return 'Must contain a number';
+        if (strength >= 4) return 'Strong password ✓';
+        return 'Password requirements not met';
+    }
+
+    // Real-time email validation
+    validateEmailField(event) {
+        const email = event.target.value;
+        const field = event.target;
+        
+        this.clearFieldValidation(field);
+        
+        if (email.length === 0) return;
+        
+        if (this.isValidEmail(email)) {
+            this.showFieldSuccess(field, '✓ Valid email');
+        } else {
+            this.showFieldError(field, '✗ Invalid email format');
+        }
+    }
+
+    // Real-time password validation
+    validatePasswordField(event) {
+        const password = event.target.value;
+        const field = event.target;
+        
+        this.clearFieldValidation(field);
+        
+        if (password.length === 0) return;
+        
+        const validation = this.validatePassword(password);
+        const strength = validation.strength;
+        
+        // Show strength indicator
+        this.updatePasswordStrength(field, strength, validation.message);
+        
+        if (validation.valid) {
+            this.showFieldSuccess(field, validation.message);
+        } else {
+            this.showFieldError(field, validation.message);
+        }
+    }
+
+    // Update password strength indicator
+    updatePasswordStrength(field, strength, message) {
+        let indicator = field.parentNode.querySelector('.password-strength');
+        if (!indicator) {
+            indicator = document.createElement('div');
+            indicator.className = 'password-strength';
+            field.parentNode.appendChild(indicator);
+        }
+        
+        const strengthBar = `
+            <div class="strength-bar">
+                <div class="strength-fill strength-${strength}"></div>
+            </div>
+            <div class="strength-text">${message}</div>
+        `;
+        
+        indicator.innerHTML = strengthBar;
+    }
+
+    // Show field success
+    showFieldSuccess(field, message) {
+        field.classList.remove('field-error');
+        field.classList.add('field-success');
+        this.showFieldMessage(field, message, 'success');
+    }
+
+    // Show field error
+    showFieldError(field, message) {
+        field.classList.remove('field-success');
+        field.classList.add('field-error');
+        this.showFieldMessage(field, message, 'error');
+    }
+
+    // Clear field validation
+    clearFieldValidation(field) {
+        field.classList.remove('field-success', 'field-error');
+        const message = field.parentNode.querySelector('.field-message');
+        if (message) message.remove();
+    }
+
+    // Show field message
+    showFieldMessage(field, message, type) {
+        let messageEl = field.parentNode.querySelector('.field-message');
+        if (!messageEl) {
+            messageEl = document.createElement('div');
+            messageEl.className = 'field-message';
+            field.parentNode.appendChild(messageEl);
+        }
+        
+        messageEl.textContent = message;
+        messageEl.className = `field-message field-message-${type}`;
     }
 
     // Get auth token for API requests

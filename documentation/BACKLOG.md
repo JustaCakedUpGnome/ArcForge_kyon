@@ -44,6 +44,25 @@
   - ✅ Error handling and loading states
   - ✅ Form validation and user feedback
 
+- [x] **Content Structure Reorganization - COMPLETE** 🎉
+  - ✅ Created foundation/ directory for free intro content
+  - ✅ Created methodology/ directory for core Heavy Duty content
+  - ✅ Created advanced/ directory for premium content
+  - ✅ Moved existing content to new logical structure
+  - ✅ Updated all navigation links and file references
+  - ✅ Added premium content styling with paywall notices
+  - ✅ Cleaned up old directory structure
+
+- [x] **Hybrid Search System - COMPLETE** 🎉
+  - ✅ Vim-style page search (/ key) with real-time highlighting
+  - ✅ Modern command palette (Ctrl+K) with global search
+  - ✅ Smart keyboard navigation (n/N for matches)
+  - ✅ Command execution system (:goto, :download, :help)
+  - ✅ Pre-built search index for fast cross-page search
+  - ✅ Category-organized results with visual icons
+  - ✅ Mobile-responsive design for both search modes
+  - ✅ Complete documentation and technical reference
+
 ### Future Features
 - [ ] **Terminal search/grep functionality**
   - Add search command (`:search` or `/` like vim)
@@ -129,4 +148,4 @@
 
 ---
 
-*Last updated: 2025-06-30*
+*Last updated: 2025-06-30 - Added hybrid search system and content reorganization*

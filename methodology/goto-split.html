@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goto Split - ARCFORGE</title>
+    <link rel="stylesheet" href="../css/terminal-theme.css">
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <header class="page-header">
+            <nav class="breadcrumb">
+                <a href="../index.html">arcforge</a> / 
+                <a href="../docs/routines.html">routines</a> / 
+                <span class="current">goto_split</span>
+            </nav>
+            <h1 class="page-title">GOTO SPLIT</h1>
+            <p class="page-subtitle">mentzer-inspired recovery split • 8-9 day cycle</p>
+        </header>
+
+        <div class="terminal-content">
+            <section class="content-section">
+                <h2 class="section-header">TRAINING SCHEDULE</h2>
+                <div class="terminal-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Workout</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mon</td>
+                                <td>Back</td>
+                            </tr>
+                            <tr class="rest-day">
+                                <td>Tue</td>
+                                <td><strong>Rest</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Wed</td>
+                                <td>Shoulders / Traps / Triceps</td>
+                            </tr>
+                            <tr class="rest-day">
+                                <td>Thu</td>
+                                <td><strong>Rest</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Fri</td>
+                                <td>Chest / Biceps</td>
+                            </tr>
+                            <tr class="rest-day">
+                                <td>Sat</td>
+                                <td><strong>Rest</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Sun</td>
+                                <td>Legs</td>
+                            </tr>
+                            <tr class="assessment-day">
+                                <td>Mon</td>
+                                <td><strong>Rest (reassess recovery here)</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">WORKOUT A - BACK</h2>
+                <div class="workout-log">
+                    <div class="log-header">
+                        <span class="prompt">date:</span>
+                        <input type="text" class="log-input" placeholder="___________">
+                    </div>
+                    
+                    <div class="exercise-list">
+                        <div class="exercise">
+                            <span class="exercise-name">Machine Pullover or DB Pullover</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                        
+                        <div class="exercise optional">
+                            <span class="exercise-name">Optional: Pulldown or Pull-ups</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                        
+                        <div class="exercise">
+                            <span class="exercise-name">Deadlifts / Rack Pulls</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                                <span class="note">(1 set to failure)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="exercise optional">
+                            <span class="exercise-name">Optional Rows</span>
+                            <div class="exercise-note">if you didn't do pulldowns above</div>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="notes-section">
+                        <label class="notes-label">notes:</label>
+                        <textarea class="notes-input" rows="3"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">WORKOUT B - SHOULDERS / TRAPS / TRICEPS</h2>
+                <div class="workout-log">
+                    <div class="log-header">
+                        <span class="prompt">date:</span>
+                        <input type="text" class="log-input" placeholder="___________">
+                    </div>
+                    
+                    <div class="exercise-list">
+                        <div class="exercise">
+                            <span class="exercise-name">Overhead Press (any variation)</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                        
+                        <div class="exercise">
+                            <span class="exercise-name">Lateral Raise on Sides (prefer machine)</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                        
+                        <div class="exercise superset">
+                            <span class="exercise-name">Superset: Front DB Raises</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                        
+                        <div class="exercise">
+                            <span class="exercise-name">Shrugs</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                        
+                        <div class="exercise">
+                            <span class="exercise-name">Reverse Flys or Rear Delt DB</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                        
+                        <div class="exercise">
+                            <span class="exercise-name">Triceps Dips or Pushdowns</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="notes-section">
+                        <label class="notes-label">notes:</label>
+                        <textarea class="notes-input" rows="3"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">WORKOUT C - CHEST / BICEPS</h2>
+                <div class="workout-log">
+                    <div class="log-header">
+                        <span class="prompt">date:</span>
+                        <input type="text" class="log-input" placeholder="___________">
+                    </div>
+                    
+                    <div class="exercise-list">
+                        <div class="exercise">
+                            <span class="exercise-name">Dumbbell or Machine Fly</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                        
+                        <div class="exercise">
+                            <span class="exercise-name">Incline Press</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                        
+                        <div class="exercise">
+                            <span class="exercise-name">Dips</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                        
+                        <div class="exercise">
+                            <span class="exercise-name">Straight Barbell or Close Grip Pulldown</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                        
+                        <div class="exercise">
+                            <span class="exercise-name">Straight Bar Machine Curls</span>
+                            <div class="log-fields">
+                                <input type="number" placeholder="reps"> x 
+                                <input type="number" placeholder="weight">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="notes-section">
+                        <label class="notes-label">notes:</label>
+                        <textarea class="notes-input" rows="3" placeholder="Machine curls allow forced negatives and minimize body English"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">WORKOUT D - LEGS</h2>
+                <div class="workout-log">
+                    <div class="log-header">
+                        <span class="prompt">date:</span>
+                        <input type="text" class="log-input" placeholder="___________">
+                    </div>
+                    
+                    <div class="workout-variation">
+                        <h3 class="variation-title">Squat Focused Day</h3>
+                        <div class="exercise-list">
+                            <div class="exercise">
+                                <span class="exercise-name">Squat or Leg Press</span>
+                                <div class="log-fields">
+                                    <input type="number" placeholder="reps"> x 
+                                    <input type="number" placeholder="weight">
+                                </div>
+                            </div>
+                            
+                            <div class="exercise">
+                                <span class="exercise-name">Leg Extension</span>
+                                <div class="log-fields">
+                                    <input type="number" placeholder="reps"> x 
+                                    <input type="number" placeholder="weight">
+                                </div>
+                            </div>
+                            
+                            <div class="exercise">
+                                <span class="exercise-name">Leg Curl</span>
+                                <div class="log-fields">
+                                    <input type="number" placeholder="reps"> x 
+                                    <input type="number" placeholder="weight">
+                                </div>
+                            </div>
+                            
+                            <div class="exercise">
+                                <span class="exercise-name">Straight and Seated Calf Raise</span>
+                                <div class="log-fields">
+                                    <input type="number" placeholder="reps"> x 
+                                    <input type="number" placeholder="weight"> • 
+                                    <input type="number" placeholder="reps"> x 
+                                    <input type="number" placeholder="weight">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workout-variation">
+                        <h3 class="variation-title">Deadlift Focused Day</h3>
+                        <div class="exercise-list">
+                            <div class="exercise">
+                                <span class="exercise-name">Deadlift or Deads Variation</span>
+                                <div class="log-fields">
+                                    <input type="number" placeholder="reps"> x 
+                                    <input type="number" placeholder="weight">
+                                </div>
+                            </div>
+                            
+                            <div class="exercise">
+                                <span class="exercise-name">Leg Extension</span>
+                                <div class="log-fields">
+                                    <input type="number" placeholder="reps"> x 
+                                    <input type="number" placeholder="weight">
+                                </div>
+                            </div>
+                            
+                            <div class="exercise">
+                                <span class="exercise-name">Leg Curl</span>
+                                <div class="log-fields">
+                                    <input type="number" placeholder="reps"> x 
+                                    <input type="number" placeholder="weight">
+                                </div>
+                            </div>
+                            
+                            <div class="exercise">
+                                <span class="exercise-name">Straight and Seated Calf Raise</span>
+                                <div class="log-fields">
+                                    <input type="number" placeholder="reps"> x 
+                                    <input type="number" placeholder="weight"> • 
+                                    <input type="number" placeholder="reps"> x 
+                                    <input type="number" placeholder="weight">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="philosophy-note">
+                        <blockquote>
+                            "Like Tom Platz said — <strong>twice a month</strong> is a sweet spot for squats when intensity is high and recovery is prioritized."
+                        </blockquote>
+                        
+                        <div class="alternating-pattern">
+                            <p>Alternate each lower-body session like this:</p>
+                            <ol>
+                                <li><strong>Heavy squat (6-10) + quad focus</strong></li>
+                                <li><strong>Deadlifts + hamstring/glute focus</strong></li>
+                                <li><strong>Squats for higher reps (15-50)</strong> (tempo or metabolic work)</li>
+                                <li><strong>Deadlift variation or posterior chain burnout</strong></li>
+                            </ol>
+                            <p class="pattern-note">That's roughly 2 squat patterns and 2 hinge patterns over the course of a month.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="notes-section">
+                        <label class="notes-label">notes:</label>
+                        <textarea class="notes-input" rows="3"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">PROGRESS GUIDELINES</h2>
+                <div class="guidelines">
+                    <ul class="guideline-list">
+                        <li>Only train if fully recovered (strength should trend upward)</li>
+                        <li>1 working set per movement, to <strong>absolute failure</strong></li>
+                        <li>If progress stalls: extend rest days or reduce volume</li>
+                    </ul>
+                    
+                    <div class="mentzer-quote">
+                        <blockquote>
+                            "Train Hard. Recover Harder." — Mike Mentzer
+                        </blockquote>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">RECOVERY ASSESSMENT</h2>
+                <div class="recovery-log">
+                    <div class="recovery-fields">
+                        <div class="field-group">
+                            <label>Recovery quality (1-10):</label>
+                            <input type="number" min="1" max="10" class="recovery-input">
+                        </div>
+                        <div class="field-group">
+                            <label>Weight/mirror check:</label>
+                            <input type="text" class="recovery-input" placeholder="progress notes">
+                        </div>
+                    </div>
+                    <p class="recovery-note">Assess mental & physical readiness before restarting cycle.</p>
+                </div>
+            </section>
+        </div>
+
+        <div class="actions">
+            <button onclick="window.print()" class="action-button">
+                print log
+            </button>
+            <button onclick="downloadLog()" class="action-button">
+                download html
+            </button>
+            <a href="Goto split.md" download class="action-button">
+                download markdown
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/search.js"></script>
+    <script>
+        // Generate random stars
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numStars = 100;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random position
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                // Random size
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                // Random animation delay
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        createStars();
+    </script>
+    <script>
+        function downloadLog() {
+            const content = document.querySelector('.terminal-content');
+            const clone = content.cloneNode(true);
+            
+            // Remove interactive elements for clean export
+            clone.querySelectorAll('input, textarea').forEach(el => {
+                const span = document.createElement('span');
+                span.textContent = el.value || '___________';
+                span.className = 'log-value';
+                el.parentNode.replaceChild(span, el);
+            });
+            
+            const html = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Goto Split Training Log</title>
+                    <style>
+                        body { font-family: 'JetBrains Mono', monospace; background: #0a0a0a; color: #e0e0e0; padding: 20px; }
+                        .log-value { background: #222; padding: 2px 6px; border-radius: 2px; }
+                    </style>
+                </head>
+                <body>${clone.innerHTML}</body>
+                </html>
+            `;
+            
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'goto-split-log.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

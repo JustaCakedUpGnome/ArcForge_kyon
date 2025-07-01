@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation - ARCFORGE</title>
+    <link rel="stylesheet" href="../css/terminal-theme.css">
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <!-- Command Palette Modal -->
+    <div id="command-palette" class="command-palette hidden">
+        <div class="palette-overlay"></div>
+        <div class="palette-container">
+            <div class="palette-header">
+                <span class="palette-prompt">arcforge@fortress:~$</span>
+                <input type="text" id="palette-input" class="palette-input" placeholder="Type a command or search...">
+                <button class="palette-close" id="palette-close">×</button>
+            </div>
+            <div class="palette-results" id="palette-results">
+                <div class="result-section">
+                    <div class="section-title">Quick Actions</div>
+                    <div class="result-item" data-action="goto-training">
+                        <span class="result-icon">📁</span>
+                        <span class="result-text">Go to Training</span>
+                        <span class="result-shortcut">:goto training</span>
+                    </div>
+                    <div class="result-item" data-action="goto-philosophy">
+                        <span class="result-icon">🧠</span>
+                        <span class="result-text">Go to Philosophy</span>
+                        <span class="result-shortcut">:goto philosophy</span>
+                    </div>
+                    <div class="result-item" data-action="show-keybinds">
+                        <span class="result-icon">⌨️</span>
+                        <span class="result-text">Show Keybinds</span>
+                        <span class="result-shortcut">:help</span>
+                    </div>
+                    <div class="result-item" data-action="download-routine">
+                        <span class="result-icon">⬇️</span>
+                        <span class="result-text">Download Goto Split</span>
+                        <span class="result-shortcut">:download goto</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Mode Overlay -->
+    <div id="search-overlay" class="search-overlay hidden">
+        <div class="search-container">
+            <div class="search-header">
+                <span class="search-prompt">/</span>
+                <input type="text" id="search-input" class="search-input" placeholder="search current page...">
+                <span class="search-help">ESC to exit, Enter to search</span>
+            </div>
+        </div>
+        <div class="search-results" id="search-results"></div>
+    </div>
+
+    <div class="container">
+        <header class="page-header">
+            <nav class="breadcrumb">
+                <a href="../index.html">arcforge</a> / 
+                <span class="current">navigation</span>
+            </nav>
+            <h1 class="page-title">NAVIGATION</h1>
+            <p class="page-subtitle">terminal interface • command palette • search functionality</p>
+        </header>
+
+        <div class="terminal-content">
+            <section class="content-section">
+                <h2 class="section-header">Command Interface</h2>
+                <div class="interface-demo">
+                    <div class="demo-section">
+                        <h3 class="demo-title">Global Command Palette</h3>
+                        <div class="demo-description">
+                            <p>Press <kbd>Ctrl+K</kbd> (or <kbd>Cmd+K</kbd> on Mac) to open the command palette.</p>
+                            <p>Search across all docs, navigate to pages, execute actions, and discover features.</p>
+                        </div>
+                        <div class="demo-preview">
+                            <div class="terminal-window">
+                                <div class="terminal-header-bar">
+                                    <span class="terminal-title">Command Palette</span>
+                                </div>
+                                <div class="terminal-body">
+                                    <div class="command-line">
+                                        <span class="prompt">arcforge@fortress:~$</span>
+                                        <span class="command">goto training</span>
+                                        <span class="cursor">|</span>
+                                    </div>
+                                    <div class="command-suggestions">
+                                        <div class="suggestion active">📁 Go to Training</div>
+                                        <div class="suggestion">🧠 Go to Philosophy</div>
+                                        <div class="suggestion">⬇️ Download Goto Split</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="demo-button" onclick="openCommandPalette()">
+                            Try Command Palette <kbd>Ctrl+K</kbd>
+                        </button>
+                    </div>
+
+                    <div class="demo-section">
+                        <h3 class="demo-title">Page Search</h3>
+                        <div class="demo-description">
+                            <p>Press <kbd>/</kbd> to search within the current page (vim-style).</p>
+                            <p>Navigate through matches with <kbd>n</kbd> (next) and <kbd>N</kbd> (previous).</p>
+                        </div>
+                        <div class="demo-preview">
+                            <div class="terminal-window">
+                                <div class="terminal-header-bar">
+                                    <span class="terminal-title">Page Search</span>
+                                </div>
+                                <div class="terminal-body">
+                                    <div class="search-line">
+                                        <span class="search-prompt">/</span>
+                                        <span class="search-query">heavy duty</span>
+                                        <span class="cursor">|</span>
+                                    </div>
+                                    <div class="search-status">
+                                        <span class="match-info">3 matches found</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="demo-button" onclick="openPageSearch()">
+                            Try Page Search <kbd>/</kbd>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">Keyboard Shortcuts</h2>
+                <div class="keybind-grid">
+                    <div class="keybind-category">
+                        <h4 class="category-title">Navigation</h4>
+                        <div class="keybind-list">
+                            <div class="keybind-item">
+                                <kbd>j</kbd>
+                                <span>Expand next folder</span>
+                            </div>
+                            <div class="keybind-item">
+                                <kbd>Shift+J</kbd>
+                                <span>Expand all folders</span>
+                            </div>
+                            <div class="keybind-item">
+                                <kbd>k</kbd>
+                                <span>Collapse all folders</span>
+                            </div>
+                            <div class="keybind-item">
+                                <kbd>g g</kbd>
+                                <span>Go to top</span>
+                            </div>
+                            <div class="keybind-item">
+                                <kbd>G</kbd>
+                                <span>Go to bottom</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="keybind-category">
+                        <h4 class="category-title">Search & Commands</h4>
+                        <div class="keybind-list">
+                            <div class="keybind-item">
+                                <kbd>Ctrl+K</kbd>
+                                <span>Open command palette</span>
+                            </div>
+                            <div class="keybind-item">
+                                <kbd>/</kbd>
+                                <span>Search current page</span>
+                            </div>
+                            <div class="keybind-item">
+                                <kbd>n</kbd>
+                                <span>Next search match</span>
+                            </div>
+                            <div class="keybind-item">
+                                <kbd>N</kbd>
+                                <span>Previous search match</span>
+                            </div>
+                            <div class="keybind-item">
+                                <kbd>ESC</kbd>
+                                <span>Exit search/command mode</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="keybind-category">
+                        <h4 class="category-title">Terminal Commands</h4>
+                        <div class="keybind-list">
+                            <div class="command-item">
+                                <code>:help</code>
+                                <span>Show all commands</span>
+                            </div>
+                            <div class="command-item">
+                                <code>:goto &lt;page&gt;</code>
+                                <span>Navigate to page</span>
+                            </div>
+                            <div class="command-item">
+                                <code>:download &lt;file&gt;</code>
+                                <span>Download routine/doc</span>
+                            </div>
+                            <div class="command-item">
+                                <code>:search &lt;term&gt;</code>
+                                <span>Global site search</span>
+                            </div>
+                            <div class="command-item">
+                                <code>:theme toggle</code>
+                                <span>Toggle theme (future)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">Site Structure</h2>
+                <div class="site-map">
+                    <div class="file-tree">
+                        <div class="tree-path">/arcforge/fortress</div>
+                        <div class="tree-item">
+                            <span class="tree-branch">├──</span> 
+                            <span class="folder-name">foundation/</span>
+                            <span class="folder-desc">Free introductory content</span>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">│   ├──</span> <a href="#" class="tree-link">motivation_and_identity</a>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">│   ├──</span> <a href="#" class="tree-link">muscle_fiber_primer</a>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">│   ├──</span> <a href="#" class="tree-link">training_philosophy</a>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">│   └──</span> <a href="#" class="tree-link">myths_and_qa</a>
+                        </div>
+                        
+                        <div class="tree-item">
+                            <span class="tree-branch">├──</span> 
+                            <span class="folder-name">methodology/</span>
+                            <span class="folder-desc">Core Heavy Duty principles</span>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">│   ├──</span> <a href="../docs/training.html" class="tree-link">heavy_duty_principles</a>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">│   ├──</span> <a href="../routines/goto-split.html" class="tree-link">goto_split</a>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">│   └──</span> <a href="#" class="tree-link">progression_protocols</a>
+                        </div>
+                        
+                        <div class="tree-item">
+                            <span class="tree-branch">├──</span> 
+                            <span class="folder-name premium">advanced/ 🔒</span>
+                            <span class="folder-desc">Premium content</span>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">│   ├──</span> <span class="tree-link premium">recovery_guide</span>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">│   ├──</span> <span class="tree-link premium">split_programming</span>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">│   ├──</span> <span class="tree-link premium">diet_blueprint</span>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">│   └──</span> <span class="tree-link premium">anatomy_movement</span>
+                        </div>
+                        
+                        <div class="tree-item">
+                            <span class="tree-branch">└──</span> 
+                            <span class="folder-name">navigation/</span>
+                            <span class="folder-desc">Terminal interface showcase</span>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">    ├──</span> <span class="tree-link current">index</span>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">    ├──</span> <span class="tree-link">search_demo</span>
+                        </div>
+                        <div class="tree-item nested-item">
+                            <span class="tree-branch">    └──</span> <span class="tree-link">feature_tour</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">Future Features</h2>
+                <div class="feature-roadmap">
+                    <div class="feature-item planned">
+                        <div class="feature-icon">🔍</div>
+                        <div class="feature-content">
+                            <h4>Fuzzy Search</h4>
+                            <p>AI-powered search across all documentation with typo tolerance and semantic matching.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item planned">
+                        <div class="feature-icon">⚡</div>
+                        <div class="feature-content">
+                            <h4>Quick Actions</h4>
+                            <p>Rapid workout logging, progress tracking, and routine generation via command palette.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item planned">
+                        <div class="feature-icon">🎨</div>
+                        <div class="feature-content">
+                            <h4>Theme System</h4>
+                            <p>Multiple terminal themes, custom color schemes, and accessibility options.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item planned">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-content">
+                            <h4>Training Analytics</h4>
+                            <p>Progress visualization, recovery tracking, and performance insights dashboard.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/search.js"></script>
+    <script>
+        // Generate random stars
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numStars = 100;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        createStars();
+
+        // Command Palette functionality
+        function openCommandPalette() {
+            document.getElementById('command-palette').classList.remove('hidden');
+            document.getElementById('palette-input').focus();
+        }
+
+        function closeCommandPalette() {
+            document.getElementById('command-palette').classList.add('hidden');
+            document.getElementById('palette-input').value = '';
+        }
+
+        // Page Search functionality
+        function openPageSearch() {
+            document.getElementById('search-overlay').classList.remove('hidden');
+            document.getElementById('search-input').focus();
+        }
+
+        function closePageSearch() {
+            document.getElementById('search-overlay').classList.add('hidden');
+            document.getElementById('search-input').value = '';
+            clearSearchHighlights();
+        }
+
+        function clearSearchHighlights() {
+            // Remove existing highlights
+            document.querySelectorAll('.search-highlight').forEach(el => {
+                el.outerHTML = el.innerHTML;
+            });
+        }
+
+        // Keyboard event handlers
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+K or Cmd+K for command palette
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                openCommandPalette();
+                return;
+            }
+
+            // / for page search
+            if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                // Only if not in an input field
+                if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    openPageSearch();
+                    return;
+                }
+            }
+
+            // Escape to close modals
+            if (e.key === 'Escape') {
+                closeCommandPalette();
+                closePageSearch();
+                return;
+            }
+        });
+
+        // Command palette event handlers
+        document.getElementById('palette-close').addEventListener('click', closeCommandPalette);
+        document.querySelector('.palette-overlay').addEventListener('click', closeCommandPalette);
+
+        // Search overlay event handlers
+        document.querySelector('.search-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePageSearch();
+            }
+        });
+
+        // Handle command execution
+        document.getElementById('palette-input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const command = this.value.toLowerCase().trim();
+                executeCommand(command);
+                closeCommandPalette();
+            }
+        });
+
+        // Handle search
+        document.getElementById('search-input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim();
+                if (query) {
+                    performSearch(query);
+                }
+            }
+        });
+
+        function executeCommand(command) {
+            if (command.startsWith('goto ') || command.startsWith(':goto ')) {
+                const page = command.replace(/^:?goto\s+/, '');
+                navigateToPage(page);
+            } else if (command === 'help' || command === ':help') {
+                showHelp();
+            } else if (command.startsWith('download ') || command.startsWith(':download ')) {
+                const item = command.replace(/^:?download\s+/, '');
+                downloadItem(item);
+            }
+        }
+
+        function navigateToPage(page) {
+            const routes = {
+                'foundation': '../foundation/motivation-and-identity.html',
+                'methodology': '../methodology/heavy-duty-principles.html', 
+                'advanced': '../advanced/recovery-guide.html',
+                'forum': '../docs/forum.html',
+                'goto': '../methodology/goto-split.html',
+                'home': '../index.html'
+            };
+            
+            if (routes[page]) {
+                window.location.href = routes[page];
+            } else {
+                alert(`Page "${page}" not found. Try: ${Object.keys(routes).join(', ')}`);
+            }
+        }
+
+        function showHelp() {
+            alert('Available commands:\n:goto <page> - Navigate to page\n:download <item> - Download item\n:help - Show this help\n\nKeyboard shortcuts:\nCtrl+K - Command palette\n/ - Search page\nj/k - Navigate folders');
+        }
+
+        function downloadItem(item) {
+            if (item === 'goto' || item === 'goto-split') {
+                window.location.href = '../methodology/Goto split.md';
+            } else {
+                alert(`Download for "${item}" not available yet.`);
+            }
+        }
+
+        function performSearch(query) {
+            clearSearchHighlights();
+            const content = document.querySelector('.terminal-content');
+            const text = content.textContent;
+            const regex = new RegExp(query, 'gi');
+            const matches = text.match(regex);
+            
+            if (matches) {
+                // Simple highlighting - in production you'd want more sophisticated text node highlighting
+                alert(`Found ${matches.length} matches for "${query}". Full search highlighting coming soon!`);
+            } else {
+                alert(`No matches found for "${query}".`);
+            }
+        }
+    </script>
+</body>
+</html>

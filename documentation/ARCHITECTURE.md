@@ -19,37 +19,62 @@ ARCFORGE is a terminal-inspired web platform designed around the metaphor of nav
 - **Typography**: JetBrains Mono (developer-focused)
 - **Styling**: Terminal/CLI aesthetic inspired by kyon.dev
 - **Version Control**: Git with feature branching
-- **Hosting**: VPS deployment Vultr (frontend + backend)
+- **Hosting**: VPS deployment (frontend + backend)
 - **Authentication**: JWT tokens, bcrypt password hashing
+- **Search**: Hybrid vim-style + command palette system
 - **Future**: Stripe integration, social login (GitHub/Google)
+
+## Content Structure (Updated 2025-06-30)
+```
+/fortress/
+├── foundation/          # Free introductory content
+│   ├── motivation_and_identity
+│   ├── muscle_fiber_primer  
+│   ├── training_philosophy
+│   └── myths_and_qa
+├── methodology/         # Core Heavy Duty principles
+│   ├── heavy_duty_principles
+│   ├── goto_split
+│   └── progression_protocols
+├── advanced/ 🔒        # Premium content
+│   ├── recovery_guide
+│   ├── split_programming
+│   ├── diet_blueprint
+│   └── anatomy_movement
+├── forum/              # Community discussions
+└── navigation/         # Terminal interface showcase
+```
 
 ## File Structure
 ```
 arcForgeSite/
-├── frontend/                  # Client-side code
-│   ├── index.html            # Main fortress landing
-│   ├── docs/                 # HTML pages
-│   ├── images/               # Assets
-│   ├── css/                  # Stylesheets
-│   └── js/                   # Frontend JavaScript
+├── index.html                 # Main fortress landing
+├── foundation/                # Free intro content
+├── methodology/               # Core training content  
+├── advanced/                  # Premium content
+├── navigation/                # Terminal showcase
+├── docs/                      # Legacy pages
+├── images/                    # Assets
+├── css/                       # Stylesheets
+├── js/                        # Frontend JavaScript
+│   ├── auth.js               # Authentication system
+│   └── search.js             # Hybrid search system
 ├── backend/                   # Server-side code
 │   ├── server.js             # Express server entry point
 │   ├── routes/               # API endpoints
 │   ├── models/               # Database models
-│   ├── middleware/           # Auth middleware
 │   └── config/               # Database & environment config
-├── routines/                  # Markdown content
-├── documentation/             # Project docs
-└── [future domains]/
+└── documentation/             # Project docs
 ```
 
 ## Design Principles
 
 ### Terminal Metaphor
 - **Navigation**: File tree structure with collapsible folders
-- **Keyboard Shortcuts**: Vim-inspired (j/k navigation)
-- **Commands**: Search functionality (grep-like)
-- **Aesthetics**: Dark theme, monospace fonts, ASCII art
+- **Keyboard Shortcuts**: Vim-inspired (j/k navigation, Ctrl+K command palette)
+- **Search**: Dual-mode search system (vim-style + modern command palette)
+- **Commands**: Terminal commands (:goto, :download, :help, :search)
+- **Aesthetics**: Dark theme, monospace fonts, starfield background
 
 ### Modular Architecture
 - **Domain Isolation**: Each domain (/fortress, /laboratory) is self-contained
@@ -71,11 +96,21 @@ arcForgeSite/
 - **Keyboard Shortcuts**: j/k/Shift+J for folder manipulation
 - **Back Links**: Consistent return navigation
 
+### Search System (New)
+- **Hybrid Interface**: Two search modes for different user types
+  - `/` key: Vim-style page search with highlighting and n/N navigation
+  - `Ctrl+K`: Modern command palette with global search and actions
+- **Real-time Search**: Instant highlighting as you type
+- **Global Index**: Pre-built content index for cross-page search
+- **Smart Navigation**: Navigate matches with keyboard shortcuts
+- **Command Execution**: Execute actions directly from search palette
+- **Mobile Responsive**: Touch-friendly interfaces with keyboard alternatives
+
 ### Terminal Features
-- **Search**: Grep-like functionality across content
-- **Commands**: Vim-inspired command interface
-- **History**: Command and navigation history
-- **Help System**: Built-in documentation
+- **Search**: Dual-mode search system (page + global)
+- **Commands**: Vim-inspired command interface (:goto, :download, :help)
+- **Keyboard Navigation**: Full keyboard accessibility
+- **Help System**: Built-in documentation and command reference
 
 ### Content Management
 - **Markdown Support**: Easy content authoring

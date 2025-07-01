@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recovery Guide - ARCFORGE</title>
+    <link rel="stylesheet" href="../css/terminal-theme.css">
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <header class="page-header">
+            <nav class="breadcrumb">
+                <a href="../index.html">arcforge</a> / 
+                <a href="#advanced">advanced</a> / 
+                <span class="current">recovery_guide</span>
+            </nav>
+            <h1 class="page-title">THE RECOVERY GUIDE 🔒</h1>
+            <p class="page-subtitle">premium content • CNS vs local fatigue • rest optimization</p>
+        </header>
+
+        <div class="terminal-content">
+            <section class="content-section premium-content">
+                <h2 class="section-header">Premium Content</h2>
+                <div class="paywall-notice">
+                    <div class="lock-icon">🔒</div>
+                    <h3>Advanced Recovery Protocols</h3>
+                    <p>Deep dive into recovery science, fatigue management, and optimization strategies.</p>
+                    <p>This advanced guide covers:</p>
+                    <ul>
+                        <li>CNS fatigue vs local muscle fatigue indicators</li>
+                        <li>Optimal rest periods per muscle group</li>
+                        <li>Sleep, nutrition, and stress management</li>
+                        <li>Recovery tracking and autoregulation</li>
+                    </ul>
+                    <button class="premium-button" onclick="showPremiumModal()">
+                        Unlock Premium Content
+                    </button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/search.js"></script>
+    <script>
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numStars = 100;
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+
+        function showPremiumModal() {
+            alert('Premium subscription coming soon! This will integrate with Stripe for secure payments.');
+        }
+    </script>
+</body>
+</html>

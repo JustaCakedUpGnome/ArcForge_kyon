@@ -64,6 +64,14 @@
   - ✅ Complete documentation and technical reference
 
 ### Future Features
+- [ ] **Markdown Content System** 🔄
+  - Dynamic markdown renderer with existing CSS styling
+  - `/content/` folder for .md files from Obsidian
+  - Auto-generated download links for .md files
+  - Client-side rendering with marked.js
+  - Frictionless Obsidian → site workflow
+  - Maintain beautiful styling from current HTML system
+
 - [ ] **Terminal search/grep functionality**
   - Add search command (`:search` or `/` like vim)
   - Search across current page content

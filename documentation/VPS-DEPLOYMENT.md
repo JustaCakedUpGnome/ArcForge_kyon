@@ -289,6 +289,56 @@ chmod +x deploy.sh
 ./deploy.sh
 ```
 
+### Backend Development & Testing
+
+#### API Testing with curl
+```bash
+# Test signup endpoint with validation
+curl -X POST https://yourdomain.com/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"TestPass123"}'
+
+# Test login endpoint
+curl -X POST https://yourdomain.com/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"TestPass123"}'
+
+# Test with invalid data to check validation
+curl -X POST https://yourdomain.com/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{"email":"invalid-email","password":"weak"}'
+```
+
+#### PM2 Management Commands
+```bash
+# Check process status
+pm2 status
+
+# View logs (real-time)
+pm2 logs arcforge --lines 50
+
+# Restart after code changes
+pm2 restart arcforge
+
+# Stop application
+pm2 stop arcforge
+
+# Delete process (removes from PM2)
+pm2 delete arcforge
+
+# Monitor resource usage
+pm2 monit
+```
+
+#### Development Workflow
+1. **Make changes locally** - Test and commit changes
+2. **Push to GitHub** - `git push origin redesign`
+3. **SSH to VPS** - Connect to your server
+4. **Pull latest code** - `git pull origin redesign`
+5. **Restart backend** - `pm2 restart arcforge` (REQUIRED for backend changes)
+6. **Test endpoints** - Use curl commands above
+7. **Check logs** - `pm2 logs arcforge` if issues
+
 ## Monitoring and Maintenance
 
 ### Application Monitoring

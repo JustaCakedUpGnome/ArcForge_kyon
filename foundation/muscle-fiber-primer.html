@@ -22,11 +22,108 @@
 
         <div class="terminal-content">
             <section class="content-section">
-                <h2 class="section-header">Coming Soon</h2>
-                <div class="coming-soon">
-                    <p>Understanding muscle fiber types and nervous system adaptation is crucial for Heavy Duty training.</p>
-                    <p>This primer will break down the science in practical terms.</p>
+                <h2 class="section-header">1. Muscle Fibers & Nervous System Primer</h2>
+                
+                <ul>
+                    <li>Type I vs Type II — we'll be focusing on Type II for hypertrophy</li>
+                    <li>Type I fibers are automatic.</li>
+                    <li>Type II fibers are the muscle of intent.</li>
+                </ul>
+            </section>
+
+            <section class="content-section">
+                <div class="callout">
+                    <h3>🧬 Muscle Fiber Types – Explained Simply</h3>
+                    
+                    <p>Your muscles are made up of different kinds of muscle fibers, and they all have different jobs. Understanding these helps explain why <strong>certain training builds size and strength</strong>, and other training mostly improves endurance.</p>
+                    
+                    <h4>🔹 Type I – Slow-Twitch Fibers</h4>
+                    
+                    <ul>
+                        <li>Built for <strong>endurance</strong></li>
+                        <li>Fire slowly, but doesn't get tired easily</li>
+                        <li>Used during <strong>light activity</strong> like walking, posture, or high-rep bodyweight exercises</li>
+                        <li><strong>Doesn't grow very large</strong></li>
+                        <li>Think: <strong>Marathon runner muscles</strong></li>
+                    </ul>
+                    
+                    <h4>🔹 Type II – Fast-Twitch Fibers</h4>
+                    
+                    <p>These are the powerful, growth-prone fibers you want to target when training for muscle size and strength. There are two subtypes:</p>
+                    
+                    <h5>• Type IIa – Fast-twitch, but with some endurance</h5>
+                    
+                    <ul>
+                        <li>Can handle more reps than IIx</li>
+                        <li>Grow well when trained hard</li>
+                        <li>Think: <strong>Athletic sprinter or someone lifting moderate weight explosively</strong></li>
+                    </ul>
+                    
+                    <h5>• Type IIx (or IIb) – Pure power</h5>
+                    
+                    <ul>
+                        <li>Explosive but fatigue quickly</li>
+                        <li>Most potential for <strong>size and strength</strong></li>
+                        <li>Activated only during <strong>very heavy or intense effort</strong> (low reps, high load)</li>
+                        <li>Think: <strong>Olympic lifter or powerlifter</strong></li>
+                    </ul>
                 </div>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">🧠 Recruitment Logic</h2>
+                
+                <blockquote>
+                    The body doesn't recruit all muscle fibers equally. It follows a hierarchy — one dictated by the demands you place on it.
+                </blockquote>
+                
+                <h3>⚙️ The Basics:</h3>
+                
+                <ul>
+                    <li>All movement starts with <strong>Type I (slow-twitch)</strong> fibers — low-force, fatigue-resistant, and largely irrelevant to size development.</li>
+                    <li>As effort increases — either through load or proximity to muscular failure — the nervous system progressively recruits <strong>Type II fibers</strong>, particularly the <strong>Type IIx</strong> that have the <strong>greatest growth potential</strong>.</li>
+                    <li><strong>Only high-intensity effort — taken near the point of failure — forces the body to engage these high-threshold motor units.</strong></li>
+                </ul>
+                
+                <blockquote>
+                    That's the crux: <strong>If your effort is low, the growth-driving fibers remain untapped.</strong><br>
+                    No amount of "pump" or "volume" will compensate for a lack of recruitment.
+                </blockquote>
+                
+                <p>The implication is clear. If you're not training with sufficient intensity, you're simply not targeting the fibers that matter.</p>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">💥 CNS Fatigue</h2>
+                
+                <blockquote>
+                    The nervous system governs muscular action. It also limits it.
+                </blockquote>
+                
+                <h3>⚠️ Why This Matters:</h3>
+                
+                <ul>
+                    <li>The <strong>central nervous system</strong> is what triggers fiber recruitment — especially of the high-threshold, growth-capable Type IIx fibers.</li>
+                    <li>Intense training — particularly when sets are taken to or near failure — places a <strong>significant burden</strong> on the CNS.</li>
+                    <li>This burden compounds. Train too frequently, with too much volume, and you're not building muscle — <strong>you're systemically degrading your capacity to recover</strong>.</li>
+                </ul>
+                
+                <blockquote>
+                    You may feel fine. But your lifts stall. Your energy dips. Motivation fades.<br>
+                    These are not signs of a weak mind — they're signs of a fatigued system.
+                </blockquote>
+                
+                <p>This is why <strong>brief, infrequent, high-intensity training</strong> is the only sustainable method for long-term hypertrophy. The body can recover from effort. The nervous system requires <strong>respect</strong>, or it will <strong>turn on you</strong> — and halt progress entirely.</p>
+            </section>
+
+            <section class="content-section">
+                <h2 class="section-header">📌 Summary</h2>
+                
+                <blockquote>
+                    The muscle grows in response to high-intensity effort.<br>
+                    The nervous system regulates your ability to deliver that effort.<br>
+                    <strong>Ignore either — and your training becomes self-defeating.</strong>
+                </blockquote>
             </section>
         </div>
     </div>
@@ -36,20 +133,40 @@
     <script>
         function createStars() {
             const starsContainer = document.querySelector('.stars');
-            const numStars = 100;
+            const numStars = 150; // More stars for longer pages
+            
+            // Set container height to full document height
+            starsContainer.style.height = Math.max(document.body.scrollHeight, window.innerHeight) + 'px';
+            
             for (let i = 0; i < numStars; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
+                
+                // Random position across full document
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
+                
+                // Random size
                 const size = Math.random() * 3 + 1;
                 star.style.width = size + 'px';
                 star.style.height = size + 'px';
+                
+                // Random animation delay
                 star.style.animationDelay = Math.random() * 3 + 's';
+                
                 starsContainer.appendChild(star);
             }
         }
-        createStars();
+        
+        // Create stars after page loads
+        window.addEventListener('load', createStars);
+        
+        // Recreate stars if window resizes
+        window.addEventListener('resize', () => {
+            const starsContainer = document.querySelector('.stars');
+            starsContainer.innerHTML = '';
+            createStars();
+        });
     </script>
 </body>
 </html>

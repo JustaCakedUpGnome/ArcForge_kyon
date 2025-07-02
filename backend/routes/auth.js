@@ -74,7 +74,8 @@ router.post('/signup', async (req, res) => {
             user: {
                 id: newUser.id,
                 email: newUser.email,
-                createdAt: newUser.created_at
+                createdAt: newUser.created_at,
+                subscriptionStatus: newUser.subscription_status || 'free'
             }
         });
     } catch (error) {
@@ -123,7 +124,8 @@ router.post('/login', async (req, res) => {
             user: {
                 id: user.id,
                 email: user.email,
-                createdAt: user.created_at
+                createdAt: user.created_at,
+                subscriptionStatus: user.subscription_status || 'free'
             }
         });
     } catch (error) {

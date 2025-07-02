@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade to Premium | ARCFORGE</title>
+    <link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+    <div id="stars-container"></div>
+    
+    <div class="upgrade-container">
+        <div class="upgrade-header">
+            <h1 class="upgrade-title">UPGRADE TO PREMIUM</h1>
+            <div class="upgrade-subtitle">Unlock Advanced Heavy Duty Training Content</div>
+        </div>
+        
+        <div class="upgrade-content">
+            <!-- Pricing Section -->
+            <div class="pricing-section">
+                <div class="price-card">
+                    <div class="price-header">
+                        <h2>Premium Access</h2>
+                        <div class="price">$9.99<span class="period">/month</span></div>
+                    </div>
+                    
+                    <div class="features-list">
+                        <div class="feature">
+                            <span class="feature-icon">✓</span>
+                            <span class="feature-text">All Foundation Content</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">✓</span>
+                            <span class="feature-text">Complete Methodology Section</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">✓</span>
+                            <span class="feature-text">Advanced Training Protocols</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">✓</span>
+                            <span class="feature-text">Recovery & Optimization Guides</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">✓</span>
+                            <span class="feature-text">Interactive Workout Tools</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">✓</span>
+                            <span class="feature-text">Priority Email Support</span>
+                        </div>
+                    </div>
+                    
+                    <button class="subscribe-btn" id="subscribe-btn" disabled>
+                        Coming Soon - Stripe Integration
+                    </button>
+                    
+                    <div class="subscription-note">
+                        <small>Cancel anytime • Secure payment via Stripe</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- What You Get Section -->
+            <div class="content-preview">
+                <h3>What's Included in Premium:</h3>
+                
+                <div class="content-category">
+                    <h4>🧬 Advanced Methodology</h4>
+                    <ul>
+                        <li>Heavy Duty Principles Deep Dive</li>
+                        <li>Progression Protocols & Periodization</li>
+                        <li>Advanced Intensity Techniques</li>
+                    </ul>
+                </div>
+                
+                <div class="content-category">
+                    <h4>⚡ Recovery & Optimization</h4>
+                    <ul>
+                        <li>Complete Recovery Protocol Guide</li>
+                        <li>Sleep & Stress Management</li>
+                        <li>Nutrition Timing & Supplementation</li>
+                    </ul>
+                </div>
+                
+                <div class="content-category">
+                    <h4>📊 Interactive Tools</h4>
+                    <ul>
+                        <li>Advanced Workout Logger</li>
+                        <li>Progress Tracking Dashboard</li>
+                        <li>Personalized Routine Builder</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Back Navigation -->
+            <div class="navigation-section">
+                <a href="/" class="back-link">← Back to ARCFORGE</a>
+                <div class="current-access" id="current-access">
+                    Current Access: <span id="access-level">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Auth System -->
+    <script src="js/auth.js"></script>
+    <script src="js/access-control.js"></script>
+    
+    <script>
+        // Generate stars background
+        function createStars() {
+            const starsContainer = document.getElementById('stars-container');
+            const numStars = 150;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                const size = Math.random() * 2 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        class UpgradePage {
+            constructor() {
+                this.authSystem = new AuthSystem();
+                this.accessControl = new AccessControl();
+                this.init();
+            }
+            
+            init() {
+                this.updateAccessLevel();
+                this.handleUrlParams();
+                this.bindEvents();
+            }
+            
+            updateAccessLevel() {
+                const accessLevelEl = document.getElementById('access-level');
+                const userLevel = this.accessControl.getUserLevel();
+                
+                const levelDisplay = {
+                    'anonymous': 'Guest (Foundation Only)',
+                    'free': 'Free Account (Foundation + Methodology)', 
+                    'premium': 'Premium (Full Access)'
+                };
+                
+                accessLevelEl.textContent = levelDisplay[userLevel] || 'Unknown';
+                accessLevelEl.className = `level-${userLevel}`;
+                
+                // If already premium, show different message
+                if (userLevel === 'premium') {
+                    document.querySelector('.upgrade-title').textContent = 'PREMIUM MEMBER';
+                    document.querySelector('.upgrade-subtitle').textContent = 'You have full access to all content';
+                    document.querySelector('.subscribe-btn').textContent = 'Already Premium ✓';
+                }
+            }
+            
+            handleUrlParams() {
+                const params = new URLSearchParams(window.location.search);
+                const requiredLevel = params.get('required');
+                const pageName = params.get('page');
+                const returnTo = params.get('return_to');
+                
+                if (requiredLevel && pageName) {
+                    document.querySelector('.upgrade-subtitle').textContent = 
+                        `"${pageName}" requires ${requiredLevel} access`;
+                }
+                
+                // Store return URL for after subscription
+                if (returnTo) {
+                    localStorage.setItem('arcforge_return_to', returnTo);
+                }
+            }
+            
+            bindEvents() {
+                document.getElementById('subscribe-btn').addEventListener('click', () => {
+                    // For now, just show coming soon message
+                    alert('Stripe integration coming soon! Contact admin for manual premium upgrade.');
+                });
+            }
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            new UpgradePage();
+        });
+    </script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            min-height: 100vh;
+            font-family: "JetBrains Mono", monospace;
+        }
+
+        #stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .upgrade-container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(17, 17, 17, 0.95);
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #e0e0e0;
+            backdrop-filter: blur(2px);
+        }
+        
+        .upgrade-header {
+            text-align: center;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #333;
+            margin-bottom: 30px;
+        }
+        
+        .upgrade-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        
+        .upgrade-subtitle {
+            font-size: 16px;
+            color: #aaa;
+        }
+        
+        .pricing-section {
+            margin-bottom: 40px;
+        }
+        
+        .price-card {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .price-header h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .price {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .period {
+            font-size: 16px;
+            color: #aaa;
+        }
+        
+        .features-list {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .feature-icon {
+            color: #4CAF50;
+            font-weight: 700;
+            margin-right: 10px;
+            width: 15px;
+        }
+        
+        .subscribe-btn {
+            background: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            padding: 15px 30px;
+            color: #fff;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .subscribe-btn:hover:not(:disabled) {
+            background: #45a049;
+        }
+        
+        .subscribe-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        .subscription-note {
+            color: #888;
+            font-size: 12px;
+        }
+        
+        .content-preview {
+            margin-bottom: 40px;
+        }
+        
+        .content-preview h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #fff;
+            text-align: center;
+        }
+        
+        .content-category {
+            margin-bottom: 25px;
+            background: rgba(26, 26, 26, 0.6);
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 20px;
+        }
+        
+        .content-category h4 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .content-category ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .content-category li {
+            margin-bottom: 5px;
+            color: #ccc;
+            font-size: 14px;
+        }
+        
+        .navigation-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+        
+        .back-link {
+            color: #666;
+            text-decoration: underline;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+        
+        .back-link:hover {
+            color: #aaa;
+        }
+        
+        .current-access {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .level-free {
+            color: #ccc;
+        }
+        
+        .level-premium {
+            color: #4CAF50;
+        }
+        
+        .level-anonymous {
+            color: #888;
+        }
+        
+        @media (max-width: 768px) {
+            .upgrade-container {
+                margin: 20px;
+                padding: 15px;
+            }
+            
+            .navigation-section {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .price {
+                font-size: 28px;
+            }
+        }
+    </style>
+</body>
+</html>

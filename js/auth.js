@@ -637,6 +637,11 @@ class AuthSystem {
         localStorage.removeItem('arcforge_token');
         localStorage.removeItem('arcforge_user');
         this.updateUserDisplay();
+        
+        // Always redirect to home after logout (unless already on home page)
+        if (window.location.pathname !== '/' && window.location.pathname !== '/index.html') {
+            window.location.href = '/';
+        }
     }
 
     // Check if user is logged in

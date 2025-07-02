@@ -41,6 +41,9 @@ class AuthSystem {
                                 <button type="submit" id="auth-submit">execute</button>
                                 <button type="button" id="auth-toggle">switch to signup</button>
                             </div>
+                            <div class="auth-forgot">
+                                <button type="button" id="forgot-password-btn" class="forgot-link">forgot password?</button>
+                            </div>
                         </form>
                         <div id="auth-error" class="auth-error hidden"></div>
                         <div id="auth-loading" class="auth-loading hidden">
@@ -214,6 +217,26 @@ class AuthSystem {
                     font-weight: 600;
                 }
 
+                .auth-forgot {
+                    margin-top: 10px;
+                    text-align: center;
+                }
+
+                .forgot-link {
+                    background: none;
+                    border: none;
+                    color: #666;
+                    font-size: 11px;
+                    text-decoration: underline;
+                    cursor: pointer;
+                    font-family: "JetBrains Mono", monospace;
+                    transition: color 0.2s ease;
+                }
+
+                .forgot-link:hover {
+                    color: #aaa;
+                }
+
                 .auth-error {
                     margin-top: 15px;
                     padding: 10px;
@@ -354,6 +377,7 @@ class AuthSystem {
         document.getElementById('auth-close').addEventListener('click', () => this.hideModal());
         document.getElementById('auth-toggle').addEventListener('click', () => this.toggleMode());
         document.getElementById('auth-form').addEventListener('submit', (e) => this.handleSubmit(e));
+        document.getElementById('forgot-password-btn').addEventListener('click', () => this.showForgotPassword());
 
         // Real-time validation
         document.getElementById('auth-email').addEventListener('input', (e) => this.validateEmailField(e));
@@ -448,6 +472,72 @@ class AuthSystem {
         this.hideError();
     }
 
+    // Show forgot password modal
+    showForgotPassword() {
+        const mode = document.getElementById('auth-mode');
+        const submit = document.getElementById('auth-submit');
+        const toggle = document.getElementById('auth-toggle');
+        const passwordField = document.getElementById('auth-password').parentElement;
+        const forgotBtn = document.getElementById('forgot-password-btn').parentElement;
+
+        mode.textContent = 'forgot-password';
+        submit.textContent = 'send reset link';
+        toggle.textContent = 'back to login';
+        passwordField.style.display = 'none';
+        forgotBtn.style.display = 'none';
+
+        // Update toggle handler
+        toggle.onclick = () => this.backToLogin();
+
+        this.clearForm();
+        this.hideError();
+    }
+
+    // Back to login from forgot password
+    backToLogin() {
+        const mode = document.getElementById('auth-mode');
+        const submit = document.getElementById('auth-submit');
+        const toggle = document.getElementById('auth-toggle');
+        const passwordField = document.getElementById('auth-password').parentElement;
+        const forgotBtn = document.getElementById('forgot-password-btn').parentElement;
+
+        mode.textContent = 'login';
+        submit.textContent = 'execute';
+        toggle.textContent = 'switch to signup';
+        passwordField.style.display = 'block';
+        forgotBtn.style.display = 'block';
+
+        // Restore original toggle handler
+        toggle.onclick = () => this.toggleMode();
+
+        this.clearForm();
+        this.hideError();
+    }
+
+    // Handle forgot password submission
+    async handleForgotPassword(email) {
+        try {
+            const response = await fetch(`${this.baseURL}/auth/forgot-password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                this.showError('If the email exists, a password reset link has been sent', 'success');
+                setTimeout(() => this.backToLogin(), 3000);
+            } else {
+                this.showError(data.error || 'Failed to send reset email');
+            }
+        } catch (error) {
+            this.showError('Connection failed. Please try again.');
+        }
+    }
+
     // Handle form submission
     async handleSubmit(event) {
         event.preventDefault();
@@ -455,6 +545,19 @@ class AuthSystem {
         const email = document.getElementById('auth-email').value;
         const password = document.getElementById('auth-password').value;
         const mode = document.getElementById('auth-mode').textContent;
+
+        // Handle forgot password mode
+        if (mode === 'forgot-password') {
+            if (!email) {
+                this.showError('Email is required');
+                return;
+            }
+            this.showLoading();
+            this.hideError();
+            await this.handleForgotPassword(email);
+            this.hideLoading();
+            return;
+        }
 
         if (!email || !password) {
             this.showError('Email and password are required');
@@ -550,10 +653,21 @@ class AuthSystem {
     }
 
     // Utility methods
-    showError(message) {
+    showError(message, type = 'error') {
         const errorEl = document.getElementById('auth-error');
         errorEl.textContent = message;
         errorEl.classList.remove('hidden');
+        
+        // Add success styling for success messages
+        if (type === 'success') {
+            errorEl.style.background = 'rgba(40, 167, 69, 0.1)';
+            errorEl.style.borderColor = 'rgba(40, 167, 69, 0.3)';
+            errorEl.style.color = '#28a745';
+        } else {
+            errorEl.style.background = 'rgba(220, 53, 69, 0.1)';
+            errorEl.style.borderColor = 'rgba(220, 53, 69, 0.3)';
+            errorEl.style.color = '#ff6b6b';
+        }
     }
 
     hideError() {

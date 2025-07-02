@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 class User {
     // Create a new user
@@ -37,6 +38,51 @@ class User {
     static async verifyPassword(plainPassword, hashedPassword) {
         try {
             return await bcrypt.compare(plainPassword, hashedPassword);
+        } catch (error) {
+            throw error;
+        }
+    }
+    
+    // Generate and store password reset token
+    static async generatePasswordResetToken(email) {
+        try {
+            const token = crypto.randomBytes(32).toString('hex');
+            const expires = new Date(Date.now() + 3600000); // 1 hour from now
+            
+            const query = 'UPDATE users SET reset_token = $1, reset_token_expires = $2 WHERE email = $3 RETURNING id, email';
+            const values = [token, expires, email];
+            
+            const result = await pool.query(query, values);
+            return result.rows[0] ? token : null;
+        } catch (error) {
+            throw error;
+        }
+    }
+    
+    // Find user by reset token
+    static async findByResetToken(token) {
+        try {
+            const query = 'SELECT * FROM users WHERE reset_token = $1 AND reset_token_expires > NOW()';
+            const values = [token];
+            
+            const result = await pool.query(query, values);
+            return result.rows[0] || null;
+        } catch (error) {
+            throw error;
+        }
+    }
+    
+    // Update password and clear reset token
+    static async updatePassword(userId, newPassword) {
+        try {
+            const saltRounds = 10;
+            const passwordHash = await bcrypt.hash(newPassword, saltRounds);
+            
+            const query = 'UPDATE users SET password_hash = $1, reset_token = NULL, reset_token_expires = NULL, updated_at = CURRENT_TIMESTAMP WHERE id = $2 RETURNING id, email';
+            const values = [passwordHash, userId];
+            
+            const result = await pool.query(query, values);
+            return result.rows[0];
         } catch (error) {
             throw error;
         }

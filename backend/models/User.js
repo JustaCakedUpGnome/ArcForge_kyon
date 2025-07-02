@@ -11,7 +11,7 @@ class User {
             const passwordHash = await bcrypt.hash(password, saltRounds);
             
             // Insert user into database
-            const query = 'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email, created_at';
+            const query = 'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email, created_at, subscription_status';
             const values = [email, passwordHash];
             
             const result = await pool.query(query, values);
@@ -24,7 +24,7 @@ class User {
     // Find user by email
     static async findByEmail(email) {
         try {
-            const query = 'SELECT * FROM users WHERE email = $1';
+            const query = 'SELECT id, email, password_hash, created_at, updated_at, subscription_status, stripe_customer_id, stripe_subscription_id, subscription_expires_at FROM users WHERE email = $1';
             const values = [email];
             
             const result = await pool.query(query, values);

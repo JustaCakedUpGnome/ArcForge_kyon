@@ -169,6 +169,11 @@ Your foundation section now has **substantial, high-quality content** that provi
 1. **Profile page logout bug** - When clicking logout from profile page, user stays on profile page instead of redirecting to home
 2. **Auth modal state persistence** - When reopening login modal, it remembers previous state (signup mode) instead of defaulting to login
 
+#### **Search System Issues:**
+3. **Home page search CSS missing** - Using `/` to search has no styling and overlaps login indicator
+4. **Conflicting search implementations** - Navigation pages have different search (top-left, darkens page, shows "found x matches" popup) vs home page search
+5. **Search highlighting broken** - Old search system doesn't highlight found words, just shows match count
+
 #### **Previous Bugs (Fixed):**
 - ✅ **"J" key input prevention** - Global keyboard shortcuts blocking form input (Fixed)
 - ✅ **Password reset 404 errors** - Nginx query parameter handling (Fixed)
@@ -179,6 +184,7 @@ Your foundation section now has **substantial, high-quality content** that provi
 #### **Quick Wins (15-30 mins)**
 - **Fix profile page logout redirect** - Send users to home page after logout
 - **Fix auth modal state persistence** - Always default to login mode when opened
+- **Fix search system conflicts** - Unify search implementations and fix CSS overlaps
 - **Test mobile responsiveness** of auth modal and reset page
 
 #### **Content Expansion (30-60 mins)**

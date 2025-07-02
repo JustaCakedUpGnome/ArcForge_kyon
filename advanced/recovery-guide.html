@@ -5,6 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recovery Guide - ARCFORGE</title>
     <link rel="stylesheet" href="../css/terminal-theme.css">
+    <style>
+        .recovery-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .content-block {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid #333;
+            border-radius: 4px;
+        }
+        
+        .content-block h3 {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 8px;
+        }
+        
+        .content-block h4 {
+            color: #ccc;
+            font-size: 14px;
+            margin: 20px 0 10px 0;
+        }
+        
+        .recovery-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-family: "JetBrains Mono", monospace;
+        }
+        
+        .recovery-table th,
+        .recovery-table td {
+            border: 1px solid #444;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .recovery-table th {
+            background: #2a2a2a;
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .recovery-table td {
+            background: #1a1a1a;
+            color: #ccc;
+        }
+        
+        .tip-box {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #4CAF50;
+            font-size: 14px;
+        }
+        
+        .content-block ul li {
+            margin-bottom: 8px;
+            color: #ccc;
+            line-height: 1.5;
+        }
+        
+        .content-block p {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
     <div class="stars"></div>
@@ -21,30 +96,112 @@
         </header>
 
         <div class="terminal-content">
-            <section class="content-section premium-content">
-                <h2 class="section-header">Premium Content</h2>
-                <div class="paywall-notice">
-                    <div class="lock-icon">🔒</div>
-                    <h3>Advanced Recovery Protocols</h3>
-                    <p>Deep dive into recovery science, fatigue management, and optimization strategies.</p>
-                    <p>This advanced guide covers:</p>
-                    <ul>
-                        <li>CNS fatigue vs local muscle fatigue indicators</li>
-                        <li>Optimal rest periods per muscle group</li>
-                        <li>Sleep, nutrition, and stress management</li>
-                        <li>Recovery tracking and autoregulation</li>
-                    </ul>
-                    <button class="premium-button" onclick="showPremiumModal()">
-                        Unlock Premium Content
-                    </button>
+            <section class="content-section premium-content" id="main-content">
+                <h2 class="section-header">Advanced Recovery Protocols</h2>
+                
+                <!-- This content will only show for premium users -->
+                <div class="recovery-content">
+                    <div class="content-block">
+                        <h3>🧠 CNS vs Local Muscle Fatigue</h3>
+                        <p>Understanding the difference between central nervous system fatigue and localized muscle fatigue is crucial for optimal recovery programming.</p>
+                        
+                        <h4>CNS Fatigue Indicators:</h4>
+                        <ul>
+                            <li>Decreased motivation and mental clarity</li>
+                            <li>Reduced strength across multiple muscle groups</li>
+                            <li>Poor sleep quality and mood changes</li>
+                            <li>Elevated resting heart rate</li>
+                        </ul>
+                        
+                        <h4>Local Muscle Fatigue Signs:</h4>
+                        <ul>
+                            <li>Specific muscle soreness and stiffness</li>
+                            <li>Reduced performance in targeted exercises only</li>
+                            <li>Localized inflammation and swelling</li>
+                            <li>Normal energy levels and motivation</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-block">
+                        <h3>⏰ Optimal Recovery Timing</h3>
+                        <p>Heavy Duty recovery protocols based on muscle fiber types and training intensity.</p>
+                        
+                        <table class="recovery-table">
+                            <tr>
+                                <th>Muscle Group</th>
+                                <th>Minimum Rest (hours)</th>
+                                <th>Optimal Rest (hours)</th>
+                            </tr>
+                            <tr>
+                                <td>Chest, Shoulders</td>
+                                <td>72</td>
+                                <td>96-120</td>
+                            </tr>
+                            <tr>
+                                <td>Back, Lats</td>
+                                <td>72</td>
+                                <td>96-120</td>
+                            </tr>
+                            <tr>
+                                <td>Legs (Quads/Hams)</td>
+                                <td>96</td>
+                                <td>120-144</td>
+                            </tr>
+                            <tr>
+                                <td>Arms (Bi/Tri)</td>
+                                <td>48</td>
+                                <td>72-96</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="content-block">
+                        <h3>🛌 Sleep & Stress Optimization</h3>
+                        <p>Recovery happens during sleep. Optimize your recovery environment:</p>
+                        
+                        <h4>Sleep Protocol:</h4>
+                        <ul>
+                            <li><strong>7-9 hours minimum</strong> - Non-negotiable for muscle protein synthesis</li>
+                            <li><strong>Cool environment</strong> - 65-68°F for optimal deep sleep</li>
+                            <li><strong>Complete darkness</strong> - Use blackout curtains or eye mask</li>
+                            <li><strong>No screens 1 hour before bed</strong> - Blue light disrupts melatonin</li>
+                        </ul>
+                        
+                        <h4>Stress Management:</h4>
+                        <ul>
+                            <li>Meditation or deep breathing (10+ minutes daily)</li>
+                            <li>Regular walking or light movement on rest days</li>
+                            <li>Minimize caffeine intake after 2 PM</li>
+                            <li>Keep training sessions brief and intense, not long</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="content-block">
+                        <h3>📊 Recovery Tracking Methods</h3>
+                        <p>Monitor your recovery to optimize training frequency:</p>
+                        
+                        <h4>Daily Metrics to Track:</h4>
+                        <ul>
+                            <li><strong>Resting Heart Rate</strong> - 5+ BPM elevation = need more rest</li>
+                            <li><strong>Sleep Quality</strong> - Rate 1-10 subjectively each morning</li>
+                            <li><strong>Motivation Level</strong> - Rate 1-10 for training enthusiasm</li>
+                            <li><strong>Muscle Soreness</strong> - Rate 1-10 per muscle group</li>
+                        </ul>
+                        
+                        <div class="tip-box">
+                            <strong>💡 Pro Tip:</strong> If 2+ metrics are elevated, extend rest period by 24-48 hours. Better to undertrain than overtrain in Heavy Duty.
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
     </div>
 
     <script src="../js/auth.js"></script>
+    <script src="../js/access-control.js"></script>
     <script src="../js/search.js"></script>
     <script>
+        // Generate stars background
         function createStars() {
             const starsContainer = document.querySelector('.stars');
             const numStars = 100;
@@ -60,11 +217,27 @@
                 starsContainer.appendChild(star);
             }
         }
-        createStars();
-
-        function showPremiumModal() {
-            alert('Premium subscription coming soon! This will integrate with Stripe for secure payments.');
-        }
+        
+        // Initialize page with access control
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            
+            // Wait for auth system to initialize
+            setTimeout(() => {
+                // Check if user has premium access
+                const hasAccess = accessControl.hasAccess('advanced');
+                
+                if (!hasAccess) {
+                    // Redirect to upgrade page
+                    accessControl.redirectToUpgrade('advanced', 'Recovery Guide');
+                } else {
+                    // User has access, show the content
+                    console.log('Premium access granted - showing content');
+                    // Content is already visible, just add access indicator
+                    accessControl.addAccessIndicator();
+                }
+            }, 100); // Small delay to ensure auth system is ready
+        });
     </script>
 </body>
 </html>

@@ -164,7 +164,7 @@ router.post('/forgot-password', async (req, res) => {
         const resetUrl = `${process.env.FRONTEND_URL || 'https://arcforge.tech'}/reset-password?token=${resetToken}`;
         
         const mailOptions = {
-            from: '"ARCFORGE" <noreply@arcforge.tech>',
+            from: '"ARCFORGE" <arcforge.tech@gmail.com>',
             to: email,
             subject: 'Password Reset Request',
             html: `

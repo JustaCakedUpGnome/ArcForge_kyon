@@ -163,11 +163,22 @@ Your foundation section now has **substantial, high-quality content** that provi
 **Email Status:** Gmail integration working with App Passwords  
 **Next Session Goal:** Add Stripe integration for automated subscription payments
 
+### 🐛 **Known Bugs to Fix:**
+
+#### **Authentication UX Issues:**
+1. **Profile page logout bug** - When clicking logout from profile page, user stays on profile page instead of redirecting to home
+2. **Auth modal state persistence** - When reopening login modal, it remembers previous state (signup mode) instead of defaulting to login
+
+#### **Previous Bugs (Fixed):**
+- ✅ **"J" key input prevention** - Global keyboard shortcuts blocking form input (Fixed)
+- ✅ **Password reset 404 errors** - Nginx query parameter handling (Fixed)
+- ✅ **Access control timing issues** - JavaScript initialization race conditions (Fixed)
+
 ### 🚀 **Next Priority Options:**
 
 #### **Quick Wins (15-30 mins)**
-- **Remove debug logging** from email system (clean up console.logs)
-- **Add user dashboard/profile page** for logged-in users
+- **Fix profile page logout redirect** - Send users to home page after logout
+- **Fix auth modal state persistence** - Always default to login mode when opened
 - **Test mobile responsiveness** of auth modal and reset page
 
 #### **Content Expansion (30-60 mins)**

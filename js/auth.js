@@ -179,6 +179,8 @@ class AuthSystem {
                     color: #e0e0e0;
                     font-family: "JetBrains Mono", monospace;
                     font-size: 14px;
+                    width: 100%;
+                    box-sizing: border-box;
                     transition: border-color 0.2s ease;
                 }
 
@@ -375,7 +377,11 @@ class AuthSystem {
 
         // Modal events
         document.getElementById('auth-close').addEventListener('click', () => this.hideModal());
-        document.getElementById('auth-toggle').addEventListener('click', () => this.toggleMode());
+        
+        // Store the toggle handler so we can remove it later
+        this.toggleModeHandler = () => this.toggleMode();
+        document.getElementById('auth-toggle').addEventListener('click', this.toggleModeHandler);
+        
         document.getElementById('auth-form').addEventListener('submit', (e) => this.handleSubmit(e));
         document.getElementById('forgot-password-btn').addEventListener('click', () => this.showForgotPassword());
 
@@ -440,6 +446,20 @@ class AuthSystem {
 
     // Show the auth modal
     showModal() {
+        // Reset to login mode every time modal is opened
+        const mode = document.getElementById('auth-mode');
+        const submit = document.getElementById('auth-submit');
+        const toggle = document.getElementById('auth-toggle');
+        const passwordField = document.getElementById('auth-password').parentElement;
+        const forgotBtn = document.getElementById('forgot-password-btn').parentElement;
+
+        mode.textContent = 'login';
+        submit.textContent = 'execute';
+        toggle.textContent = 'switch to signup';
+        passwordField.style.display = 'block';
+        forgotBtn.style.display = 'block';
+
+        // Show modal and focus
         document.getElementById('auth-modal').classList.remove('hidden');
         document.getElementById('auth-email').focus();
     }
@@ -486,8 +506,10 @@ class AuthSystem {
         passwordField.style.display = 'none';
         forgotBtn.style.display = 'none';
 
-        // Update toggle handler
-        toggle.onclick = () => this.backToLogin();
+        // Update toggle handler - remove current and add new
+        toggle.removeEventListener('click', this.toggleModeHandler);
+        this.backToLoginHandler = () => this.backToLogin();
+        toggle.addEventListener('click', this.backToLoginHandler);
 
         this.clearForm();
         this.hideError();
@@ -508,7 +530,8 @@ class AuthSystem {
         forgotBtn.style.display = 'block';
 
         // Restore original toggle handler
-        toggle.onclick = () => this.toggleMode();
+        toggle.removeEventListener('click', this.backToLoginHandler);
+        toggle.addEventListener('click', this.toggleModeHandler);
 
         this.clearForm();
         this.hideError();

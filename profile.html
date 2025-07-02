@@ -98,7 +98,8 @@
     <script>
         class ProfilePage {
             constructor() {
-                this.authSystem = new AuthSystem();
+                // Use existing AuthSystem instance if available
+                this.authSystem = window.authSystem || new AuthSystem();
                 this.init();
             }
             

@@ -167,10 +167,7 @@
             
             bindEvents() {
                 document.getElementById('logout-btn').addEventListener('click', () => {
-                    console.log('Logout button clicked');
                     this.authSystem.logout();
-                    console.log('User logged out, redirecting to home');
-                    // Force redirect to home page
                     window.location.href = '/';
                 });
                 

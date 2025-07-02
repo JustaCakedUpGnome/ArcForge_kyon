@@ -436,6 +436,8 @@ class AuthSystem {
         loginBtn.addEventListener('click', () => {
             if (this.isLoggedIn()) {
                 this.logout();
+                // Redirect to home after logout from any page
+                window.location.href = '/';
             } else {
                 this.showModal();
             }

@@ -640,6 +640,11 @@ class AuthSystem {
                 indicator = document.createElement('div');
                 indicator.id = 'user-indicator';
                 indicator.className = 'user-indicator';
+                indicator.style.cursor = 'pointer';
+                indicator.title = 'Click to view profile';
+                indicator.addEventListener('click', () => {
+                    window.location.href = '/profile.html';
+                });
                 document.body.appendChild(indicator);
             }
             

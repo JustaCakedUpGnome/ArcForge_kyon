@@ -166,7 +166,7 @@ Your foundation section now has **substantial, high-quality content** that provi
 ### 🐛 **Known Bugs to Fix:**
 
 #### **Authentication UX Issues:**
-1. **Profile page logout bug** - When clicking logout from profile page, user stays on profile page instead of redirecting to home
+1. **Top-right logout button redirect bug** - Top-right logout button doesn't redirect to home (profile page logout works correctly)
 
 #### **Search System Issues:**
 2. **Home page search CSS missing** - Using `/` to search has no styling and overlaps login indicator
@@ -180,11 +180,12 @@ Your foundation section now has **substantial, high-quality content** that provi
 - ✅ **Auth modal state persistence** - Modal now always defaults to login mode when opened (Fixed July 2nd)
 - ✅ **Auth modal toggle functionality** - Fixed event listener conflicts between login/signup/forgot password modes (Fixed July 2nd)
 - ✅ **Password field width inconsistency** - Made password field same width as email field (Fixed July 2nd)
+- ⚠️ **Profile page logout redirect** - Profile page logout works, but top-right logout still doesn't redirect (Partially Fixed July 2nd)
 
 ### 🚀 **Next Priority Options:**
 
 #### **Quick Wins (15-30 mins)**
-- **Fix profile page logout redirect** - Send users to home page after logout
+- **Fix top-right logout button redirect** - Debug why it's not redirecting despite fixes
 - **Fix search system conflicts** - Unify search implementations and fix CSS overlaps
 - **Test mobile responsiveness** of auth modal and reset page
 

@@ -540,6 +540,11 @@
         const folderToggles = document.querySelectorAll('.folder-toggle');
         
         document.addEventListener('keydown', function(e) {
+            // Skip keyboard shortcuts if user is typing in an input field
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                return;
+            }
+            
             // 'j' key - expand next folder (one by one)
             if (e.key === 'j' && !e.shiftKey) {
                 e.preventDefault();

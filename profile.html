@@ -59,10 +59,13 @@
                 <h2 class="section-title">Access Level</h2>
                 <div class="access-info">
                     <div class="access-badge">
-                        <span class="badge-text">Foundation Member</span>
+                        <span class="badge-text" id="access-badge">Loading...</span>
                     </div>
-                    <div class="access-description">
-                        You have access to all foundation content and methodology pages.
+                    <div class="access-description" id="access-description">
+                        Loading access information...
+                    </div>
+                    <div class="upgrade-section" id="upgrade-section" style="display: none;">
+                        <a href="/upgrade.html" class="upgrade-link">Upgrade to Premium</a>
                     </div>
                 </div>
             </div>
@@ -124,6 +127,41 @@
                     month: 'long',
                     day: 'numeric'
                 });
+                
+                // Update access level information
+                this.updateAccessLevel(user);
+            }
+            
+            updateAccessLevel(user) {
+                const subscriptionStatus = user.subscriptionStatus || 'free';
+                const badgeEl = document.getElementById('access-badge');
+                const descriptionEl = document.getElementById('access-description');
+                const upgradeEl = document.getElementById('upgrade-section');
+                
+                const accessInfo = {
+                    'free': {
+                        badge: 'Free Member',
+                        description: 'You have access to foundation content and methodology pages.',
+                        showUpgrade: true
+                    },
+                    'premium': {
+                        badge: 'Premium Member',
+                        description: 'You have full access to all content including advanced training protocols and exclusive features.',
+                        showUpgrade: false
+                    }
+                };
+                
+                const info = accessInfo[subscriptionStatus] || accessInfo['free'];
+                
+                badgeEl.textContent = info.badge;
+                badgeEl.className = `badge-text access-${subscriptionStatus}`;
+                descriptionEl.textContent = info.description;
+                
+                if (info.showUpgrade) {
+                    upgradeEl.style.display = 'block';
+                } else {
+                    upgradeEl.style.display = 'none';
+                }
             }
             
             bindEvents() {
@@ -326,6 +364,40 @@
             color: #fff;
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+        
+        .badge-text.access-premium {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: #fff;
+        }
+        
+        .badge-text.access-free {
+            background: #666;
+            border-color: #666;
+            color: #ccc;
+        }
+        
+        .upgrade-section {
+            margin-top: 15px;
+        }
+        
+        .upgrade-link {
+            background: #4CAF50;
+            border: 1px solid #4CAF50;
+            border-radius: 4px;
+            padding: 8px 16px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+        
+        .upgrade-link:hover {
+            background: #45a049;
+            border-color: #45a049;
         }
         
         .access-description {

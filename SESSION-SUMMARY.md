@@ -188,6 +188,26 @@ Your foundation section now has **substantial, high-quality content** that provi
 - **Mobile navigation** optimization
 - **Performance optimization** (image loading, bundle size)
 
+### 💳 **Stripe Subscription Integration Plan:**
+
+#### **User Journey Flow:**
+1. **User clicks premium content** → "Upgrade Required" page
+2. **Upgrade page shows** value proposition + $9.99/month pricing  
+3. **Click Subscribe** → Redirected to Stripe Checkout (hosted)
+4. **Payment successful** → Stripe webhook updates user to 'premium'
+5. **User gains access** to all advanced content
+
+#### **Technical Implementation:**
+- **Database fields**: subscription_status, stripe_customer_id, stripe_subscription_id, subscription_expires_at
+- **API endpoints**: `/api/create-subscription`, `/webhooks/stripe`
+- **Content access**: Check subscription_status + expiration before showing premium content
+- **Stripe config**: $9.99/month recurring product with webhook events
+- **Success/Cancel URLs**: Point back to arcforge.tech with appropriate messaging
+
+#### **Development Phases:**
+1. **Phase 1** (Current): Database + access control + manual role assignment for testing
+2. **Phase 2** (Future): Stripe integration + webhook handling + automated subscription management
+
 ### 🎯 **Major Accomplishments Today:**
 - **Complete foundation section** with high-quality, readable content
 - **Integrated monetization** without being pushy

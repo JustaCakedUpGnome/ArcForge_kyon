@@ -215,6 +215,169 @@
             margin-top: 15px;
         }
         
+        /* Tag System Styles */
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        
+        .tag {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 10px;
+            color: #ff6b6b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+        
+        .tag.advanced {
+            background: rgba(138, 43, 226, 0.1);
+            border-color: rgba(138, 43, 226, 0.3);
+            color: #8a2be2;
+        }
+        
+        .tag.beginner {
+            background: rgba(50, 205, 50, 0.1);
+            border-color: rgba(50, 205, 50, 0.3);
+            color: #32cd32;
+        }
+        
+        .tag.equipment {
+            background: rgba(255, 165, 0, 0.1);
+            border-color: rgba(255, 165, 0, 0.3);
+            color: #ffa500;
+        }
+        
+        .tag.nutrition {
+            background: rgba(0, 191, 255, 0.1);
+            border-color: rgba(0, 191, 255, 0.3);
+            color: #00bfff;
+        }
+        
+        /* Recent Activity Enhancements */
+        .recent-activity {
+            margin-top: 40px;
+            background: rgba(17, 17, 17, 0.8);
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 20px;
+        }
+        
+        .recent-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(51, 51, 51, 0.5);
+            transition: background 0.2s ease;
+        }
+        
+        .activity-item:hover {
+            background: rgba(26, 26, 26, 0.5);
+            border-radius: 4px;
+            padding-left: 8px;
+            margin-left: -8px;
+            margin-right: -8px;
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #000;
+            margin-right: 12px;
+            font-size: 12px;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-text {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 4px;
+        }
+        
+        .activity-meta {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .activity-time {
+            font-size: 12px;
+            color: #666;
+            margin-left: auto;
+        }
+        
+        /* Enhanced Category Cards */
+        .category-recent {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .category-recent strong {
+            color: #ccc;
+        }
+        
+        /* Tag Filter Bar */
+        .tag-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(17, 17, 17, 0.6);
+            border: 1px solid #333;
+            border-radius: 6px;
+        }
+        
+        .filter-tag {
+            background: rgba(42, 42, 42, 0.8);
+            border: 1px solid #555;
+            border-radius: 12px;
+            padding: 6px 12px;
+            font-size: 11px;
+            color: #ccc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-tag:hover {
+            background: rgba(68, 68, 68, 0.8);
+            border-color: #777;
+            color: #fff;
+        }
+        
+        .filter-tag.active {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+        
         @media (max-width: 768px) {
             .forum-stats {
                 gap: 20px;
@@ -269,8 +432,20 @@
                 <!-- Categories will be loaded here -->
             </div>
             
+            <!-- Tag Filter Bar -->
+            <div class="tag-filter-bar">
+                <span style="color: #aaa; font-size: 12px; margin-right: 10px;">Filter by tags:</span>
+                <div class="filter-tag active" data-tag="all">All</div>
+                <div class="filter-tag" data-tag="beginner">#beginner</div>
+                <div class="filter-tag" data-tag="advanced">#advanced</div>
+                <div class="filter-tag" data-tag="equipment">#equipment</div>
+                <div class="filter-tag" data-tag="nutrition">#nutrition</div>
+                <div class="filter-tag" data-tag="progress">#progress</div>
+                <div class="filter-tag" data-tag="methodology">#methodology</div>
+            </div>
+            
             <div class="recent-activity">
-                <h2 class="recent-title">Recent Activity</h2>
+                <h2 class="recent-title">🔥 Recent Activity</h2>
                 <div id="recent-activity-list">
                     <!-- Recent activity will be loaded here -->
                 </div>
@@ -289,6 +464,7 @@
 
     <script src="js/auth.js"></script>
     <script src="js/access-control.js"></script>
+    <script src="js/forum/forum-api.js"></script>
     <script>
         // Generate stars background
         function createStars() {
@@ -323,54 +499,15 @@
                 this.updateAuthUI();
             }
             
-            loadCategories() {
-                // Mock data for now - will be replaced with API calls
-                const categories = [
-                    {
-                        id: 1,
-                        name: 'Foundation',
-                        description: 'Basic Heavy Duty principles, getting started with training',
-                        access_level: 'public',
-                        post_count: 12
-                    },
-                    {
-                        id: 2,
-                        name: 'Methodology',
-                        description: 'Training splits, progression methods, workout planning',
-                        access_level: 'public',
-                        post_count: 8
-                    },
-                    {
-                        id: 3,
-                        name: 'Progress Logs',
-                        description: 'Share your workout logs, progress photos, and achievements',
-                        access_level: 'public',
-                        post_count: 15
-                    },
-                    {
-                        id: 4,
-                        name: 'Q&A',
-                        description: 'General questions and community help',
-                        access_level: 'public',
-                        post_count: 6
-                    },
-                    {
-                        id: 5,
-                        name: 'Advanced',
-                        description: 'Premium: CNS management, advanced techniques, exclusive content',
-                        access_level: 'premium',
-                        post_count: 4
-                    },
-                    {
-                        id: 6,
-                        name: 'Equipment',
-                        description: 'Gear reviews, equipment recommendations, home gym setups',
-                        access_level: 'public',
-                        post_count: 3
-                    }
-                ];
-                
-                this.renderCategories(categories);
+            async loadCategories() {
+                try {
+                    const categories = await window.forumAPI.getCategories();
+                    this.renderCategories(categories);
+                } catch (error) {
+                    console.error('Failed to load categories:', error);
+                    // Fall back to mock data on error
+                    this.renderCategories(window.forumAPI.getMockCategories());
+                }
             }
             
             renderCategories(categories) {
@@ -378,6 +515,9 @@
                 container.innerHTML = categories.map(category => {
                     const hasAccess = this.accessControl.hasAccess(category.access_level === 'premium' ? 'advanced' : 'foundation');
                     const isPremium = category.access_level === 'premium';
+                    
+                    // Use actual post count from database
+                    const postCount = category.actual_post_count || category.post_count || 0;
                     
                     return `
                         <div class="category-card" onclick="forumPage.openCategory(${category.id}, '${category.access_level}')">
@@ -389,35 +529,122 @@
                             </div>
                             <div class="category-description">${category.description}</div>
                             <div class="category-stats">
-                                <span>${category.post_count} posts</span>
-                                <span>Last activity: 2h ago</span>
+                                <span>${postCount} posts</span>
+                                <span>💬 ${Math.floor(postCount * 2.5)} replies</span>
                             </div>
+                            ${category.latest_post ? `
+                                <div class="category-recent">
+                                    <strong>Latest:</strong> ${category.latest_post.title}<br>
+                                    <small>by ${category.latest_post.user_email} • ${this.formatTimeAgo(category.latest_post.created_at)}</small>
+                                </div>
+                            ` : ''}
                         </div>
                     `;
                 }).join('');
             }
             
-            loadStats() {
-                // Mock stats - will be replaced with API calls
-                document.getElementById('total-posts').textContent = '48';
-                document.getElementById('total-replies').textContent = '127';
-                document.getElementById('total-members').textContent = '23';
+            formatTimeAgo(dateString) {
+                const date = new Date(dateString);
+                const now = new Date();
+                const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+                
+                if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+                if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
+                return `${Math.floor(diffInMinutes / 1440)}d ago`;
             }
             
-            loadRecentActivity() {
-                // Mock recent activity - will be replaced with API calls
-                const recentActivity = [
-                    { title: 'New routine feedback needed', category: 'Methodology', user: 'user123', time: '2h ago' },
-                    { title: 'CNS recovery question', category: 'Advanced', user: 'premiumuser', time: '4h ago' },
-                    { title: 'Progress update - 6 months', category: 'Progress Logs', user: 'trainee1', time: '1d ago' }
+            async loadStats() {
+                try {
+                    const stats = await window.forumAPI.getStats();
+                    this.animateStatsTo(stats.totalPosts || 0, stats.totalReplies || 0, stats.totalMembers || 0);
+                } catch (error) {
+                    console.error('Failed to load stats:', error);
+                    // Fall back to demo numbers
+                    this.animateStatsTo(48, 187, 34);
+                }
+            }
+            
+            animateStatsTo(posts, replies, members) {
+                const stats = [
+                    { element: 'total-posts', target: posts },
+                    { element: 'total-replies', target: replies },
+                    { element: 'total-members', target: members }
                 ];
                 
+                stats.forEach(stat => {
+                    const element = document.getElementById(stat.element);
+                    let current = 0;
+                    const increment = Math.max(stat.target / 20, 1);
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= stat.target) {
+                            current = stat.target;
+                            clearInterval(timer);
+                        }
+                        element.textContent = Math.floor(current);
+                    }, 50);
+                });
+            }
+            
+            async loadRecentActivity() {
+                try {
+                    const recentActivity = await window.forumAPI.getRecentActivity(6);
+                    this.recentActivity = this.enhanceActivityWithTags(recentActivity);
+                    this.renderRecentActivity(this.recentActivity);
+                } catch (error) {
+                    console.error('Failed to load recent activity:', error);
+                    // Fall back to mock data
+                    this.recentActivity = this.enhanceActivityWithTags(window.forumAPI.getMockRecentActivity());
+                    this.renderRecentActivity(this.recentActivity);
+                }
+            }
+            
+            enhanceActivityWithTags(activities) {
+                // Add mock tags based on category and content for demo
+                return activities.map(activity => {
+                    const tags = [];
+                    const title = activity.title.toLowerCase();
+                    const category = activity.category_name.toLowerCase();
+                    
+                    // Category-based tags
+                    if (category.includes('foundation')) tags.push('beginner');
+                    if (category.includes('advanced')) tags.push('advanced');
+                    if (category.includes('equipment')) tags.push('equipment');
+                    if (category.includes('progress')) tags.push('progress');
+                    if (category.includes('methodology')) tags.push('methodology');
+                    
+                    // Content-based tags
+                    if (title.includes('nutrition') || title.includes('carb')) tags.push('nutrition');
+                    if (title.includes('beginner') || title.includes('first') || title.includes('started')) tags.push('beginner');
+                    if (title.includes('advanced') || title.includes('cns')) tags.push('advanced');
+                    if (title.includes('equipment') || title.includes('gym')) tags.push('equipment');
+                    
+                    // Default tag if none found
+                    if (tags.length === 0) tags.push('general');
+                    
+                    return {
+                        ...activity,
+                        category: activity.category_name,
+                        user: activity.user_email.split('@')[0],
+                        time: this.formatTimeAgo(activity.created_at),
+                        tags: tags,
+                        replies: activity.reply_count || 0
+                    };
+                });
+            }
+            
+            renderRecentActivity(activities) {
                 const container = document.getElementById('recent-activity-list');
-                container.innerHTML = recentActivity.map(item => `
-                    <div class="activity-item">
+                container.innerHTML = activities.map(item => `
+                    <div class="activity-item" data-tags="${item.tags.join(',')}">
+                        <div class="activity-avatar">${item.user.charAt(0).toUpperCase()}</div>
                         <div class="activity-content">
-                            <div class="activity-title">${item.title}</div>
-                            <div class="activity-meta">in ${item.category} by ${item.user}</div>
+                            <div class="activity-text"><strong>${item.user}</strong> posted in <strong>${item.category}</strong></div>
+                            <div class="activity-title" style="color: #fff; margin: 4px 0;">${item.title}</div>
+                            <div class="post-tags">
+                                ${item.tags.map(tag => `<span class="tag ${tag}">#${tag}</span>`).join('')}
+                            </div>
+                            <div class="activity-meta">${item.replies} replies</div>
                         </div>
                         <div class="activity-time">${item.time}</div>
                     </div>
@@ -428,6 +655,40 @@
                 document.getElementById('create-post-btn').addEventListener('click', () => {
                     this.showCreatePostModal();
                 });
+                
+                // Tag filter functionality
+                document.querySelectorAll('.filter-tag').forEach(tag => {
+                    tag.addEventListener('click', (e) => {
+                        this.filterByTag(e.target.dataset.tag);
+                        
+                        // Update active state
+                        document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                        e.target.classList.add('active');
+                    });
+                });
+            }
+            
+            filterByTag(selectedTag) {
+                const activities = document.querySelectorAll('.activity-item');
+                
+                activities.forEach(activity => {
+                    const tags = activity.dataset.tags.split(',');
+                    
+                    if (selectedTag === 'all' || tags.includes(selectedTag)) {
+                        activity.style.display = 'flex';
+                    } else {
+                        activity.style.display = 'none';
+                    }
+                });
+                
+                // Update activity count
+                const visibleCount = document.querySelectorAll('.activity-item[style="display: flex;"], .activity-item:not([style])').length;
+                const title = document.querySelector('.recent-title');
+                if (selectedTag === 'all') {
+                    title.textContent = '🔥 Recent Activity';
+                } else {
+                    title.textContent = `🔥 Recent Activity - #${selectedTag} (${visibleCount})`;
+                }
             }
             
             updateAuthUI() {

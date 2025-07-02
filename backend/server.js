@@ -17,8 +17,11 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// Auth routes (coming soon)
+// Auth routes
 app.use('/api/auth', require('./routes/auth'));
+
+// Forum routes
+app.use('/api/forum', require('./routes/forum'));
 
 // Start server
 app.listen(PORT, () => {

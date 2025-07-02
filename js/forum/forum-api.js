@@ -1,7 +1,7 @@
 // Forum API Communication Layer
 class ForumAPI {
     constructor() {
-        this.baseURL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://arcforge.tech';
+        this.baseURL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://arcforge.tech';
     }
 
     // Categories
@@ -135,6 +135,18 @@ class ForumAPI {
         }
     }
 
+    // Recent Activity
+    async getRecentActivity(limit = 10) {
+        try {
+            const response = await fetch(`${this.baseURL}/api/forum/recent-activity?limit=${limit}`);
+            if (!response.ok) throw new Error('Failed to fetch recent activity');
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching recent activity:', error);
+            return this.getMockRecentActivity();
+        }
+    }
+
     // Mock data for development
     getMockCategories() {
         return [
@@ -247,15 +259,39 @@ class ForumAPI {
 
     getMockStats() {
         return {
-            total_posts: 48,
-            total_replies: 127,
-            total_members: 23,
-            recent_activity: [
-                { title: 'New routine feedback needed', category: 'Methodology', user: 'user123', time: '2h ago' },
-                { title: 'CNS recovery question', category: 'Advanced', user: 'premiumuser', time: '4h ago' },
-                { title: 'Progress update - 6 months', category: 'Progress Logs', user: 'trainee1', time: '1d ago' }
-            ]
+            totalPosts: 48,
+            totalReplies: 127,
+            totalMembers: 23
         };
+    }
+
+    getMockRecentActivity() {
+        return [
+            { 
+                type: 'post',
+                title: 'Started my first HD routine - feedback needed', 
+                category_name: 'Foundation', 
+                user_email: 'NewTrainee@example.com', 
+                created_at: new Date(Date.now() - 23 * 60 * 1000).toISOString(),
+                reply_count: 3
+            },
+            { 
+                type: 'reply',
+                title: 'CNS recovery protocols for advanced trainees', 
+                category_name: 'Advanced', 
+                user_email: 'HDVeteran@example.com', 
+                created_at: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
+                reply_count: 7
+            },
+            { 
+                type: 'post',
+                title: '6 month progress - 40lb strength gains', 
+                category_name: 'Progress Logs', 
+                user_email: 'StrengthSeeker@example.com', 
+                created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+                reply_count: 12
+            }
+        ];
     }
 }
 

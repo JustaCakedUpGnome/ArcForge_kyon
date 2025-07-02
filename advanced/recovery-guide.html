@@ -222,12 +222,23 @@
         document.addEventListener('DOMContentLoaded', function() {
             createStars();
             
-            // Wait for auth system to initialize
-            setTimeout(() => {
+            // Wait for both auth system and access control to initialize
+            function checkAccess() {
+                if (typeof accessControl === 'undefined' || !window.authSystem) {
+                    // Not ready yet, wait a bit more
+                    setTimeout(checkAccess, 50);
+                    return;
+                }
+                
+                console.log('Access control check - User:', window.authSystem.user);
+                console.log('User level:', accessControl.getUserLevel());
+                
                 // Check if user has premium access
                 const hasAccess = accessControl.hasAccess('advanced');
+                console.log('Has advanced access:', hasAccess);
                 
                 if (!hasAccess) {
+                    console.log('No access - redirecting to upgrade');
                     // Redirect to upgrade page
                     accessControl.redirectToUpgrade('advanced', 'Recovery Guide');
                 } else {
@@ -236,7 +247,10 @@
                     // Content is already visible, just add access indicator
                     accessControl.addAccessIndicator();
                 }
-            }, 100); // Small delay to ensure auth system is ready
+            }
+            
+            // Start checking after a small delay
+            setTimeout(checkAccess, 100);
         });
     </script>
 </body>

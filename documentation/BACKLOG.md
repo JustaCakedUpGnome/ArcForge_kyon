@@ -4,8 +4,17 @@
 
 ### Next Sprint - High Priority
 - [ ] **Forum Enhancements**
-  - **Dedicated create post page** (replace modal with full page editor)
-  - Individual post detail pages with replies system
+  - ✅ **Dedicated create post page** (COMPLETED - replaced modal with full page editor)
+  - **Individual post detail pages with replies system** (HIGH PRIORITY)
+    - Build `/forum/post.html?id=123` pages for viewing full posts
+    - Add threaded reply/comment system 
+    - Make recent activity + category posts clickable
+    - Implement reply creation with authentication
+    - Add voting on replies
+    - Show post author, timestamps, edit history
+  - **Fix nginx 404 handling** (MEDIUM PRIORITY)
+    - Configure nginx to serve custom 404.html instead of default
+    - Test 404 behavior across all missing pages
   - Rich text editor for post content (markdown support)
   - Post editing functionality for authors/admins
   - Forum search functionality across all posts

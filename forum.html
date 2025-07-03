@@ -832,7 +832,7 @@
                         <div class="activity-avatar">${item.user.charAt(0).toUpperCase()}</div>
                         <div class="activity-content">
                             <div class="activity-text"><strong>${item.user}</strong> posted in <strong>${item.category}</strong></div>
-                            <div class="activity-title" style="color: #fff; margin: 4px 0;">${item.title}</div>
+                            <div class="activity-title" style="color: #fff; margin: 4px 0; cursor: pointer;" onclick="window.location.href='/forum/post.html?id=${item.id}'">${item.title}</div>
                             <div class="post-tags">
                                 ${item.tags.map(tag => `<span class="tag ${tag}">#${tag}</span>`).join('')}
                             </div>

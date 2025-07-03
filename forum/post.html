@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post - ARCFORGE</title>
+    <link rel="stylesheet" href="../css/terminal-theme.css">
+    <style>
+        .post-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .post-header {
+            margin-bottom: 30px;
+        }
+        
+        .post-card {
+            background: rgba(17, 17, 17, 0.9);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .post-author-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #000;
+            font-size: 16px;
+        }
+        
+        .author-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .author-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 16px;
+        }
+        
+        .post-timestamp {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .post-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .vote-buttons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .vote-btn {
+            background: rgba(42, 42, 42, 0.8);
+            border: 1px solid #555;
+            border-radius: 6px;
+            color: #ccc;
+            cursor: pointer;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .vote-btn:hover {
+            background: rgba(68, 68, 68, 0.8);
+            color: #fff;
+        }
+        
+        .vote-btn.active {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+        
+        .admin-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .delete-btn {
+            background: #dc3545;
+            border: 1px solid #c82333;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            padding: 6px 10px;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .delete-btn:hover {
+            background: #c82333;
+        }
+        
+        .post-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        
+        .post-category {
+            display: inline-block;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: #ff6b6b;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+        
+        .post-category.premium {
+            background: rgba(138, 43, 226, 0.1);
+            border-color: rgba(138, 43, 226, 0.3);
+            color: #8a2be2;
+        }
+        
+        .post-content {
+            color: #e0e0e0;
+            line-height: 1.7;
+            font-size: 16px;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+        }
+        
+        .post-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #888;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+        
+        .replies-section {
+            margin-top: 40px;
+        }
+        
+        .replies-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .replies-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .reply-count {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .reply-form {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .reply-form-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        
+        .reply-textarea {
+            width: 100%;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 15px;
+            color: #fff;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .reply-textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+        }
+        
+        .reply-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .reply-hint {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .reply-submit {
+            background: #ff6b6b;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-family: "JetBrains Mono", monospace;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .reply-submit:hover {
+            background: #ff5252;
+        }
+        
+        .reply-submit:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+        }
+        
+        .replies-list {
+            space-y: 20px;
+        }
+        
+        .reply-item {
+            background: rgba(26, 26, 26, 0.6);
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 15px;
+            margin-left: 20px;
+            border-left: 3px solid #ff6b6b;
+        }
+        
+        .reply-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .reply-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .reply-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #000;
+            font-size: 12px;
+        }
+        
+        .reply-author-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .reply-timestamp {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .reply-content {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            white-space: pre-wrap;
+        }
+        
+        .reply-votes {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .reply-vote-btn {
+            background: none;
+            border: 1px solid #444;
+            border-radius: 4px;
+            color: #888;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .reply-vote-btn:hover {
+            background: #333;
+            color: #fff;
+        }
+        
+        .reply-vote-btn.active {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+        
+        .auth-required {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            background: rgba(42, 42, 42, 0.3);
+            border: 1px solid #444;
+            border-radius: 6px;
+        }
+        
+        .auth-required button {
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 6px;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-family: "JetBrains Mono", monospace;
+            margin-top: 10px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+        
+        .error-state {
+            text-align: center;
+            padding: 40px;
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 6px;
+        }
+        
+        @media (max-width: 768px) {
+            .post-container {
+                padding: 15px;
+            }
+            
+            .post-card {
+                padding: 20px;
+            }
+            
+            .post-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .reply-item {
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <header class="page-header">
+            <nav class="breadcrumb">
+                <a href="../index.html">arcforge</a> / 
+                <a href="../forum.html">forum</a> / 
+                <span class="current" id="breadcrumb-post">loading...</span>
+            </nav>
+        </header>
+
+        <div class="post-container">
+            <div id="post-content">
+                <div class="loading">Loading post...</div>
+            </div>
+            
+            <div class="replies-section" id="replies-section" style="display: none;">
+                <div class="replies-header">
+                    <h2 class="replies-title">💬 Discussion</h2>
+                    <span class="reply-count" id="reply-count">0 replies</span>
+                </div>
+                
+                <div id="reply-form-container">
+                    <!-- Reply form will be inserted here -->
+                </div>
+                
+                <div class="replies-list" id="replies-list">
+                    <!-- Replies will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/access-control.js"></script>
+    <script src="../js/forum/forum-api.js"></script>
+    <script>
+        // Generate stars background
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numStars = 150;
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        class PostDetailPage {
+            constructor() {
+                this.authSystem = window.authSystem || new AuthSystem();
+                this.accessControl = window.accessControl || new AccessControl();
+                this.postId = this.getPostIdFromUrl();
+                this.post = null;
+                this.replies = [];
+                this.init();
+            }
+            
+            getPostIdFromUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('id');
+            }
+            
+            init() {
+                if (!this.postId) {
+                    this.showError('Invalid post ID');
+                    return;
+                }
+                
+                this.loadPost();
+            }
+            
+            async loadPost() {
+                try {
+                    const data = await window.forumAPI.getPost(this.postId);
+                    this.post = data.post;
+                    this.replies = data.replies || [];
+                    
+                    this.renderPost();
+                    this.renderReplies();
+                    this.setupReplyForm();
+                    
+                } catch (error) {
+                    console.error('Error loading post:', error);
+                    this.showError('Failed to load post. It may have been deleted or you may not have access.');
+                }
+            }
+            
+            renderPost() {
+                const container = document.getElementById('post-content');
+                const isAdmin = this.isAdmin();
+                
+                // Update page title and breadcrumb
+                document.title = `${this.post.title} - ARCFORGE`;
+                document.getElementById('breadcrumb-post').textContent = this.truncateTitle(this.post.title, 50);
+                
+                container.innerHTML = `
+                    <div class="post-card">
+                        <div class="post-meta">
+                            <div class="post-author-info">
+                                <div class="author-avatar">${this.post.user_email.charAt(0).toUpperCase()}</div>
+                                <div class="author-details">
+                                    <div class="author-name">${this.post.user_email}</div>
+                                    <div class="post-timestamp">${this.formatTimeAgo(this.post.created_at)}</div>
+                                </div>
+                            </div>
+                            <div class="post-actions">
+                                <div class="vote-buttons">
+                                    <button class="vote-btn ${this.post.user_vote === 1 ? 'active' : ''}" 
+                                            onclick="postPage.vote('post', ${this.post.id}, 'upvote')">
+                                        ↑ ${this.post.upvotes}
+                                    </button>
+                                    <button class="vote-btn ${this.post.user_vote === -1 ? 'active' : ''}" 
+                                            onclick="postPage.vote('post', ${this.post.id}, 'downvote')">
+                                        ↓ ${this.post.downvotes}
+                                    </button>
+                                </div>
+                                ${isAdmin ? `
+                                    <div class="admin-controls">
+                                        <button class="delete-btn" onclick="postPage.deletePost()" title="Delete Post">
+                                            🗑️ Delete
+                                        </button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                        
+                        <a href="category.html?id=${this.post.category_id}" class="post-category ${this.post.category_access_level === 'premium' ? 'premium' : ''}">
+                            ${this.post.category_name}
+                        </a>
+                        
+                        <h1 class="post-title">${this.post.title}</h1>
+                        
+                        <div class="post-content">${this.post.content}</div>
+                        
+                        <div class="post-stats">
+                            <span>💬 ${this.post.reply_count} replies</span>
+                            <span>👁️ Last activity ${this.formatTimeAgo(this.post.last_activity || this.post.created_at)}</span>
+                            <span>📅 Posted ${this.formatDate(this.post.created_at)}</span>
+                        </div>
+                    </div>
+                `;
+                
+                // Show replies section
+                document.getElementById('replies-section').style.display = 'block';
+            }
+            
+            renderReplies() {
+                const container = document.getElementById('replies-list');
+                const countElement = document.getElementById('reply-count');
+                
+                countElement.textContent = `${this.replies.length} ${this.replies.length === 1 ? 'reply' : 'replies'}`;
+                
+                if (this.replies.length === 0) {
+                    container.innerHTML = `
+                        <div class="auth-required">
+                            <p>No replies yet. Be the first to join the discussion!</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = this.replies.map(reply => `
+                    <div class="reply-item">
+                        <div class="reply-header">
+                            <div class="reply-author">
+                                <div class="reply-avatar">${reply.user_email.charAt(0).toUpperCase()}</div>
+                                <div class="reply-author-name">${reply.user_email}</div>
+                                <div class="reply-timestamp">${this.formatTimeAgo(reply.created_at)}</div>
+                            </div>
+                            <div class="reply-votes">
+                                <button class="reply-vote-btn ${reply.user_vote === 1 ? 'active' : ''}" 
+                                        onclick="postPage.vote('reply', ${reply.id}, 'upvote')">
+                                    ↑ ${reply.upvotes}
+                                </button>
+                                <button class="reply-vote-btn ${reply.user_vote === -1 ? 'active' : ''}" 
+                                        onclick="postPage.vote('reply', ${reply.id}, 'downvote')">
+                                    ↓ ${reply.downvotes}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="reply-content">${reply.content}</div>
+                    </div>
+                `).join('');
+            }
+            
+            setupReplyForm() {
+                const container = document.getElementById('reply-form-container');
+                
+                if (!this.authSystem.isLoggedIn()) {
+                    container.innerHTML = `
+                        <div class="auth-required">
+                            <p>Login to join the discussion</p>
+                            <button onclick="window.authSystem.showModal()">Login / Sign Up</button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = `
+                    <div class="reply-form">
+                        <div class="reply-form-title">💭 Add your thoughts</div>
+                        <textarea class="reply-textarea" id="reply-content" placeholder="Share your insights, ask follow-up questions, or add your experience to the discussion...
+
+Tips for great replies:
+• Be constructive and respectful
+• Add value to the conversation
+• Share specific examples when possible
+• Ask clarifying questions if needed"></textarea>
+                        <div class="reply-actions">
+                            <div class="reply-hint">Markdown formatting supported</div>
+                            <button class="reply-submit" id="reply-submit" onclick="postPage.submitReply()">
+                                Post Reply
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            async submitReply() {
+                const content = document.getElementById('reply-content').value.trim();
+                const submitBtn = document.getElementById('reply-submit');
+                
+                if (!content || content.length < 5) {
+                    alert('Reply must be at least 5 characters long');
+                    return;
+                }
+                
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Posting...';
+                
+                try {
+                    await window.forumAPI.createReply(this.postId, content);
+                    
+                    // Reload post to show new reply
+                    await this.loadPost();
+                    
+                    // Clear form
+                    document.getElementById('reply-content').value = '';
+                    
+                } catch (error) {
+                    console.error('Error posting reply:', error);
+                    alert('Failed to post reply. Please try again.');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Post Reply';
+                }
+            }
+            
+            async vote(type, id, voteType) {
+                if (!this.authSystem.isLoggedIn()) {
+                    this.authSystem.showModal();
+                    return;
+                }
+                
+                try {
+                    await window.forumAPI.vote(type, id, voteType);
+                    // Reload post to show updated votes
+                    this.loadPost();
+                } catch (error) {
+                    console.error('Voting error:', error);
+                    alert('Failed to vote. Please try again.');
+                }
+            }
+            
+            async deletePost() {
+                if (!confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+                    return;
+                }
+                
+                try {
+                    await window.forumAPI.deletePost(this.postId);
+                    alert('Post deleted successfully!');
+                    window.location.href = '../forum.html';
+                } catch (error) {
+                    console.error('Delete error:', error);
+                    alert('Failed to delete post. You may not have permission.');
+                }
+            }
+            
+            isAdmin() {
+                const token = localStorage.getItem('arcforge_token');
+                if (!token) return false;
+                
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    return payload.email === 'arcforge.tech@gmail.com';
+                } catch (error) {
+                    return false;
+                }
+            }
+            
+            showError(message) {
+                document.getElementById('post-content').innerHTML = `
+                    <div class="error-state">
+                        <h3>Error Loading Post</h3>
+                        <p>${message}</p>
+                        <a href="../forum.html" class="btn btn-secondary" style="display: inline-block; margin-top: 15px;">
+                            ← Back to Forum
+                        </a>
+                    </div>
+                `;
+            }
+            
+            formatTimeAgo(dateString) {
+                const date = new Date(dateString);
+                const now = new Date();
+                const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+                
+                if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+                if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
+                return `${Math.floor(diffInMinutes / 1440)}d ago`;
+            }
+            
+            formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+            }
+            
+            truncateTitle(title, maxLength) {
+                if (title.length <= maxLength) return title;
+                return title.substring(0, maxLength) + '...';
+            }
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            window.postPage = new PostDetailPage();
+        });
+    </script>
+</body>
+</html>

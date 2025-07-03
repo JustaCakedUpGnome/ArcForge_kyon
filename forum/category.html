@@ -440,6 +440,8 @@
             isAdmin() {
                 // Check if user has admin role
                 const userEmail = localStorage.getItem('user_email');
+                console.log('Admin check - userEmail:', userEmail);
+                console.log('Is admin?', userEmail === 'arcforge.tech@gmail.com');
                 return userEmail === 'arcforge.tech@gmail.com'; // Quick check for demo
             }
             

@@ -378,6 +378,154 @@
             color: #ff6b6b;
         }
         
+        /* Create Post Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            color: #fff;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .form-select, .form-input, .form-textarea {
+            width: 100%;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 12px;
+            color: #fff;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 14px;
+        }
+        
+        .form-select:focus, .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .form-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: "JetBrains Mono", monospace;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: #ff6b6b;
+            color: #000;
+        }
+        
+        .btn-primary:hover {
+            background: #ff5252;
+        }
+        
+        .btn-primary:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: #333;
+            color: #ccc;
+            border: 1px solid #555;
+        }
+        
+        .btn-secondary:hover {
+            background: #444;
+            color: #fff;
+        }
+        
+        .character-count {
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
         @media (max-width: 768px) {
             .forum-stats {
                 gap: 20px;
@@ -462,6 +610,49 @@
         </div>
     </div>
 
+    <!-- Create Post Modal -->
+    <div class="modal-overlay" id="create-post-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create New Post</h2>
+                <button class="modal-close" onclick="forumPage.closeCreatePostModal()">&times;</button>
+            </div>
+            
+            <form id="create-post-form">
+                <div class="form-group">
+                    <label class="form-label" for="post-category">Category</label>
+                    <select class="form-select" id="post-category" required>
+                        <option value="">Select a category...</option>
+                    </select>
+                    <div class="error-message" id="category-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="post-title">Title</label>
+                    <input type="text" class="form-input" id="post-title" placeholder="Enter a descriptive title for your post" maxlength="255" required>
+                    <div class="character-count">
+                        <span id="title-count">0</span>/255 characters
+                    </div>
+                    <div class="error-message" id="title-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="post-content">Content</label>
+                    <textarea class="form-textarea" id="post-content" placeholder="Share your thoughts, questions, or insights with the Heavy Duty community..." required></textarea>
+                    <div class="character-count">
+                        <span id="content-count">0</span> characters
+                    </div>
+                    <div class="error-message" id="content-error"></div>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-secondary" onclick="forumPage.closeCreatePostModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submit-post-btn">Create Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="js/auth.js"></script>
     <script src="js/access-control.js"></script>
     <script src="js/forum/forum-api.js"></script>
@@ -501,12 +692,13 @@
             
             async loadCategories() {
                 try {
-                    const categories = await window.forumAPI.getCategories();
-                    this.renderCategories(categories);
+                    this.categories = await window.forumAPI.getCategories();
+                    this.renderCategories(this.categories);
                 } catch (error) {
                     console.error('Failed to load categories:', error);
                     // Fall back to mock data on error
-                    this.renderCategories(window.forumAPI.getMockCategories());
+                    this.categories = window.forumAPI.getMockCategories();
+                    this.renderCategories(this.categories);
                 }
             }
             
@@ -712,13 +904,163 @@
                     return;
                 }
                 
-                // Navigate to category page (will be created next)
-                window.location.href = `/forum/category/${categoryId}`;
+                // Navigate to category page
+                window.location.href = `/forum/category.html?id=${categoryId}`;
             }
             
             showCreatePostModal() {
-                // Will implement create post modal
-                alert('Create post functionality coming soon!');
+                const modal = document.getElementById('create-post-modal');
+                modal.style.display = 'flex';
+                this.loadCategoriesForModal();
+                this.setupModalEventListeners();
+            }
+            
+            closeCreatePostModal() {
+                const modal = document.getElementById('create-post-modal');
+                modal.style.display = 'none';
+                this.resetCreatePostForm();
+            }
+            
+            loadCategoriesForModal() {
+                const categorySelect = document.getElementById('post-category');
+                categorySelect.innerHTML = '<option value="">Select a category...</option>';
+                
+                // Use cached categories from main page
+                if (this.categories) {
+                    this.categories.forEach(category => {
+                        const hasAccess = this.accessControl.hasAccess(category.access_level === 'premium' ? 'advanced' : 'foundation');
+                        if (hasAccess) {
+                            const option = document.createElement('option');
+                            option.value = category.id;
+                            option.textContent = category.name;
+                            categorySelect.appendChild(option);
+                        }
+                    });
+                }
+            }
+            
+            setupModalEventListeners() {
+                const titleInput = document.getElementById('post-title');
+                const contentTextarea = document.getElementById('post-content');
+                const form = document.getElementById('create-post-form');
+                
+                // Character counters
+                titleInput.addEventListener('input', () => {
+                    document.getElementById('title-count').textContent = titleInput.value.length;
+                });
+                
+                contentTextarea.addEventListener('input', () => {
+                    document.getElementById('content-count').textContent = contentTextarea.value.length;
+                });
+                
+                // Form submission
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleCreatePost();
+                });
+                
+                // Close modal on overlay click
+                const modal = document.getElementById('create-post-modal');
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        this.closeCreatePostModal();
+                    }
+                });
+            }
+            
+            async handleCreatePost() {
+                const categoryId = document.getElementById('post-category').value;
+                const title = document.getElementById('post-title').value.trim();
+                const content = document.getElementById('post-content').value.trim();
+                const submitBtn = document.getElementById('submit-post-btn');
+                
+                // Clear previous errors
+                this.clearFormErrors();
+                
+                // Validation
+                let hasErrors = false;
+                
+                if (!categoryId) {
+                    this.showFormError('category-error', 'Please select a category');
+                    hasErrors = true;
+                }
+                
+                if (!title || title.length < 5) {
+                    this.showFormError('title-error', 'Title must be at least 5 characters long');
+                    hasErrors = true;
+                }
+                
+                if (!content || content.length < 10) {
+                    this.showFormError('content-error', 'Content must be at least 10 characters long');
+                    hasErrors = true;
+                }
+                
+                if (hasErrors) return;
+                
+                // Disable submit button
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Creating...';
+                
+                try {
+                    const newPost = await window.forumAPI.createPost({
+                        categoryId: parseInt(categoryId),
+                        title: title,
+                        content: content
+                    });
+                    
+                    // Success! Close modal and refresh data
+                    this.closeCreatePostModal();
+                    this.showSuccessMessage('Post created successfully!');
+                    
+                    // Refresh categories and stats to show updated counts
+                    this.loadCategories();
+                    this.loadStats();
+                    this.loadRecentActivity();
+                    
+                } catch (error) {
+                    console.error('Error creating post:', error);
+                    this.showFormError('content-error', 'Failed to create post. Please try again.');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Create Post';
+                }
+            }
+            
+            resetCreatePostForm() {
+                document.getElementById('create-post-form').reset();
+                document.getElementById('title-count').textContent = '0';
+                document.getElementById('content-count').textContent = '0';
+                this.clearFormErrors();
+            }
+            
+            clearFormErrors() {
+                document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            }
+            
+            showFormError(elementId, message) {
+                document.getElementById(elementId).textContent = message;
+            }
+            
+            showSuccessMessage(message) {
+                // Simple success notification
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #4caf50;
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 4px;
+                    font-family: "JetBrains Mono", monospace;
+                    z-index: 1001;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 3000);
             }
         }
         

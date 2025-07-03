@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category - ARCFORGE</title>
+    <link rel="stylesheet" href="../css/terminal-theme.css">
+    <style>
+        .category-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .category-header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+            margin-bottom: 30px;
+        }
+        
+        .category-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .category-description {
+            font-size: 16px;
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+        
+        .category-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .posts-list {
+            space-y: 20px;
+        }
+        
+        .post-item {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.2s ease;
+        }
+        
+        .post-item:hover {
+            background: rgba(34, 34, 34, 0.9);
+            border-color: #444;
+        }
+        
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        
+        .post-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        
+        .post-title:hover {
+            color: #ff6b6b;
+        }
+        
+        .post-meta {
+            font-size: 12px;
+            color: #888;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .post-content-preview {
+            color: #ccc;
+            margin: 10px 0;
+            line-height: 1.5;
+            max-height: 60px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .post-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+        }
+        
+        .vote-buttons {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .vote-btn {
+            background: none;
+            border: 1px solid #444;
+            border-radius: 4px;
+            color: #888;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .vote-btn:hover {
+            background: #333;
+            color: #fff;
+        }
+        
+        .vote-btn.active {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-state h3 {
+            color: #888;
+            margin-bottom: 10px;
+        }
+        
+        .create-first-post-btn {
+            background: #ff6b6b;
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 24px;
+            font-family: "JetBrains Mono", monospace;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .page-btn {
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: #ccc;
+            cursor: pointer;
+            padding: 8px 12px;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 12px;
+        }
+        
+        .page-btn:hover {
+            background: #444;
+            color: #fff;
+        }
+        
+        .page-btn.active {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+            color: #000;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <header class="page-header">
+            <nav class="breadcrumb">
+                <a href="../index.html">arcforge</a> / 
+                <a href="../forum.html">forum</a> / 
+                <span class="current" id="category-name">loading...</span>
+            </nav>
+        </header>
+
+        <div class="category-container">
+            <div class="category-header" id="category-header">
+                <div class="loading">Loading category...</div>
+            </div>
+            
+            <div class="posts-list" id="posts-list">
+                <div class="loading">Loading posts...</div>
+            </div>
+            
+            <div class="pagination" id="pagination" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/access-control.js"></script>
+    <script src="../js/forum/forum-api.js"></script>
+    <script>
+        // Generate stars background
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numStars = 150;
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        class CategoryPage {
+            constructor() {
+                this.authSystem = window.authSystem || new AuthSystem();
+                this.accessControl = window.accessControl || new AccessControl();
+                this.categoryId = this.getCategoryIdFromUrl();
+                this.currentPage = 1;
+                this.init();
+            }
+            
+            getCategoryIdFromUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('id') || urlParams.get('categoryId') || 1;
+            }
+            
+            init() {
+                this.loadCategoryData();
+            }
+            
+            async loadCategoryData() {
+                try {
+                    const data = await window.forumAPI.getCategoryPosts(this.categoryId, this.currentPage);
+                    this.renderCategory(data.category);
+                    this.renderPosts(data.posts);
+                    this.renderPagination(data.pagination);
+                } catch (error) {
+                    console.error('Error loading category:', error);
+                    this.renderError(error.message);
+                }
+            }
+            
+            renderCategory(category) {
+                document.getElementById('category-name').textContent = category.name;
+                document.title = `${category.name} - ARCFORGE Forum`;
+                
+                const header = document.getElementById('category-header');
+                header.innerHTML = `
+                    <h1 class="category-title">${category.name}</h1>
+                    <p class="category-description">${category.description}</p>
+                    <div class="category-stats">
+                        <span>📝 ${category.post_count || 0} posts</span>
+                        <span>💬 ${Math.floor((category.post_count || 0) * 2.5)} replies</span>
+                        <span>👥 Active community</span>
+                    </div>
+                `;
+            }
+            
+            renderPosts(posts) {
+                const container = document.getElementById('posts-list');
+                
+                if (!posts || posts.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No posts yet</h3>
+                            <p>Be the first to start a discussion in this category!</p>
+                            <button class="create-first-post-btn" onclick="window.location.href='../forum.html'">
+                                Create First Post
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = posts.map(post => `
+                    <div class="post-item">
+                        <div class="post-header">
+                            <div>
+                                <h3 class="post-title" onclick="categoryPage.openPost(${post.id})">${post.title}</h3>
+                                <div class="post-meta">
+                                    <span>by ${post.user_email}</span>
+                                    <span>${this.formatTimeAgo(post.created_at)}</span>
+                                    ${post.is_pinned ? '<span style="color: #ff6b6b;">📌 Pinned</span>' : ''}
+                                </div>
+                            </div>
+                            <div class="vote-buttons">
+                                <button class="vote-btn ${post.user_vote === 1 ? 'active' : ''}" 
+                                        onclick="categoryPage.vote('post', ${post.id}, 'upvote')">
+                                    ↑ ${post.upvotes}
+                                </button>
+                                <button class="vote-btn ${post.user_vote === -1 ? 'active' : ''}" 
+                                        onclick="categoryPage.vote('post', ${post.id}, 'downvote')">
+                                    ↓ ${post.downvotes}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="post-content-preview">${this.truncateContent(post.content, 150)}</div>
+                        <div class="post-stats">
+                            <span>💬 ${post.reply_count} replies</span>
+                            <span>👁️ Last activity ${this.formatTimeAgo(post.last_activity)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            renderPagination(pagination) {
+                const container = document.getElementById('pagination');
+                
+                if (!pagination || pagination.totalPages <= 1) {
+                    container.style.display = 'none';
+                    return;
+                }
+                
+                container.style.display = 'flex';
+                let paginationHtml = '';
+                
+                // Previous button
+                if (pagination.hasPrev) {
+                    paginationHtml += `<button class="page-btn" onclick="categoryPage.goToPage(${pagination.currentPage - 1})">← Prev</button>`;
+                }
+                
+                // Page numbers
+                for (let i = 1; i <= pagination.totalPages; i++) {
+                    paginationHtml += `<button class="page-btn ${i === pagination.currentPage ? 'active' : ''}" onclick="categoryPage.goToPage(${i})">${i}</button>`;
+                }
+                
+                // Next button
+                if (pagination.hasNext) {
+                    paginationHtml += `<button class="page-btn" onclick="categoryPage.goToPage(${pagination.currentPage + 1})">Next →</button>`;
+                }
+                
+                container.innerHTML = paginationHtml;
+            }
+            
+            renderError(message) {
+                document.getElementById('category-header').innerHTML = `
+                    <div class="empty-state">
+                        <h3>Error Loading Category</h3>
+                        <p>${message}</p>
+                        <button class="create-first-post-btn" onclick="window.location.href='../forum.html'">
+                            Back to Forum
+                        </button>
+                    </div>
+                `;
+                document.getElementById('posts-list').innerHTML = '';
+            }
+            
+            async goToPage(page) {
+                this.currentPage = page;
+                document.getElementById('posts-list').innerHTML = '<div class="loading">Loading posts...</div>';
+                await this.loadCategoryData();
+            }
+            
+            async vote(type, id, voteType) {
+                if (!this.authSystem.isLoggedIn()) {
+                    this.authSystem.showModal();
+                    return;
+                }
+                
+                try {
+                    await window.forumAPI.vote(type, id, voteType);
+                    // Refresh the current page to show updated votes
+                    this.loadCategoryData();
+                } catch (error) {
+                    console.error('Voting error:', error);
+                    alert('Failed to vote. Please try again.');
+                }
+            }
+            
+            openPost(postId) {
+                window.location.href = `post.html?id=${postId}`;
+            }
+            
+            formatTimeAgo(dateString) {
+                const date = new Date(dateString);
+                const now = new Date();
+                const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+                
+                if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+                if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
+                return `${Math.floor(diffInMinutes / 1440)}d ago`;
+            }
+            
+            truncateContent(content, maxLength) {
+                if (content.length <= maxLength) return content;
+                return content.substring(0, maxLength) + '...';
+            }
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            window.categoryPage = new CategoryPage();
+        });
+    </script>
+</body>
+</html>

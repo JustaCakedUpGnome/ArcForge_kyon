@@ -3,6 +3,15 @@
 ## Priority 1 (Immediate - 2-4 weeks)
 
 ### Next Sprint - High Priority
+- [ ] **Forum Enhancements**
+  - **Dedicated create post page** (replace modal with full page editor)
+  - Individual post detail pages with replies system
+  - Rich text editor for post content (markdown support)
+  - Post editing functionality for authors/admins
+  - Forum search functionality across all posts
+  - User reputation/karma system
+  - Post categories/tags management interface
+
 - [ ] **Cross-platform compatibility fixes**
   - Fix Mac keybind compatibility (keyboard shortcuts not working on macOS)  
   - Mobile keyboard shortcut alternatives

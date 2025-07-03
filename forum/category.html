@@ -306,7 +306,7 @@
                         <div class="empty-state">
                             <h3>No posts yet</h3>
                             <p>Be the first to start a discussion in this category!</p>
-                            <button class="create-first-post-btn" onclick="window.location.href='../forum.html'">
+                            <button class="create-first-post-btn" onclick="categoryPage.openCreatePostModal()">
                                 Create First Post
                             </button>
                         </div>
@@ -469,6 +469,11 @@
                     console.error('Delete error:', error);
                     alert('Failed to delete post. You may not have permission.');
                 }
+            }
+            
+            openCreatePostModal() {
+                // Redirect to forum with the current category pre-selected
+                window.location.href = `../forum.html?createPost=true&categoryId=${this.categoryId}`;
             }
         }
         

@@ -31,14 +31,23 @@ const validatePassword = (password) => {
     return { valid: true };
 };
 
+// Username validation function
+const validateUsername = (username) => {
+    if (!username) return { valid: false, message: 'Username is required' };
+    if (username.length < 3) return { valid: false, message: 'Username must be at least 3 characters' };
+    if (username.length > 50) return { valid: false, message: 'Username must be less than 50 characters' };
+    if (!/^[a-zA-Z0-9_-]+$/.test(username)) return { valid: false, message: 'Username can only contain letters, numbers, underscores, and hyphens' };
+    return { valid: true };
+};
+
 // Signup endpoint
 router.post('/signup', async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, username } = req.body;
         
         // Validate input presence
-        if (!email || !password) {
-            return res.status(400).json({ error: 'Email and password are required' });
+        if (!email || !password || !username) {
+            return res.status(400).json({ error: 'Email, password, and username are required' });
         }
         
         // Validate email format
@@ -52,18 +61,30 @@ router.post('/signup', async (req, res) => {
             return res.status(400).json({ error: passwordValidation.message });
         }
         
-        // Check if user already exists
+        // Validate username format
+        const usernameValidation = validateUsername(username);
+        if (!usernameValidation.valid) {
+            return res.status(400).json({ error: usernameValidation.message });
+        }
+        
+        // Check if email already exists
         const existingUser = await User.findByEmail(email);
         if (existingUser) {
             return res.status(400).json({ error: 'User already exists with this email' });
         }
         
+        // Check if username is available
+        const isUsernameAvailable = await User.isUsernameAvailable(username);
+        if (!isUsernameAvailable) {
+            return res.status(400).json({ error: 'Username is already taken' });
+        }
+        
         // Create new user
-        const newUser = await User.create(email, password);
+        const newUser = await User.create(email, password, username);
         
         // Generate JWT token
         const token = jwt.sign(
-            { userId: newUser.id, email: newUser.email },
+            { userId: newUser.id, email: newUser.email, username: newUser.username },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
@@ -74,6 +95,7 @@ router.post('/signup', async (req, res) => {
             user: {
                 id: newUser.id,
                 email: newUser.email,
+                username: newUser.username,
                 createdAt: newUser.created_at,
                 subscriptionStatus: newUser.subscription_status || 'free'
             }
@@ -113,7 +135,7 @@ router.post('/login', async (req, res) => {
         
         // Generate JWT token
         const token = jwt.sign(
-            { userId: user.id, email: user.email },
+            { userId: user.id, email: user.email, username: user.username },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
@@ -124,6 +146,7 @@ router.post('/login', async (req, res) => {
             user: {
                 id: user.id,
                 email: user.email,
+                username: user.username,
                 createdAt: user.created_at,
                 subscriptionStatus: user.subscription_status || 'free'
             }
@@ -225,6 +248,31 @@ router.post('/reset-password', async (req, res) => {
     } catch (error) {
         console.error('Reset password error:', error);
         res.status(500).json({ error: 'Failed to reset password' });
+    }
+});
+
+// Check username availability endpoint
+router.get('/check-username/:username', async (req, res) => {
+    try {
+        const { username } = req.params;
+        
+        // Validate username format
+        const usernameValidation = validateUsername(username);
+        if (!usernameValidation.valid) {
+            return res.status(400).json({ error: usernameValidation.message });
+        }
+        
+        // Check availability
+        const isAvailable = await User.isUsernameAvailable(username);
+        
+        res.json({
+            username: username,
+            available: isAvailable,
+            message: isAvailable ? 'Username is available' : 'Username is already taken'
+        });
+    } catch (error) {
+        console.error('Username check error:', error);
+        res.status(500).json({ error: 'Failed to check username availability' });
     }
 });
 

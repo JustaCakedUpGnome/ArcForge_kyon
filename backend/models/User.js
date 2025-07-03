@@ -4,15 +4,15 @@ const crypto = require('crypto');
 
 class User {
     // Create a new user
-    static async create(email, password) {
+    static async create(email, password, username) {
         try {
             // Hash the password
             const saltRounds = 10;
             const passwordHash = await bcrypt.hash(password, saltRounds);
             
             // Insert user into database
-            const query = 'INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id, email, created_at, subscription_status';
-            const values = [email, passwordHash];
+            const query = 'INSERT INTO users (email, password_hash, username) VALUES ($1, $2, $3) RETURNING id, email, username, created_at, subscription_status';
+            const values = [email, passwordHash, username];
             
             const result = await pool.query(query, values);
             return result.rows[0];
@@ -24,7 +24,7 @@ class User {
     // Find user by email
     static async findByEmail(email) {
         try {
-            const query = 'SELECT id, email, password_hash, created_at, updated_at, subscription_status, stripe_customer_id, stripe_subscription_id, subscription_expires_at FROM users WHERE email = $1';
+            const query = 'SELECT id, email, username, password_hash, created_at, updated_at, subscription_status, stripe_customer_id, stripe_subscription_id, subscription_expires_at FROM users WHERE email = $1';
             const values = [email];
             
             const result = await pool.query(query, values);
@@ -80,6 +80,45 @@ class User {
             
             const query = 'UPDATE users SET password_hash = $1, reset_token = NULL, reset_token_expires = NULL, updated_at = CURRENT_TIMESTAMP WHERE id = $2 RETURNING id, email';
             const values = [passwordHash, userId];
+            
+            const result = await pool.query(query, values);
+            return result.rows[0];
+        } catch (error) {
+            throw error;
+        }
+    }
+    
+    // Check if username is available
+    static async isUsernameAvailable(username) {
+        try {
+            const query = 'SELECT id FROM users WHERE username = $1';
+            const values = [username];
+            
+            const result = await pool.query(query, values);
+            return result.rows.length === 0;
+        } catch (error) {
+            throw error;
+        }
+    }
+    
+    // Find user by username
+    static async findByUsername(username) {
+        try {
+            const query = 'SELECT id, email, username, created_at, subscription_status FROM users WHERE username = $1';
+            const values = [username];
+            
+            const result = await pool.query(query, values);
+            return result.rows[0] || null;
+        } catch (error) {
+            throw error;
+        }
+    }
+    
+    // Update username
+    static async updateUsername(userId, newUsername) {
+        try {
+            const query = 'UPDATE users SET username = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2 RETURNING id, email, username';
+            const values = [newUsername, userId];
             
             const result = await pool.query(query, values);
             return result.rows[0];

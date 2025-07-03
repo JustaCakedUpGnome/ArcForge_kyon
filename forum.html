@@ -845,7 +845,7 @@
             
             setupEventListeners() {
                 document.getElementById('create-post-btn').addEventListener('click', () => {
-                    this.showCreatePostModal();
+                    window.location.href = '/forum/create-post.html';
                 });
                 
                 // Tag filter functionality
@@ -1069,20 +1069,7 @@
             createStars();
             window.forumPage = new ForumPage();
             
-            // Check if we should auto-open create post modal
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('createPost') === 'true') {
-                const categoryId = urlParams.get('categoryId');
-                setTimeout(() => {
-                    forumPage.showCreatePostModal();
-                    if (categoryId) {
-                        // Pre-select the category
-                        setTimeout(() => {
-                            document.getElementById('post-category').value = categoryId;
-                        }, 100);
-                    }
-                }, 500); // Wait for categories to load
-            }
+            // Forum initialization complete
         });
     </script>
 </body>

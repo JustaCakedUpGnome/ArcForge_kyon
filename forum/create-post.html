@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post - ARCFORGE</title>
+    <link rel="stylesheet" href="../css/terminal-theme.css">
+    <style>
+        .create-post-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .page-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .page-subtitle {
+            font-size: 16px;
+            color: #aaa;
+        }
+        
+        .create-form {
+            background: rgba(17, 17, 17, 0.9);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-icon {
+            font-size: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .form-select, .form-input, .form-textarea {
+            width: 100%;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 15px;
+            color: #fff;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 16px;
+            transition: border-color 0.2s ease;
+        }
+        
+        .form-select:focus, .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+        
+        .form-input {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 200px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .form-hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        .character-counter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .counter-text {
+            color: #888;
+        }
+        
+        .counter-number {
+            color: #ccc;
+        }
+        
+        .counter-warning {
+            color: #ffa500;
+        }
+        
+        .counter-error {
+            color: #ff6b6b;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: "JetBrains Mono", monospace;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: #ff6b6b;
+            color: #000;
+        }
+        
+        .btn-primary:hover {
+            background: #ff5252;
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: #333;
+            color: #ccc;
+            border: 1px solid #555;
+        }
+        
+        .btn-secondary:hover {
+            background: #444;
+            color: #fff;
+            border-color: #666;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 8px;
+            padding: 10px;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .success-banner {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            color: #4caf50;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .category-preview {
+            display: inline-block;
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: #ff6b6b;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        
+        .premium-badge {
+            background: rgba(138, 43, 226, 0.1);
+            border-color: rgba(138, 43, 226, 0.3);
+            color: #8a2be2;
+        }
+        
+        .writing-tips {
+            background: rgba(42, 42, 42, 0.5);
+            border: 1px solid #555;
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .tips-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .tips-list {
+            font-size: 12px;
+            color: #aaa;
+            line-height: 1.5;
+        }
+        
+        .tips-list li {
+            margin-bottom: 5px;
+        }
+        
+        .preview-mode {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .preview-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .preview-content {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .create-post-container {
+                padding: 15px;
+            }
+            
+            .create-form {
+                padding: 20px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <header class="page-header">
+            <nav class="breadcrumb">
+                <a href="../index.html">arcforge</a> / 
+                <a href="../forum.html">forum</a> / 
+                <span class="current">create post</span>
+            </nav>
+        </header>
+
+        <div class="create-post-container">
+            <div class="page-header">
+                <h1 class="page-title">💭 Create New Post</h1>
+                <p class="page-subtitle">Share your Heavy Duty insights, questions, and experiences with the community</p>
+            </div>
+            
+            <div class="success-banner" id="success-banner">
+                <strong>Post created successfully!</strong> Redirecting to your post...
+            </div>
+            
+            <form class="create-form" id="create-post-form">
+                <!-- Category Selection -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="section-icon">📁</span>
+                        Category
+                    </div>
+                    <div>
+                        <label class="form-label" for="post-category">Choose the most appropriate category for your post</label>
+                        <select class="form-select" id="post-category" required>
+                            <option value="">Select a category...</option>
+                        </select>
+                        <div class="form-hint">This helps other users find and engage with your content</div>
+                        <div class="error-message" id="category-error"></div>
+                    </div>
+                </div>
+                
+                <!-- Title -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="section-icon">📝</span>
+                        Title
+                    </div>
+                    <div>
+                        <label class="form-label" for="post-title">Create a clear, descriptive title</label>
+                        <input type="text" class="form-input" id="post-title" placeholder="e.g., How to properly implement rest-pause sets for maximum intensity" maxlength="255" required>
+                        <div class="character-counter">
+                            <span class="counter-text">Be specific and engaging - this is what draws readers in</span>
+                            <span class="counter-number"><span id="title-count">0</span>/255</span>
+                        </div>
+                        <div class="error-message" id="title-error"></div>
+                    </div>
+                </div>
+                
+                <!-- Content -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <span class="section-icon">✍️</span>
+                        Content
+                    </div>
+                    <div>
+                        <label class="form-label" for="post-content">Share your thoughts, experience, or question in detail</label>
+                        <textarea class="form-textarea" id="post-content" placeholder="Write your post content here...
+
+Tips for great posts:
+• Share specific details and context
+• Include your training experience level
+• Ask clear, focused questions
+• Share what you've already tried
+• Be respectful and constructive
+
+The Heavy Duty community values depth and authenticity!" required></textarea>
+                        <div class="character-counter">
+                            <span class="counter-text">Take your time - quality posts spark the best discussions</span>
+                            <span class="counter-number"><span id="content-count">0</span> characters</span>
+                        </div>
+                        <div class="error-message" id="content-error"></div>
+                        
+                        <div class="writing-tips">
+                            <div class="tips-title">💡 Writing Tips</div>
+                            <ul class="tips-list">
+                                <li><strong>Be specific:</strong> Instead of "training question" → "Confused about rest intervals between sets in HD training"</li>
+                                <li><strong>Share context:</strong> Your experience level, current routine, specific challenges</li>
+                                <li><strong>Format clearly:</strong> Use line breaks, bullet points, and clear sections</li>
+                                <li><strong>Stay on topic:</strong> Keep discussions focused on Heavy Duty principles and training</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <a href="../forum.html" class="btn btn-secondary">
+                        ← Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary" id="submit-btn">
+                        <span id="submit-text">Publish Post</span>
+                        <span id="submit-icon">🚀</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/access-control.js"></script>
+    <script src="../js/forum/forum-api.js"></script>
+    <script>
+        // Generate stars background
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numStars = 150;
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        class CreatePostPage {
+            constructor() {
+                this.authSystem = window.authSystem || new AuthSystem();
+                this.accessControl = window.accessControl || new AccessControl();
+                this.init();
+            }
+            
+            init() {
+                // Check authentication
+                if (!this.authSystem.isLoggedIn()) {
+                    alert('You must be logged in to create posts');
+                    window.location.href = '../forum.html';
+                    return;
+                }
+                
+                this.loadCategories();
+                this.setupEventListeners();
+                this.checkUrlParams();
+            }
+            
+            async loadCategories() {
+                try {
+                    const categories = await window.forumAPI.getCategories();
+                    this.renderCategories(categories);
+                } catch (error) {
+                    console.error('Failed to load categories:', error);
+                    this.showError('category-error', 'Failed to load categories. Please refresh the page.');
+                }
+            }
+            
+            renderCategories(categories) {
+                const categorySelect = document.getElementById('post-category');
+                categorySelect.innerHTML = '<option value="">Select a category...</option>';
+                
+                categories.forEach(category => {
+                    const hasAccess = this.accessControl.hasAccess(category.access_level === 'premium' ? 'advanced' : 'foundation');
+                    if (hasAccess) {
+                        const option = document.createElement('option');
+                        option.value = category.id;
+                        option.textContent = `${category.name} - ${category.description}`;
+                        option.dataset.accessLevel = category.access_level;
+                        categorySelect.appendChild(option);
+                    }
+                });
+            }
+            
+            setupEventListeners() {
+                const titleInput = document.getElementById('post-title');
+                const contentTextarea = document.getElementById('post-content');
+                const categorySelect = document.getElementById('post-category');
+                const form = document.getElementById('create-post-form');
+                
+                // Character counters
+                titleInput.addEventListener('input', () => {
+                    const count = titleInput.value.length;
+                    const counter = document.getElementById('title-count');
+                    counter.textContent = count;
+                    
+                    // Update counter color based on length
+                    counter.className = count > 200 ? 'counter-warning' : count > 240 ? 'counter-error' : 'counter-number';
+                });
+                
+                contentTextarea.addEventListener('input', () => {
+                    document.getElementById('content-count').textContent = contentTextarea.value.length;
+                });
+                
+                // Category selection feedback
+                categorySelect.addEventListener('change', () => {
+                    this.showCategoryPreview();
+                });
+                
+                // Form submission
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleSubmit();
+                });
+            }
+            
+            showCategoryPreview() {
+                const categorySelect = document.getElementById('post-category');
+                const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+                
+                // Remove existing preview
+                const existingPreview = document.querySelector('.category-preview');
+                if (existingPreview) {
+                    existingPreview.remove();
+                }
+                
+                if (selectedOption && selectedOption.value) {
+                    const preview = document.createElement('div');
+                    preview.className = `category-preview ${selectedOption.dataset.accessLevel === 'premium' ? 'premium-badge' : ''}`;
+                    preview.textContent = selectedOption.textContent.split(' - ')[0];
+                    categorySelect.parentNode.appendChild(preview);
+                }
+            }
+            
+            checkUrlParams() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const categoryId = urlParams.get('categoryId');
+                
+                if (categoryId) {
+                    // Pre-select category after categories load
+                    setTimeout(() => {
+                        document.getElementById('post-category').value = categoryId;
+                        this.showCategoryPreview();
+                    }, 500);
+                }
+            }
+            
+            async handleSubmit() {
+                const categoryId = document.getElementById('post-category').value;
+                const title = document.getElementById('post-title').value.trim();
+                const content = document.getElementById('post-content').value.trim();
+                const submitBtn = document.getElementById('submit-btn');
+                const submitText = document.getElementById('submit-text');
+                const submitIcon = document.getElementById('submit-icon');
+                
+                // Clear previous errors
+                this.clearErrors();
+                
+                // Validation
+                let hasErrors = false;
+                
+                if (!categoryId) {
+                    this.showError('category-error', 'Please select a category for your post');
+                    hasErrors = true;
+                }
+                
+                if (!title || title.length < 10) {
+                    this.showError('title-error', 'Title must be at least 10 characters long');
+                    hasErrors = true;
+                } else if (title.length > 255) {
+                    this.showError('title-error', 'Title must be less than 255 characters');
+                    hasErrors = true;
+                }
+                
+                if (!content || content.length < 20) {
+                    this.showError('content-error', 'Content must be at least 20 characters long');
+                    hasErrors = true;
+                }
+                
+                if (hasErrors) {
+                    submitBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+                
+                // Update button state
+                submitBtn.disabled = true;
+                submitText.textContent = 'Creating Post...';
+                submitIcon.textContent = '⏳';
+                
+                try {
+                    const newPost = await window.forumAPI.createPost({
+                        categoryId: parseInt(categoryId),
+                        title: title,
+                        content: content
+                    });
+                    
+                    // Success!
+                    this.showSuccess();
+                    
+                    // Redirect after delay
+                    setTimeout(() => {
+                        window.location.href = `../forum.html`;
+                    }, 2000);
+                    
+                } catch (error) {
+                    console.error('Error creating post:', error);
+                    this.showError('content-error', 'Failed to create post. Please check your connection and try again.');
+                    
+                    // Reset button
+                    submitBtn.disabled = false;
+                    submitText.textContent = 'Publish Post';
+                    submitIcon.textContent = '🚀';
+                }
+            }
+            
+            showSuccess() {
+                const banner = document.getElementById('success-banner');
+                banner.style.display = 'block';
+                banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            
+            showError(elementId, message) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+            
+            clearErrors() {
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.style.display = 'none';
+                    el.textContent = '';
+                });
+            }
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            window.createPostPage = new CreatePostPage();
+        });
+    </script>
+</body>
+</html>

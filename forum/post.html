@@ -510,9 +510,9 @@
                     <div class="post-card">
                         <div class="post-meta">
                             <div class="post-author-info">
-                                <div class="author-avatar">${this.post.user_email.charAt(0).toUpperCase()}</div>
+                                <div class="author-avatar">${this.post.username.charAt(0).toUpperCase()}</div>
                                 <div class="author-details">
-                                    <div class="author-name">${this.post.user_email}</div>
+                                    <div class="author-name">${this.post.username}</div>
                                     <div class="post-timestamp">${this.formatTimeAgo(this.post.created_at)}</div>
                                 </div>
                             </div>
@@ -576,8 +576,8 @@
                     <div class="reply-item">
                         <div class="reply-header">
                             <div class="reply-author">
-                                <div class="reply-avatar">${reply.user_email.charAt(0).toUpperCase()}</div>
-                                <div class="reply-author-name">${reply.user_email}</div>
+                                <div class="reply-avatar">${reply.username.charAt(0).toUpperCase()}</div>
+                                <div class="reply-author-name">${reply.username}</div>
                                 <div class="reply-timestamp">${this.formatTimeAgo(reply.created_at)}</div>
                             </div>
                             <div class="reply-votes">

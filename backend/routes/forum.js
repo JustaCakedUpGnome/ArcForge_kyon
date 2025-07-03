@@ -54,7 +54,7 @@ router.get('/categories', async (req, res) => {
                 (
                     SELECT json_build_object(
                         'title', p2.title,
-                        'user_email', u.email,
+                        'username', u.username,
                         'created_at', p2.created_at
                     )
                     FROM posts p2 
@@ -108,7 +108,7 @@ router.get('/category/:categoryId/posts', optionalAuth, async (req, res) => {
         const postsResult = await db.query(`
             SELECT 
                 p.*,
-                u.email as user_email,
+                u.username,
                 COALESCE(v.user_vote, 0) as user_vote
             FROM posts p
             JOIN users u ON p.user_id = u.id
@@ -154,7 +154,7 @@ router.get('/post/:postId', optionalAuth, async (req, res) => {
         const postResult = await db.query(`
             SELECT 
                 p.*,
-                u.email as user_email,
+                u.username,
                 c.name as category_name,
                 c.access_level as category_access_level,
                 COALESCE(v.user_vote, 0) as user_vote
@@ -192,7 +192,7 @@ router.get('/post/:postId', optionalAuth, async (req, res) => {
         const repliesResult = await db.query(`
             SELECT 
                 r.*,
-                u.email as user_email,
+                u.username,
                 COALESCE(v.user_vote, 0) as user_vote
             FROM replies r
             JOIN users u ON r.user_id = u.id
@@ -256,7 +256,7 @@ router.post('/posts', authenticateToken, async (req, res) => {
 
         // Get post with user info for response
         const postWithUser = await db.query(`
-            SELECT p.*, u.email as user_email
+            SELECT p.*, u.username
             FROM posts p
             JOIN users u ON p.user_id = u.id
             WHERE p.id = $1
@@ -312,7 +312,7 @@ router.post('/post/:postId/replies', authenticateToken, async (req, res) => {
 
         // Get reply with user info for response
         const replyWithUser = await db.query(`
-            SELECT r.*, u.email as user_email
+            SELECT r.*, u.username
             FROM replies r
             JOIN users u ON r.user_id = u.id
             WHERE r.id = $1
@@ -439,7 +439,7 @@ router.get('/recent-activity', async (req, res) => {
                     p.id,
                     p.title,
                     p.created_at,
-                    u.email as user_email,
+                    u.username,
                     c.name as category_name,
                     p.reply_count
                 FROM posts p
@@ -454,7 +454,7 @@ router.get('/recent-activity', async (req, res) => {
                     r.id,
                     p.title,
                     r.created_at,
-                    u.email as user_email,
+                    u.username,
                     c.name as category_name,
                     0 as reply_count
                 FROM replies r

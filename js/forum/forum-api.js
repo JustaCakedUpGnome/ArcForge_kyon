@@ -292,7 +292,7 @@ class ForumAPI {
                 type: 'post',
                 title: 'Started my first HD routine - feedback needed', 
                 category_name: 'Foundation', 
-                user_email: 'NewTrainee@example.com', 
+                username: 'NewTrainee', 
                 created_at: new Date(Date.now() - 23 * 60 * 1000).toISOString(),
                 reply_count: 3
             },
@@ -300,7 +300,7 @@ class ForumAPI {
                 type: 'reply',
                 title: 'CNS recovery protocols for advanced trainees', 
                 category_name: 'Advanced', 
-                user_email: 'HDVeteran@example.com', 
+                username: 'HDVeteran', 
                 created_at: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
                 reply_count: 7
             },
@@ -308,7 +308,7 @@ class ForumAPI {
                 type: 'post',
                 title: '6 month progress - 40lb strength gains', 
                 category_name: 'Progress Logs', 
-                user_email: 'StrengthSeeker@example.com', 
+                username: 'StrengthSeeker', 
                 created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
                 reply_count: 12
             }

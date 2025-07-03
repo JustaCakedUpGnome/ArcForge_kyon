@@ -33,6 +33,10 @@ class AuthSystem {
                                 <label>email:</label>
                                 <input type="email" id="auth-email" required autocomplete="email">
                             </div>
+                            <div class="auth-field" id="auth-username-field" style="display: none;">
+                                <label>username:</label>
+                                <input type="text" id="auth-username" autocomplete="username" placeholder="3-50 chars, letters/numbers/_/-">
+                            </div>
                             <div class="auth-field">
                                 <label>password:</label>
                                 <input type="password" id="auth-password" required autocomplete="current-password">
@@ -387,6 +391,7 @@ class AuthSystem {
 
         // Real-time validation
         document.getElementById('auth-email').addEventListener('input', (e) => this.validateEmailField(e));
+        document.getElementById('auth-username').addEventListener('input', (e) => this.validateUsernameField(e));
         document.getElementById('auth-password').addEventListener('input', (e) => this.validatePasswordField(e));
 
         // Close modal on overlay click
@@ -479,15 +484,21 @@ class AuthSystem {
         const mode = document.getElementById('auth-mode');
         const submit = document.getElementById('auth-submit');
         const toggle = document.getElementById('auth-toggle');
+        const usernameField = document.getElementById('auth-username-field');
+        const usernameInput = document.getElementById('auth-username');
 
         if (mode.textContent === 'login') {
             mode.textContent = 'signup';
             submit.textContent = 'create account';
             toggle.textContent = 'switch to login';
+            usernameField.style.display = 'block';
+            usernameInput.required = true;
         } else {
             mode.textContent = 'login';
             submit.textContent = 'execute';
             toggle.textContent = 'switch to signup';
+            usernameField.style.display = 'none';
+            usernameInput.required = false;
         }
 
         this.clearForm();
@@ -569,6 +580,7 @@ class AuthSystem {
         
         const email = document.getElementById('auth-email').value;
         const password = document.getElementById('auth-password').value;
+        const username = document.getElementById('auth-username').value;
         const mode = document.getElementById('auth-mode').textContent;
 
         // Handle forgot password mode
@@ -584,8 +596,19 @@ class AuthSystem {
             return;
         }
 
+        // Validation
         if (!email || !password) {
             this.showError('Email and password are required');
+            return;
+        }
+
+        if (mode === 'signup' && !username) {
+            this.showError('Username is required for signup');
+            return;
+        }
+
+        if (mode === 'signup' && !this.validateUsername(username)) {
+            this.showError('Username must be 3-50 characters, letters/numbers/_/- only');
             return;
         }
 
@@ -594,12 +617,16 @@ class AuthSystem {
 
         try {
             const endpoint = mode === 'login' ? '/auth/login' : '/auth/signup';
+            const requestBody = mode === 'login' 
+                ? { email, password }
+                : { email, password, username };
+                
             const response = await fetch(`${this.baseURL}${endpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify(requestBody)
             });
 
             const data = await response.json();
@@ -678,7 +705,7 @@ class AuthSystem {
                 document.body.appendChild(indicator);
             }
             
-            const username = this.user.email.split('@')[0];
+            const username = this.user.username || this.user.email.split('@')[0];
             indicator.textContent = `${username}@arcforge`;
         } else {
             if (indicator) {
@@ -758,6 +785,14 @@ class AuthSystem {
         return 'Password requirements not met';
     }
 
+    // Username validation
+    validateUsername(username) {
+        if (!username) return false;
+        if (username.length < 3 || username.length > 50) return false;
+        const usernameRegex = /^[a-zA-Z0-9_-]+$/;
+        return usernameRegex.test(username);
+    }
+
     // Real-time email validation
     validateEmailField(event) {
         const email = event.target.value;
@@ -772,6 +807,42 @@ class AuthSystem {
         } else {
             this.showFieldError(field, '✗ Invalid email format');
         }
+    }
+
+    // Real-time username validation
+    validateUsernameField(event) {
+        const username = event.target.value;
+        const field = event.target;
+        
+        this.clearFieldValidation(field);
+        
+        if (username.length === 0) return;
+        
+        if (this.validateUsername(username)) {
+            // Check availability with backend (debounced)
+            this.checkUsernameAvailability(username, field);
+        } else {
+            this.showFieldError(field, '✗ 3-50 characters, letters/numbers/_/- only');
+        }
+    }
+
+    // Check username availability with debouncing
+    checkUsernameAvailability(username, field) {
+        clearTimeout(this.usernameCheckTimeout);
+        this.usernameCheckTimeout = setTimeout(async () => {
+            try {
+                const response = await fetch(`${this.baseURL}/auth/check-username/${username}`);
+                const data = await response.json();
+                
+                if (response.ok && data.available) {
+                    this.showFieldSuccess(field, '✓ Username available');
+                } else {
+                    this.showFieldError(field, '✗ Username already taken');
+                }
+            } catch (error) {
+                this.showFieldSuccess(field, '✓ Valid format');
+            }
+        }, 500);
     }
 
     // Real-time password validation

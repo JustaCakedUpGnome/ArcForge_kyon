@@ -195,5 +195,5 @@
 - [x] Starfield background animation
 
 ---
-
+    PFP FOR ACCOUNTS.
 *Last updated: 2025-07-03 - Updated forum priorities after codebase analysis, identified critical email privacy issue*

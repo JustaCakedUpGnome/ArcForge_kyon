@@ -727,7 +727,7 @@
                             ${category.latest_post ? `
                                 <div class="category-recent">
                                     <strong>Latest:</strong> ${category.latest_post.title}<br>
-                                    <small>by ${category.latest_post.user_email} • ${this.formatTimeAgo(category.latest_post.created_at)}</small>
+                                    <small>by ${category.latest_post.username} • ${this.formatTimeAgo(category.latest_post.created_at)}</small>
                                 </div>
                             ` : ''}
                         </div>
@@ -817,7 +817,7 @@
                     return {
                         ...activity,
                         category: activity.category_name,
-                        user: activity.user_email.split('@')[0],
+                        user: activity.username,
                         time: this.formatTimeAgo(activity.created_at),
                         tags: tags,
                         replies: activity.reply_count || 0

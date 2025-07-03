@@ -98,7 +98,7 @@ router.get('/category/:categoryId/posts', optionalAuth, async (req, res) => {
                 return res.status(401).json({ error: 'Authentication required for premium content' });
             }
             
-            const userResult = await db.query('SELECT subscription_status FROM users WHERE id = $1', [req.user.id]);
+            const userResult = await db.query('SELECT subscription_status FROM users WHERE id = $1', [req.user.userId]);
             if (userResult.rows[0]?.subscription_status !== 'premium') {
                 return res.status(403).json({ error: 'Premium subscription required' });
             }
@@ -121,7 +121,7 @@ router.get('/category/:categoryId/posts', optionalAuth, async (req, res) => {
             WHERE p.category_id = $2
             ORDER BY p.is_pinned DESC, p.last_activity DESC
             LIMIT $3 OFFSET $4
-        `, [req.user?.id || null, categoryId, limit, offset]);
+        `, [req.user?.userId || null, categoryId, limit, offset]);
 
         // Get total count for pagination
         const countResult = await db.query('SELECT COUNT(*) FROM posts WHERE category_id = $1', [categoryId]);
@@ -168,7 +168,7 @@ router.get('/post/:postId', optionalAuth, async (req, res) => {
                 WHERE user_id = $1 AND votable_type = 'post'
             ) v ON p.id = v.votable_id
             WHERE p.id = $2
-        `, [req.user?.id || null, postId]);
+        `, [req.user?.userId || null, postId]);
 
         if (postResult.rows.length === 0) {
             return res.status(404).json({ error: 'Post not found' });
@@ -182,7 +182,7 @@ router.get('/post/:postId', optionalAuth, async (req, res) => {
                 return res.status(401).json({ error: 'Authentication required for premium content' });
             }
             
-            const userResult = await db.query('SELECT subscription_status FROM users WHERE id = $1', [req.user.id]);
+            const userResult = await db.query('SELECT subscription_status FROM users WHERE id = $1', [req.user.userId]);
             if (userResult.rows[0]?.subscription_status !== 'premium') {
                 return res.status(403).json({ error: 'Premium subscription required' });
             }
@@ -204,7 +204,7 @@ router.get('/post/:postId', optionalAuth, async (req, res) => {
             ) v ON r.id = v.votable_id
             WHERE r.post_id = $2
             ORDER BY r.created_at ASC
-        `, [req.user?.id || null, postId]);
+        `, [req.user?.userId || null, postId]);
 
         res.json({
             post,
@@ -221,6 +221,7 @@ router.post('/posts', authenticateToken, async (req, res) => {
     try {
         console.log('Creating post - req.user:', req.user);
         console.log('req.user.id:', req.user?.id);
+        console.log('req.user.userId:', req.user?.userId);
         
         const { categoryId, title, content } = req.body;
 
@@ -238,7 +239,7 @@ router.post('/posts', authenticateToken, async (req, res) => {
         
         // Check premium access
         if (category.access_level === 'premium') {
-            const userResult = await db.query('SELECT subscription_status FROM users WHERE id = $1', [req.user.id]);
+            const userResult = await db.query('SELECT subscription_status FROM users WHERE id = $1', [req.user.userId]);
             if (userResult.rows[0]?.subscription_status !== 'premium') {
                 return res.status(403).json({ error: 'Premium subscription required to post in this category' });
             }
@@ -249,7 +250,7 @@ router.post('/posts', authenticateToken, async (req, res) => {
             INSERT INTO posts (user_id, category_id, title, content)
             VALUES ($1, $2, $3, $4)
             RETURNING *
-        `, [req.user.id, categoryId, title, content]);
+        `, [req.user.userId, categoryId, title, content]);
 
         const post = result.rows[0];
 
@@ -294,7 +295,7 @@ router.post('/post/:postId/replies', authenticateToken, async (req, res) => {
 
         // Check premium access
         if (post.access_level === 'premium') {
-            const userResult = await db.query('SELECT subscription_status FROM users WHERE id = $1', [req.user.id]);
+            const userResult = await db.query('SELECT subscription_status FROM users WHERE id = $1', [req.user.userId]);
             if (userResult.rows[0]?.subscription_status !== 'premium') {
                 return res.status(403).json({ error: 'Premium subscription required to reply in this category' });
             }
@@ -305,7 +306,7 @@ router.post('/post/:postId/replies', authenticateToken, async (req, res) => {
             INSERT INTO replies (post_id, user_id, content)
             VALUES ($1, $2, $3)
             RETURNING *
-        `, [postId, req.user.id, content]);
+        `, [postId, req.user.userId, content]);
 
         const reply = result.rows[0];
 
@@ -347,7 +348,7 @@ router.post('/vote', authenticateToken, async (req, res) => {
             VALUES ($1, $2, $3, $4)
             ON CONFLICT (user_id, votable_type, votable_id)
             DO UPDATE SET vote_type = EXCLUDED.vote_type, created_at = CURRENT_TIMESTAMP
-        `, [req.user.id, votableType, votableId, voteType]);
+        `, [req.user.userId, votableType, votableId, voteType]);
 
         // Get updated vote counts
         const voteCountResult = await db.query(`

@@ -21,6 +21,11 @@
                 <h2 class="section-title">Account Information</h2>
                 <div class="user-info">
                     <div class="info-row">
+                        <span class="info-label">Username:</span>
+                        <span class="info-value" id="user-username">Loading...</span>
+                        <button class="edit-btn" id="edit-username-btn">Edit</button>
+                    </div>
+                    <div class="info-row">
                         <span class="info-label">Email:</span>
                         <span class="info-value" id="user-email">Loading...</span>
                     </div>
@@ -118,6 +123,7 @@
                 const user = this.authSystem.user;
                 if (!user) return;
                 
+                document.getElementById('user-username').textContent = user.username || 'Not set';
                 document.getElementById('user-email').textContent = user.email;
                 document.getElementById('user-id').textContent = user.id;
                 
@@ -175,6 +181,137 @@
                     // For now, just show a message - could implement password change later
                     alert('Password change functionality coming soon! Use the forgot password feature for now.');
                 });
+
+                document.getElementById('edit-username-btn').addEventListener('click', () => {
+                    this.startUsernameEdit();
+                });
+            }
+
+            startUsernameEdit() {
+                const usernameRow = document.getElementById('user-username').parentElement;
+                const currentUsername = this.authSystem.user.username || '';
+                
+                // Replace the username display with an edit form
+                usernameRow.innerHTML = `
+                    <span class="info-label">Username:</span>
+                    <div class="username-edit-form">
+                        <input type="text" class="username-input" id="username-input" value="${currentUsername}" placeholder="Enter username">
+                        <button class="save-btn" id="save-username-btn">Save</button>
+                        <button class="cancel-btn" id="cancel-username-btn">Cancel</button>
+                    </div>
+                `;
+
+                // Bind events for the edit form
+                document.getElementById('save-username-btn').addEventListener('click', () => {
+                    this.saveUsername();
+                });
+
+                document.getElementById('cancel-username-btn').addEventListener('click', () => {
+                    this.cancelUsernameEdit();
+                });
+
+                // Focus the input
+                document.getElementById('username-input').focus();
+                document.getElementById('username-input').select();
+            }
+
+            async saveUsername() {
+                const newUsername = document.getElementById('username-input').value.trim();
+                const saveBtn = document.getElementById('save-username-btn');
+                
+                if (!newUsername) {
+                    this.showUsernameFeedback('Username cannot be empty', 'error');
+                    return;
+                }
+
+                // Validate username format
+                if (!this.validateUsername(newUsername)) {
+                    this.showUsernameFeedback('Username must be 3-50 characters, letters/numbers/_/- only', 'error');
+                    return;
+                }
+
+                // Check if username is the same
+                if (newUsername === this.authSystem.user.username) {
+                    this.cancelUsernameEdit();
+                    return;
+                }
+
+                saveBtn.disabled = true;
+                saveBtn.textContent = 'Saving...';
+
+                try {
+                    // TODO: Add API endpoint for updating username
+                    const response = await fetch(`${this.authSystem.baseURL}/auth/update-username`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${this.authSystem.token}`
+                        },
+                        body: JSON.stringify({ username: newUsername })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Update user object and localStorage
+                        this.authSystem.user.username = newUsername;
+                        localStorage.setItem('arcforge_user', JSON.stringify(this.authSystem.user));
+                        
+                        // Update user indicator
+                        this.authSystem.updateUserIndicator();
+                        
+                        this.showUsernameFeedback('Username updated successfully!', 'success');
+                        setTimeout(() => this.cancelUsernameEdit(), 1500);
+                    } else {
+                        this.showUsernameFeedback(data.error || 'Failed to update username', 'error');
+                    }
+                } catch (error) {
+                    this.showUsernameFeedback('Connection error. Please try again.', 'error');
+                } finally {
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = 'Save';
+                }
+            }
+
+            cancelUsernameEdit() {
+                const usernameRow = document.getElementById('username-input').closest('.info-row');
+                const currentUsername = this.authSystem.user.username || 'Not set';
+                
+                usernameRow.innerHTML = `
+                    <span class="info-label">Username:</span>
+                    <span class="info-value" id="user-username">${currentUsername}</span>
+                    <button class="edit-btn" id="edit-username-btn">Edit</button>
+                `;
+
+                // Re-bind the edit button
+                document.getElementById('edit-username-btn').addEventListener('click', () => {
+                    this.startUsernameEdit();
+                });
+            }
+
+            showUsernameFeedback(message, type) {
+                let feedback = document.querySelector('.username-feedback');
+                if (!feedback) {
+                    feedback = document.createElement('div');
+                    feedback.className = 'username-feedback';
+                    document.getElementById('username-input').parentElement.appendChild(feedback);
+                }
+                
+                feedback.textContent = message;
+                feedback.className = `username-feedback ${type}`;
+                
+                if (type === 'success') {
+                    setTimeout(() => {
+                        if (feedback) feedback.remove();
+                    }, 2000);
+                }
+            }
+
+            validateUsername(username) {
+                if (!username) return false;
+                if (username.length < 3 || username.length > 50) return false;
+                const usernameRegex = /^[a-zA-Z0-9_-]+$/;
+                return usernameRegex.test(username);
             }
         }
         
@@ -303,6 +440,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 8px 0;
+            gap: 10px;
         }
         
         .info-label {
@@ -315,6 +453,88 @@
             font-size: 14px;
             color: #fff;
             font-family: monospace;
+            flex: 1;
+        }
+
+        .edit-btn {
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: #ccc;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-family: "JetBrains Mono", monospace;
+            transition: all 0.2s ease;
+        }
+
+        .edit-btn:hover {
+            background: #444;
+            color: #fff;
+            border-color: #666;
+        }
+
+        .username-edit-form {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex: 1;
+        }
+
+        .username-input {
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 4px;
+            color: #fff;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 14px;
+            padding: 4px 8px;
+            flex: 1;
+        }
+
+        .username-input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        .save-btn, .cancel-btn {
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: #ccc;
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-family: "JetBrains Mono", monospace;
+            transition: all 0.2s ease;
+        }
+
+        .save-btn {
+            background: #4CAF50;
+            border-color: #4CAF50;
+            color: #fff;
+        }
+
+        .save-btn:hover {
+            background: #45a049;
+        }
+
+        .cancel-btn:hover {
+            background: #444;
+            color: #fff;
+        }
+
+        .username-feedback {
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .username-feedback.success {
+            color: #4CAF50;
+        }
+
+        .username-feedback.error {
+            color: #ff6b6b;
         }
         
         .progress-stats {

@@ -276,4 +276,60 @@ router.get('/check-username/:username', async (req, res) => {
     }
 });
 
+// Update username endpoint
+router.post('/update-username', async (req, res) => {
+    try {
+        // JWT middleware for protected route
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+        
+        if (!token) {
+            return res.status(401).json({ error: 'Authentication required' });
+        }
+        
+        const jwt = require('jsonwebtoken');
+        let user;
+        try {
+            user = jwt.verify(token, process.env.JWT_SECRET);
+        } catch (err) {
+            return res.status(403).json({ error: 'Invalid or expired token' });
+        }
+        
+        const { username } = req.body;
+        
+        // Validate username format
+        const usernameValidation = validateUsername(username);
+        if (!usernameValidation.valid) {
+            return res.status(400).json({ error: usernameValidation.message });
+        }
+        
+        // Check if username is available (but allow current user's username)
+        const currentUser = await User.findByEmail(user.email);
+        if (currentUser.username !== username) {
+            const isAvailable = await User.isUsernameAvailable(username);
+            if (!isAvailable) {
+                return res.status(400).json({ error: 'Username is already taken' });
+            }
+        }
+        
+        // Update username
+        const updatedUser = await User.updateUsername(user.userId, username);
+        if (!updatedUser) {
+            return res.status(500).json({ error: 'Failed to update username' });
+        }
+        
+        res.json({
+            message: 'Username updated successfully',
+            user: {
+                id: updatedUser.id,
+                email: updatedUser.email,
+                username: updatedUser.username
+            }
+        });
+    } catch (error) {
+        console.error('Update username error:', error);
+        res.status(500).json({ error: 'Failed to update username' });
+    }
+});
+
 module.exports = router;

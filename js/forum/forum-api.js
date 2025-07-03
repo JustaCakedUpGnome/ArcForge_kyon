@@ -147,6 +147,27 @@ class ForumAPI {
         }
     }
 
+    // Admin: Delete Post
+    async deletePost(postId) {
+        try {
+            const token = localStorage.getItem('arcforge_token');
+            if (!token) throw new Error('Authentication required');
+
+            const response = await fetch(`${this.baseURL}/api/forum/posts/${postId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) throw new Error('Failed to delete post');
+            return await response.json();
+        } catch (error) {
+            console.error('Error deleting post:', error);
+            throw error;
+        }
+    }
+
     // Mock data for development
     getMockCategories() {
         return [

@@ -401,6 +401,31 @@ router.get('/stats', async (req, res) => {
     }
 });
 
+// DELETE /api/forum/posts/:id - Delete post (admin only)
+router.delete('/posts/:postId', authenticateToken, async (req, res) => {
+    try {
+        const { postId } = req.params;
+        
+        // Check if user is admin
+        const userResult = await db.query('SELECT role FROM users WHERE id = $1', [req.user.userId]);
+        if (userResult.rows[0]?.role !== 'admin') {
+            return res.status(403).json({ error: 'Admin access required' });
+        }
+        
+        // Delete the post (cascades to replies due to foreign key)
+        const result = await db.query('DELETE FROM posts WHERE id = $1 RETURNING *', [postId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+        
+        res.json({ message: 'Post deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        res.status(500).json({ error: 'Failed to delete post' });
+    }
+});
+
 // GET /api/forum/recent-activity - Get recent forum activity
 router.get('/recent-activity', async (req, res) => {
     try {

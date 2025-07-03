@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const MigrationRunner = require('./migrations');
 require('dotenv').config();
 
 const app = express();
@@ -23,8 +24,23 @@ app.use('/api/auth', require('./routes/auth'));
 // Forum routes
 app.use('/api/forum', require('./routes/forum'));
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`🚀 ARCFORGE backend running on port ${PORT}`);
-    console.log(`📡 Health check: http://localhost:${PORT}/api/health`);
-});
+// Start server with auto-migration
+async function startServer() {
+    try {
+        // Run database migrations first
+        console.log('🔄 Checking for database migrations...');
+        await MigrationRunner.runMigrations();
+        
+        // Start the server
+        app.listen(PORT, () => {
+            console.log(`🚀 ARCFORGE backend running on port ${PORT}`);
+            console.log(`📡 Health check: http://localhost:${PORT}/api/health`);
+        });
+        
+    } catch (error) {
+        console.error('❌ Failed to start server:', error);
+        process.exit(1);
+    }
+}
+
+startServer();

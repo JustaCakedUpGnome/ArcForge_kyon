@@ -27,8 +27,7 @@ git push origin redesign
 # VPS: Pull and deploy (wait for Claude to provide these commands)
 # SSH to VPS, then Claude will give you:
 # git pull origin redesign
-# pm2 restart arcforge (if backend changes)
-# psql commands (if database changes needed)
+# pm2 restart arcforge (runs auto-migrations + restarts backend)
 ```
 
 **⚠️ Never run VPS commands until Claude says "Ready to deploy" and provides exact commands**
@@ -66,9 +65,10 @@ votes (id, user_id, votable_type, votable_id, vote_type)
 ```
 
 ### **Migration Strategy**
-- **Method**: Direct SQL execution on production
-- **Files**: Store migrations in `/backend/migrations/`
-- **Execution**: Manual psql commands on VPS
+- **Method**: Auto-migration on server startup
+- **Files**: Store migrations in `/backend/migrations/` (numbered SQL files)
+- **Execution**: Automatic when `pm2 restart arcforge` runs
+- **Tracking**: `migrations` table tracks which migrations have been run
 - **Backup**: [TODO: Define backup strategy]
 
 ## 🔧 **Backend Architecture**

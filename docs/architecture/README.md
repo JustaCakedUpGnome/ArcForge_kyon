@@ -129,13 +129,18 @@ sequenceDiagram
 ```
 arcForgeSite/
 ├── index.html              # Main fortress landing
-├── foundation/             # Free introductory content
-├── methodology/            # Core Heavy Duty training
-├── advanced/               # Premium content
-├── forum/                  # Community discussions
+├── 404.html               # Nginx error page
+├── pages/                  # All website HTML content
+│   ├── foundation/         # Free introductory content
+│   ├── methodology/        # Core Heavy Duty training
+│   ├── advanced/           # Premium content
+│   ├── forum/              # Community discussions
+│   ├── user/               # User-related pages (profile, settings)
+│   └── misc/               # Other site pages (routines, legacy)
 ├── css/                    # Stylesheets
 ├── js/                     # Frontend JavaScript
 ├── backend/                # Node.js API server
+├── content/                # Markdown source files
 └── docs/                   # Project documentation
 ```
 
@@ -158,3 +163,4 @@ See [Architecture Decision Records](adr/) for detailed rationale behind major te
 - [ADR-002: Hybrid Search System](adr/002-hybrid-search-system.md)
 - [ADR-003: Vanilla JavaScript Architecture](adr/003-vanilla-javascript-architecture.md)
 - [ADR-004: Node.js Backend Choice](adr/004-nodejs-backend-choice.md)
+- [ADR-005: HTML Structure Organization](adr/005-html-structure-organization.md)

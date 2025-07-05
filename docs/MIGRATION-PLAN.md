@@ -37,10 +37,12 @@
 ├── index.html          # Main landing page
 ├── 404.html           # Nginx error page
 ├── pages/              # All website HTML content
-│   ├── forum.html
-│   ├── profile.html
-│   ├── routines.html
-│   └── ...
+│   ├── foundation/     # Free introductory content
+│   ├── methodology/    # Core Heavy Duty training
+│   ├── advanced/       # Premium content
+│   ├── forum/          # Community discussions
+│   ├── user/           # User-related pages (profile, settings)
+│   └── misc/           # Other site pages (routines, legacy)
 ├── docs/               # Professional project documentation
 │   ├── README.md
 │   ├── architecture/
@@ -64,14 +66,16 @@
 
 ### Phase 2: File Reorganization 🔄
 - [ ] Create git branch for safety
-- [ ] Move HTML files from `/docs/` to `/pages/`
-- [ ] Update hardcoded references in 4 files:
-  - `index.html`
-  - `methodology/goto-split.html`
-  - `navigation/index.html`
-  - `js/search.js`
-- [ ] Remove duplicate `forum.html` files
-- [ ] Clean up root directory
+- [ ] Restructure HTML files into consistent `/pages/` hierarchy:
+  - Move `/foundation/` → `/pages/foundation/`
+  - Move `/methodology/` → `/pages/methodology/`
+  - Move `/advanced/` → `/pages/advanced/`
+  - Move `/forum/` → `/pages/forum/`
+  - Create `/pages/user/` for profile, settings pages
+  - Create `/pages/misc/` for routines, legacy pages
+- [ ] Move remaining HTML files from `/docs/` to appropriate `/pages/` subdirectories
+- [ ] Update all hardcoded references throughout codebase
+- [ ] Remove duplicate files and clean up root directory
 
 ### Phase 3: Testing & Validation 🔄
 - [ ] Test with `python3 -m http.server 8000`

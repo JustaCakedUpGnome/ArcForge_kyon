@@ -401,28 +401,167 @@ router.get('/stats', async (req, res) => {
     }
 });
 
-// DELETE /api/forum/posts/:id - Delete post (admin only)
+// PUT /api/forum/posts/:id - Edit post (author or admin only)
+router.put('/posts/:postId', authenticateToken, async (req, res) => {
+    try {
+        const { postId } = req.params;
+        const { title, content } = req.body;
+
+        if (!title || !content) {
+            return res.status(400).json({ error: 'Title and content are required' });
+        }
+
+        // Get post to check ownership
+        const postResult = await db.query('SELECT user_id FROM posts WHERE id = $1', [postId]);
+        if (postResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        const post = postResult.rows[0];
+
+        // Check if user is author or admin
+        const userResult = await db.query('SELECT role FROM users WHERE id = $1', [req.user.userId]);
+        const isAuthor = post.user_id === req.user.userId;
+        const isAdmin = userResult.rows[0]?.role === 'admin';
+
+        if (!isAuthor && !isAdmin) {
+            return res.status(403).json({ error: 'You can only edit your own posts' });
+        }
+
+        // Update post (triggers will handle edit tracking)
+        const result = await db.query(`
+            UPDATE posts 
+            SET title = $1, content = $2
+            WHERE id = $3
+            RETURNING *
+        `, [title, content, postId]);
+
+        // Get updated post with user info
+        const updatedPost = await db.query(`
+            SELECT p.*, u.username
+            FROM posts p
+            JOIN users u ON p.user_id = u.id
+            WHERE p.id = $1
+        `, [postId]);
+
+        res.json(updatedPost.rows[0]);
+    } catch (error) {
+        console.error('Error editing post:', error);
+        res.status(500).json({ error: 'Failed to edit post' });
+    }
+});
+
+// DELETE /api/forum/posts/:id - Delete post (author or admin only)
 router.delete('/posts/:postId', authenticateToken, async (req, res) => {
     try {
         const { postId } = req.params;
         
-        // Check if user is admin
+        // Get post to check ownership
+        const postResult = await db.query('SELECT user_id FROM posts WHERE id = $1', [postId]);
+        if (postResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        const post = postResult.rows[0];
+
+        // Check if user is author or admin
         const userResult = await db.query('SELECT role FROM users WHERE id = $1', [req.user.userId]);
-        if (userResult.rows[0]?.role !== 'admin') {
-            return res.status(403).json({ error: 'Admin access required' });
+        const isAuthor = post.user_id === req.user.userId;
+        const isAdmin = userResult.rows[0]?.role === 'admin';
+
+        if (!isAuthor && !isAdmin) {
+            return res.status(403).json({ error: 'You can only delete your own posts' });
         }
         
         // Delete the post (cascades to replies due to foreign key)
         const result = await db.query('DELETE FROM posts WHERE id = $1 RETURNING *', [postId]);
         
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Post not found' });
-        }
-        
         res.json({ message: 'Post deleted successfully' });
     } catch (error) {
         console.error('Error deleting post:', error);
         res.status(500).json({ error: 'Failed to delete post' });
+    }
+});
+
+// PUT /api/forum/replies/:id - Edit reply (author or admin only)
+router.put('/replies/:replyId', authenticateToken, async (req, res) => {
+    try {
+        const { replyId } = req.params;
+        const { content } = req.body;
+
+        if (!content) {
+            return res.status(400).json({ error: 'Content is required' });
+        }
+
+        // Get reply to check ownership
+        const replyResult = await db.query('SELECT user_id FROM replies WHERE id = $1', [replyId]);
+        if (replyResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Reply not found' });
+        }
+
+        const reply = replyResult.rows[0];
+
+        // Check if user is author or admin
+        const userResult = await db.query('SELECT role FROM users WHERE id = $1', [req.user.userId]);
+        const isAuthor = reply.user_id === req.user.userId;
+        const isAdmin = userResult.rows[0]?.role === 'admin';
+
+        if (!isAuthor && !isAdmin) {
+            return res.status(403).json({ error: 'You can only edit your own replies' });
+        }
+
+        // Update reply (triggers will handle edit tracking)
+        const result = await db.query(`
+            UPDATE replies 
+            SET content = $1
+            WHERE id = $2
+            RETURNING *
+        `, [content, replyId]);
+
+        // Get updated reply with user info
+        const updatedReply = await db.query(`
+            SELECT r.*, u.username
+            FROM replies r
+            JOIN users u ON r.user_id = u.id
+            WHERE r.id = $1
+        `, [replyId]);
+
+        res.json(updatedReply.rows[0]);
+    } catch (error) {
+        console.error('Error editing reply:', error);
+        res.status(500).json({ error: 'Failed to edit reply' });
+    }
+});
+
+// DELETE /api/forum/replies/:id - Delete reply (author or admin only)
+router.delete('/replies/:replyId', authenticateToken, async (req, res) => {
+    try {
+        const { replyId } = req.params;
+        
+        // Get reply to check ownership
+        const replyResult = await db.query('SELECT user_id FROM replies WHERE id = $1', [replyId]);
+        if (replyResult.rows.length === 0) {
+            return res.status(404).json({ error: 'Reply not found' });
+        }
+
+        const reply = replyResult.rows[0];
+
+        // Check if user is author or admin
+        const userResult = await db.query('SELECT role FROM users WHERE id = $1', [req.user.userId]);
+        const isAuthor = reply.user_id === req.user.userId;
+        const isAdmin = userResult.rows[0]?.role === 'admin';
+
+        if (!isAuthor && !isAdmin) {
+            return res.status(403).json({ error: 'You can only delete your own replies' });
+        }
+        
+        // Delete the reply
+        const result = await db.query('DELETE FROM replies WHERE id = $1 RETURNING *', [replyId]);
+        
+        res.json({ message: 'Reply deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting reply:', error);
+        res.status(500).json({ error: 'Failed to delete reply' });
     }
 });
 

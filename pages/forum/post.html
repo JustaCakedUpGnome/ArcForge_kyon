@@ -106,9 +106,24 @@
             background: rgba(255, 107, 107, 0.1);
         }
         
-        .admin-controls {
+        .admin-controls, .author-controls {
             display: flex;
             gap: 8px;
+        }
+        
+        .edit-btn {
+            background: #007bff;
+            border: 1px solid #0056b3;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            padding: 6px 10px;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .edit-btn:hover {
+            background: #0056b3;
         }
         
         .delete-btn {
@@ -124,6 +139,165 @@
         
         .delete-btn:hover {
             background: #c82333;
+        }
+        
+        /* Edit Modal Styles */
+        .edit-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .edit-modal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .edit-modal-content {
+            position: relative;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .edit-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .edit-modal-header h3 {
+            margin: 0;
+            color: #fff;
+            font-size: 18px;
+        }
+        
+        .edit-modal-close {
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .edit-modal-close:hover {
+            color: #fff;
+        }
+        
+        .edit-modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .edit-form-group {
+            margin-bottom: 20px;
+        }
+        
+        .edit-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-weight: 500;
+        }
+        
+        .edit-form-group input,
+        .edit-form-group textarea {
+            width: 100%;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 6px;
+            padding: 12px;
+            color: #fff;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        .edit-form-group input:focus,
+        .edit-form-group textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+        
+        .edit-modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 20px;
+            border-top: 1px solid #333;
+        }
+        
+        .btn-primary, .btn-secondary {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: "JetBrains Mono", monospace;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: #ff6b6b;
+            color: #000;
+        }
+        
+        .btn-primary:hover {
+            background: #ff5252;
+        }
+        
+        .btn-secondary {
+            background: #333;
+            color: #ccc;
+            border: 1px solid #555;
+        }
+        
+        .btn-secondary:hover {
+            background: #444;
+            color: #fff;
+        }
+        
+        /* Reply Controls */
+        .reply-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .reply-controls {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .reply-controls .edit-btn,
+        .reply-controls .delete-btn {
+            padding: 4px 8px;
+            font-size: 10px;
         }
         
         .post-title {
@@ -515,6 +689,8 @@
             renderPost() {
                 const container = document.getElementById('post-content');
                 const isAdmin = this.isAdmin();
+                const isAuthor = this.isAuthor(this.post.user_id);
+                const canEdit = isAuthor || isAdmin;
                 
                 // Update page title and breadcrumb
                 document.title = `${this.post.title} - ARCFORGE`;
@@ -527,7 +703,7 @@
                                 <div class="author-avatar">${this.post.username.charAt(0).toUpperCase()}</div>
                                 <div class="author-details">
                                     <div class="author-name">${this.post.username}</div>
-                                    <div class="post-timestamp">${this.formatTimeAgo(this.post.created_at)}</div>
+                                    <div class="post-timestamp">${this.formatTimeAgo(this.post.created_at)}${this.post.is_edited ? ' <span style="color: #888; font-size: 11px;">(edited)</span>' : ''}</div>
                                 </div>
                             </div>
                             <div class="post-actions">
@@ -541,8 +717,11 @@
                                         ↓ ${this.post.downvotes}
                                     </button>
                                 </div>
-                                ${isAdmin ? `
-                                    <div class="admin-controls">
+                                ${canEdit ? `
+                                    <div class="${isAdmin ? 'admin-controls' : 'author-controls'}">
+                                        <button class="edit-btn" onclick="postPage.editPost()" title="Edit Post">
+                                            ✏️ Edit
+                                        </button>
                                         <button class="delete-btn" onclick="postPage.deletePost()" title="Delete Post">
                                             🗑️ Delete
                                         </button>
@@ -586,28 +765,46 @@
                     return;
                 }
                 
-                container.innerHTML = this.replies.map(reply => `
-                    <div class="reply-item">
-                        <div class="reply-header">
-                            <div class="reply-author">
-                                <div class="reply-avatar">${reply.username.charAt(0).toUpperCase()}</div>
-                                <div class="reply-author-name">${reply.username}</div>
-                                <div class="reply-timestamp">${this.formatTimeAgo(reply.created_at)}</div>
+                container.innerHTML = this.replies.map(reply => {
+                    const isAdmin = this.isAdmin();
+                    const isAuthor = this.isAuthor(reply.user_id);
+                    const canEdit = isAuthor || isAdmin;
+                    
+                    return `
+                        <div class="reply-item">
+                            <div class="reply-header">
+                                <div class="reply-author">
+                                    <div class="reply-avatar">${reply.username.charAt(0).toUpperCase()}</div>
+                                    <div class="reply-author-name">${reply.username}</div>
+                                    <div class="reply-timestamp">${this.formatTimeAgo(reply.created_at)}${reply.is_edited ? ' <span style="color: #888; font-size: 11px;">(edited)</span>' : ''}</div>
+                                </div>
+                                <div class="reply-actions">
+                                    <div class="reply-votes">
+                                        <button class="reply-vote-btn ${reply.user_vote === 1 ? 'active' : ''}" 
+                                                onclick="postPage.vote('reply', ${reply.id}, 'upvote')">
+                                            ↑ ${reply.upvotes}
+                                        </button>
+                                        <button class="reply-vote-btn ${reply.user_vote === -1 ? 'active' : ''}" 
+                                                onclick="postPage.vote('reply', ${reply.id}, 'downvote')">
+                                            ↓ ${reply.downvotes}
+                                        </button>
+                                    </div>
+                                    ${canEdit ? `
+                                        <div class="reply-controls">
+                                            <button class="edit-btn" onclick="postPage.editReply(${reply.id}, '${reply.content.replace(/'/g, '\\\'')}')" title="Edit Reply">
+                                                ✏️
+                                            </button>
+                                            <button class="delete-btn" onclick="postPage.deleteReply(${reply.id})" title="Delete Reply">
+                                                🗑️
+                                            </button>
+                                        </div>
+                                    ` : ''}
+                                </div>
                             </div>
-                            <div class="reply-votes">
-                                <button class="reply-vote-btn ${reply.user_vote === 1 ? 'active' : ''}" 
-                                        onclick="postPage.vote('reply', ${reply.id}, 'upvote')">
-                                    ↑ ${reply.upvotes}
-                                </button>
-                                <button class="reply-vote-btn ${reply.user_vote === -1 ? 'active' : ''}" 
-                                        onclick="postPage.vote('reply', ${reply.id}, 'downvote')">
-                                    ↓ ${reply.downvotes}
-                                </button>
-                            </div>
+                            <div class="reply-content">${reply.content}</div>
                         </div>
-                        <div class="reply-content">${reply.content}</div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             }
             
             setupReplyForm() {
@@ -713,6 +910,141 @@ Tips for great replies:
                     return payload.email === 'arcforge.tech@gmail.com';
                 } catch (error) {
                     return false;
+                }
+            }
+            
+            isAuthor(authorUserId) {
+                const token = localStorage.getItem('arcforge_token');
+                if (!token) return false;
+                
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    return payload.userId === authorUserId;
+                } catch (error) {
+                    return false;
+                }
+            }
+            
+            async editPost() {
+                // Create edit modal
+                const modal = document.createElement('div');
+                modal.className = 'edit-modal';
+                modal.innerHTML = `
+                    <div class="edit-modal-backdrop" onclick="postPage.closeEditModal()"></div>
+                    <div class="edit-modal-content">
+                        <div class="edit-modal-header">
+                            <h3>✏️ Edit Post</h3>
+                            <button class="edit-modal-close" onclick="postPage.closeEditModal()">×</button>
+                        </div>
+                        <div class="edit-modal-body">
+                            <div class="edit-form-group">
+                                <label for="edit-title">Title</label>
+                                <input type="text" id="edit-title" value="${this.post.title.replace(/"/g, '&quot;')}" maxlength="255">
+                            </div>
+                            <div class="edit-form-group">
+                                <label for="edit-content">Content</label>
+                                <textarea id="edit-content" rows="10">${this.post.content}</textarea>
+                            </div>
+                        </div>
+                        <div class="edit-modal-footer">
+                            <button class="btn-secondary" onclick="postPage.closeEditModal()">Cancel</button>
+                            <button class="btn-primary" onclick="postPage.savePostEdit()">Save Changes</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                document.getElementById('edit-title').focus();
+            }
+            
+            closeEditModal() {
+                const modal = document.querySelector('.edit-modal');
+                if (modal) {
+                    modal.remove();
+                }
+            }
+            
+            async savePostEdit() {
+                const title = document.getElementById('edit-title').value.trim();
+                const content = document.getElementById('edit-content').value.trim();
+                
+                if (!title || title.length < 10) {
+                    alert('Title must be at least 10 characters long');
+                    return;
+                }
+                
+                if (!content || content.length < 20) {
+                    alert('Content must be at least 20 characters long');
+                    return;
+                }
+                
+                try {
+                    await window.forumAPI.editPost(this.postId, { title, content });
+                    this.closeEditModal();
+                    await this.loadPost(); // Reload to show changes
+                } catch (error) {
+                    console.error('Error editing post:', error);
+                    alert('Failed to edit post. Please try again.');
+                }
+            }
+            
+            async editReply(replyId, currentContent) {
+                // Create edit modal for reply
+                const modal = document.createElement('div');
+                modal.className = 'edit-modal';
+                modal.innerHTML = `
+                    <div class="edit-modal-backdrop" onclick="postPage.closeEditModal()"></div>
+                    <div class="edit-modal-content">
+                        <div class="edit-modal-header">
+                            <h3>✏️ Edit Reply</h3>
+                            <button class="edit-modal-close" onclick="postPage.closeEditModal()">×</button>
+                        </div>
+                        <div class="edit-modal-body">
+                            <div class="edit-form-group">
+                                <label for="edit-reply-content">Content</label>
+                                <textarea id="edit-reply-content" rows="6">${currentContent}</textarea>
+                            </div>
+                        </div>
+                        <div class="edit-modal-footer">
+                            <button class="btn-secondary" onclick="postPage.closeEditModal()">Cancel</button>
+                            <button class="btn-primary" onclick="postPage.saveReplyEdit(${replyId})">Save Changes</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                document.getElementById('edit-reply-content').focus();
+            }
+            
+            async saveReplyEdit(replyId) {
+                const content = document.getElementById('edit-reply-content').value.trim();
+                
+                if (!content || content.length < 5) {
+                    alert('Reply content must be at least 5 characters long');
+                    return;
+                }
+                
+                try {
+                    await window.forumAPI.editReply(replyId, content);
+                    this.closeEditModal();
+                    await this.loadPost(); // Reload to show changes
+                } catch (error) {
+                    console.error('Error editing reply:', error);
+                    alert('Failed to edit reply. Please try again.');
+                }
+            }
+            
+            async deleteReply(replyId) {
+                if (!confirm('Are you sure you want to delete this reply? This action cannot be undone.')) {
+                    return;
+                }
+                
+                try {
+                    await window.forumAPI.deleteReply(replyId);
+                    await this.loadPost(); // Reload to show changes
+                } catch (error) {
+                    console.error('Error deleting reply:', error);
+                    alert('Failed to delete reply. You may not have permission.');
                 }
             }
             

@@ -147,7 +147,30 @@ class ForumAPI {
         }
     }
 
-    // Admin: Delete Post
+    // Edit Post
+    async editPost(postId, postData) {
+        try {
+            const token = localStorage.getItem('arcforge_token');
+            if (!token) throw new Error('Authentication required');
+
+            const response = await fetch(`${this.baseURL}/api/forum/posts/${postId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(postData)
+            });
+
+            if (!response.ok) throw new Error('Failed to edit post');
+            return await response.json();
+        } catch (error) {
+            console.error('Error editing post:', error);
+            throw error;
+        }
+    }
+
+    // Delete Post
     async deletePost(postId) {
         try {
             const token = localStorage.getItem('arcforge_token');
@@ -164,6 +187,50 @@ class ForumAPI {
             return await response.json();
         } catch (error) {
             console.error('Error deleting post:', error);
+            throw error;
+        }
+    }
+
+    // Edit Reply
+    async editReply(replyId, content) {
+        try {
+            const token = localStorage.getItem('arcforge_token');
+            if (!token) throw new Error('Authentication required');
+
+            const response = await fetch(`${this.baseURL}/api/forum/replies/${replyId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ content })
+            });
+
+            if (!response.ok) throw new Error('Failed to edit reply');
+            return await response.json();
+        } catch (error) {
+            console.error('Error editing reply:', error);
+            throw error;
+        }
+    }
+
+    // Delete Reply
+    async deleteReply(replyId) {
+        try {
+            const token = localStorage.getItem('arcforge_token');
+            if (!token) throw new Error('Authentication required');
+
+            const response = await fetch(`${this.baseURL}/api/forum/replies/${replyId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) throw new Error('Failed to delete reply');
+            return await response.json();
+        } catch (error) {
+            console.error('Error deleting reply:', error);
             throw error;
         }
     }

@@ -111,9 +111,123 @@ If migration breaks:
 2. `git branch -D structure-cleanup`
 3. Restart with lessons learned
 
-## Files That Need Updates
+## COMPREHENSIVE BREAKAGE ANALYSIS
 
-### Hardcoded `/docs/` References
+### **CRITICAL: 47 FILES NEED UPDATES** ⚠️
+
+This migration is MUCH more complex than initially estimated. Every reference below will break.
+
+### **CSS Stylesheet References (13 files)**
+**Files with `../css/` that become `../../css/`:**
+- `/foundation/*.html` (5 files) → All need `../css/` → `../../css/`
+- `/methodology/*.html` (3 files) → All need `../css/` → `../../css/`
+- `/advanced/recovery-guide.html` → Needs `../css/` → `../../css/`
+- `/forum/*.html` (3 files) → All need `../css/` → `../../css/`
+- `/navigation/index.html` → Needs `../css/` → `../../css/`
+
+**Root files with `css/` that stay same:**
+- `/forum.html`, `/profile.html`, `/upgrade.html` → Stay as `css/`
+
+### **JavaScript References (13 files)**
+**Files with `../js/` that become `../../js/`:**
+- `/foundation/*.html` (5 files) → All need `../js/` → `../../js/`
+- `/methodology/*.html` (3 files) → All need `../js/` → `../../js/`
+- `/advanced/recovery-guide.html` → Needs `../js/` → `../../js/`
+- `/forum/*.html` (3 files) → All need `../js/` → `../../js/`
+- `/navigation/index.html` → Needs `../js/` → `../../js/`
+
+### **Navigation/Breadcrumb Links (13 files)**
+**Files with `../index.html` that become `../../index.html`:**
+- Same 13 files as above need breadcrumb updates
+
+### **MAJOR: Search Index Complete Rewrite**
+**`/js/search.js` needs ALL URLs updated:**
+```javascript
+// OLD PATHS:
+'/foundation/motivation-and-identity.html'
+'/methodology/heavy-duty-principles.html'
+'/advanced/recovery-guide.html'
+
+// NEW PATHS:
+'/pages/foundation/motivation-and-identity.html'
+'/pages/methodology/heavy-duty-principles.html'
+'/pages/advanced/recovery-guide.html'
+```
+
+### **Main Index Page Complete Overhaul**
+**`/index.html` needs ALL folder references updated:**
+- `foundation/` → `pages/foundation/`
+- `methodology/` → `pages/methodology/`
+- `advanced/` → `pages/advanced/`
+- `forum.html` → `pages/forum/` (multiple links)
+- `navigation/` → `pages/navigation/`
+
+### **Internal Forum Navigation (4 files)**
+**Forum files with relative links:**
+- `/forum/category.html` → Links to `post.html`, `create-post.html`
+- `/forum/create-post.html` → Links to `../forum.html`
+- `/forum/post.html` → Links to `/forum/category.html`
+
+### **404 Page Search Examples**
+**`/404.html` needs path examples updated in search demos**
+
+### **Image References**
+**`/index.html`:** `images/MikeCrucifix.jpg` (likely breaks)
+
+## **REVISED RISK ASSESSMENT** 🚨
+
+### **Migration Complexity: HIGH**
+- **47 files** require manual updates
+- **3 different relative path patterns** (root, one level, two levels)
+- **Complete search index rewrite** required
+- **High probability of missed references**
+
+### **Estimated Time: 2-3 DAYS**
+- **Not** the "quick fix" originally estimated
+- Requires systematic, careful execution
+- Multiple test cycles needed
+
+### **New Rollback Strategy**
+- **MANDATORY**: Test in localhost before any VPS deployment
+- **MANDATORY**: Create multiple git commits during process
+- **MANDATORY**: Test search functionality after each major change
+
+## **NEW STRATEGY: CSS-FIRST APPROACH** 🎯
+
+### **Key Insight: Fix CSS Paths BEFORE Moving Files**
+Instead of moving files then fixing 47 broken references, we:
+1. **Convert all CSS links to root-relative paths** (`/css/style.css`)
+2. **Move Google Fonts to HTML head** (performance boost)
+3. **THEN move files** - no path updates needed!
+
+### **Execution Order**
+1. **Phase 2A: CSS Path Conversion** (2-3 hours)
+   - Update 17 HTML files with root-relative CSS paths
+   - Move @import statements to HTML <link> tags
+   - Test on localhost to verify everything still works
+   
+2. **Phase 2B: File Structure Migration** (2-3 hours)  
+   - Move folders to `/pages/` structure
+   - Update search index URLs
+   - Update navigation references
+   - NO CSS path fixes needed (already done!)
+
+3. **Phase 2C: Testing & Cleanup** (1-2 hours)
+   - Test all moved pages
+   - Verify search functionality
+   - Clean up old documentation folder
+
+### **Abort Conditions**
+- If root-relative CSS paths don't work on localhost
+- If font loading breaks during conversion
+- If more than 3 unexpected issues arise during testing
+
+### **Documentation Reference**
+See [CSS-MIGRATION-STRATEGY.md](CSS-MIGRATION-STRATEGY.md) for detailed technical analysis and implementation steps.
+
+## **Files That Need Updates (Legacy Section)**
+
+### Hardcoded `/docs/` References (MINOR compared to above)
 1. **`/index.html:339`** - Main training link
 2. **`/methodology/goto-split.html:16`** - Breadcrumb navigation
 3. **`/navigation/index.html:247`** - Demo navigation

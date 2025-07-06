@@ -4,37 +4,43 @@
 Accepted
 
 ## Context
-ARCFORGE needed a distinctive user interface that would differentiate it from typical fitness websites while providing an engaging experience for technically-minded users interested in heavy duty training methodology.
+ARCFORGE needed a distinctive interface that would:
+1. Support the long-term vision of becoming a comprehensive library for documentation and studies
+2. Differentiate from typical fitness websites
+3. Provide an engaging experience for both technical and non-technical users
+4. Scale across multiple content domains (training, programming, philosophy, etc.)
 
 ## Decision
-Implement a terminal-inspired interface with:
-- CLI-style navigation with file tree structure
-- Vim-inspired keyboard shortcuts (`j/k` navigation, `/` search, `Ctrl+K` command palette)
-- Monospace typography (JetBrains Mono)
+Implement a terminal-inspired interface with **progressive enhancement**:
+- CLI-style navigation with file tree structure (fully mouse/touch accessible)
+- Vim-inspired keyboard shortcuts as **optional enhancements** (`j/k`, `/`, `Ctrl+K`)
+- Monospace typography (JetBrains Mono) for readability
 - Dark theme with terminal aesthetics
-- Fortress metaphor for navigation (`/fortress/foundation/`, etc.)
+- Fortress metaphor expandable to library/laboratory domains
 
 ## Rationale
-1. **Target Audience**: Technical users appreciate terminal interfaces
-2. **Differentiation**: Unique aesthetic in the fitness/training space
-3. **Efficiency**: Keyboard navigation is faster than mouse for power users
-4. **Scalability**: Modular structure supports multiple content domains
-5. **Accessibility**: Keyboard navigation benefits users with disabilities
+1. **Library Vision**: Terminal metaphor scales perfectly for documentation/study platform
+2. **Progressive Enhancement**: Core functionality works without keyboard shortcuts
+3. **Differentiation**: Unique aesthetic across fitness and technical content
+4. **Dual Accessibility**: Mouse users get full functionality, keyboard users get efficiency boosts
+5. **Content Agnostic**: Works equally well for training docs, programming tutorials, philosophy texts
+6. **Professional Appeal**: Developer-friendly aesthetic attracts technical audience
 
 ## Consequences
 
 ### Positive
-- ✅ Memorable brand identity and user experience
-- ✅ Efficient navigation for technical users
-- ✅ Scalable architecture for content organization
-- ✅ Built-in keyboard accessibility
-- ✅ Mobile-responsive design possible
+- ✅ **Universal Accessibility**: Full functionality via mouse/touch, enhanced by keyboard
+- ✅ **Scalable Content Platform**: Works for training, tech docs, philosophy, etc.
+- ✅ **Memorable Brand**: Distinctive aesthetic across all content domains
+- ✅ **Progressive Enhancement**: Keyboard shortcuts are additive, not required
+- ✅ **Professional Appeal**: Attracts both technical and serious learners
+- ✅ **Future-Proof**: Terminal metaphor scales to any documentation domain
 
 ### Negative
-- ❌ Learning curve for non-technical users
-- ❌ Potential barriers for casual fitness enthusiasts
-- ❌ Additional complexity in implementation
-- ❌ Need for comprehensive help system
+- ❌ **Unique Learning Curve**: Non-standard web interface patterns
+- ❌ **Implementation Complexity**: Dual interaction modes require careful design
+- ❌ **Mobile Optimization**: Terminal aesthetics need mobile adaptation
+- ❌ **Help System Overhead**: Need to educate users on available enhancements
 
 ## Implementation
 - Inspired by [kyon.dev](https://kyon.dev) terminal aesthetics

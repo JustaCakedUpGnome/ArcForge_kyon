@@ -4,6 +4,14 @@
 
 **Tags:** #backlog #planning #features #priorities
 
+## 📝 Status Legend
+
+- **✅ COMPLETED**: Feature is implemented and live
+- **🔄 IN PROGRESS**: Currently being developed
+- **📋 PLANNED**: Confirmed for development with timeline
+- **🤔 POTENTIAL**: Under consideration, needs further analysis
+- **💭 IDEA/BRAINSTORMING**: Early concept, no commitment yet
+
 ## 🎯 Backlog Overview
 
 ARCFORGE product backlog organized by priority and development phases. This living document tracks feature development from conception to completion.
@@ -148,15 +156,15 @@ graph TB
   - Analytics for most popular reactions
   - Admin control over available reactions
 
-- [ ] **Custom Emoji System** *(Premium Feature)*
-  - User-uploaded custom emojis (like Discord)
-  - Tier-based access (Free: standard only, Premium: use custom, Admin: upload custom)
-  - Emoji upload interface (PNG/GIF, auto-resize, moderation queue)
-  - Custom emoji categories and organization
-  - Usage analytics and popularity tracking
-  - Bulk emoji management for admins
-  - Enterprise custom emoji sets for organizations
-  - CDN integration for fast loading
+- [ ] **💭 Custom Emoji System (BRAINSTORMING)** *(Premium Feature)*
+  - 🤔 POTENTIAL: User-uploaded custom emojis (like Discord)
+  - 💭 IDEA: Tier-based access (Free: standard only, Premium: use custom, Admin: upload custom)
+  - 🤔 POTENTIAL: Emoji upload interface (PNG/GIF, auto-resize, moderation queue)
+  - 💭 IDEA: Custom emoji categories and organization
+  - 🤔 POTENTIAL: Usage analytics and popularity tracking
+  - 💭 IDEA: Bulk emoji management for admins
+  - 💭 IDEA: Enterprise custom emoji sets for organizations
+  - 🤔 POTENTIAL: CDN integration for fast loading
 
 - [ ] **Real-time Notifications**
   - WebSocket integration
@@ -271,17 +279,17 @@ graph TB
   - White-label solutions
 
 ### **Developer Experience Enhancements**
-- [ ] **Neovim Navigation System** *(Major Feature)*
-  - Complete Neovim modal editing support
-  - Visual, insert, and command modes
-  - Advanced text manipulation (d, y, p, c operators)
-  - Neovim-style search (/pattern, n, N navigation)
-  - Buffer management for multiple posts/pages
-  - Split view navigation (Ctrl+w commands)
-  - Register system for copy/paste operations
-  - Macro recording and playback
-  - Plugin-like customization system
-  - Configuration persistence per user
+- [ ] **💭 Neovim Navigation System (BRAINSTORMING)** *(Major Feature)*
+  - 🤔 POTENTIAL: Complete Neovim modal editing support
+  - 💭 IDEA: Visual, insert, and command modes
+  - 🤔 POTENTIAL: Advanced text manipulation (d, y, p, c operators)
+  - 💭 IDEA: Neovim-style search (/pattern, n, N navigation)
+  - 🤔 POTENTIAL: Buffer management for multiple posts/pages
+  - 💭 IDEA: Split view navigation (Ctrl+w commands)
+  - 🤔 POTENTIAL: Register system for copy/paste operations
+  - 💭 IDEA: Macro recording and playback
+  - 🤔 POTENTIAL: Plugin-like customization system
+  - 💭 IDEA: Configuration persistence per user
 
 ## ✅ Completed Features
 

@@ -205,14 +205,14 @@ CREATE TABLE reactions (
 - **Analytics**: Most popular reactions, trending emotions
 - **Notifications**: "@user reacted with ❤️ to your post"
 
-**📋 Future: Custom Emoji System**
+**💭 Future: Custom Emoji System (BRAINSTORMING)**
 **User Story:** As a premium user/admin, I want to upload and use custom emojis like Discord.
 
-**Tier-Based Custom Emoji Access:**
+**🤔 Tier-Based Custom Emoji Access (POTENTIAL):**
 - **Free Tier**: Standard emoji reactions only
-- **Premium Tier**: Can use admin-uploaded custom emojis
-- **Admin/Creator Tier**: Can upload and manage custom emojis
-- **Enterprise Tier**: Full custom emoji sets for organizations
+- **💭 Premium Tier (IDEA)**: Can use admin-uploaded custom emojis
+- **🤔 Admin/Creator Tier (POTENTIAL)**: Can upload and manage custom emojis
+- **💭 Enterprise Tier (IDEA)**: Full custom emoji sets for organizations
 
 **Custom Emoji Features:**
 ```sql
@@ -458,36 +458,36 @@ Free Tier:
 ├── Standard voting
 └── Limited search
 
-Premium Tier ($5/month):
+Premium Tier (💭 BRAINSTORMING: $5/month):
 ├── All free features
 ├── Premium category access
-├── Custom emoji usage (use admin-uploaded emojis)
+├── 🤔 POTENTIAL: Custom emoji usage (use admin-uploaded emojis)
 ├── Advanced search and command palette
 ├── Priority support
-└── Custom themes (future)
+└── 💭 IDEA: Custom themes
 
-Creator Tier ($15/month):
+Creator Tier (💭 BRAINSTORMING: $15/month):
 ├── All premium features
-├── Custom emoji upload (up to 50 emojis)
-├── Custom emoji management dashboard
-├── Usage analytics for uploaded emojis
-├── Community branding features
-└── Revenue sharing from emoji usage
+├── 🤔 POTENTIAL: Custom emoji upload (up to 50 emojis)
+├── 🤔 POTENTIAL: Custom emoji management dashboard
+├── 🤔 POTENTIAL: Usage analytics for uploaded emojis
+├── 💭 IDEA: Community branding features
+└── 💭 IDEA: Revenue sharing from emoji usage
 
 Admin Tier:
 ├── All creator features
 ├── User management
 ├── Content moderation
 ├── Analytics dashboard
-├── Unlimited custom emoji uploads
+├── 🤔 POTENTIAL: Unlimited custom emoji uploads
 └── System administration
 ```
 
-**Custom Emoji Monetization:**
-- **Revenue Stream**: Premium/Creator tiers for emoji features
-- **Engagement Driver**: Users upgrade to access custom expressions
-- **Community Building**: Unique emojis create forum identity
-- **Creator Economy**: Revenue sharing for popular emoji creators
+**💭 Custom Emoji Monetization (BRAINSTORMING):**
+- **🤔 POTENTIAL Revenue Stream**: Premium/Creator tiers for emoji features
+- **💭 IDEA Engagement Driver**: Users upgrade to access custom expressions
+- **🤔 POTENTIAL Community Building**: Unique emojis create forum identity
+- **💭 IDEA Creator Economy**: Revenue sharing for popular emoji creators
 
 ### **Private Categories**
 **User Story:** As a premium user, I want access to exclusive discussion categories.

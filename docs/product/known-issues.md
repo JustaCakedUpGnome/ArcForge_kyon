@@ -8,39 +8,6 @@
 
 ### **Critical Issues**
 
-#### **🚨 Authentication Modal "J" Key Not Working**
-**Status:** Open  
-**Priority:** Critical  
-**Reported:** 2024-07-03  
-**Impact:** High - Users cannot enter emails/passwords containing "j"
-
-**Description:**
-When typing in email/password fields in the authentication modal, the "j" key doesn't register as character input. Instead, it's interpreted as the keyboard shortcut for expanding folders.
-
-**Steps to Reproduce:**
-1. Open arcforge.tech
-2. Click "login" button to open auth modal
-3. Try typing an email containing the letter "j" (e.g., "john@example.com")
-4. The "j" character doesn't appear in the input field
-5. Other letters work normally
-
-**Technical Analysis:**
-- Global keyboard event listeners interfering with input field focus
-- Modal input fields not properly capturing keyboard events
-- Possible event propagation issue
-
-**Workaround:**
-- Copy and paste emails containing "j"
-- Use different email addresses without "j"
-
-**Fix Plan:**
-- [ ] Audit global keyboard event handlers
-- [ ] Implement proper event.stopPropagation() for modal inputs
-- [ ] Add focus state checking before applying shortcuts
-- [ ] Test all letter keys for similar issues
-
----
-
 #### **🔄 Logout Redirect Failure**
 **Status:** Open  
 **Priority:** High  
@@ -119,6 +86,38 @@ Some keyboard shortcuts may not work properly on macOS due to different key modi
 - [ ] Add browser compatibility detection
 
 ## 🔧 Recently Fixed Issues
+
+### **✅ Authentication Modal "J" Key Bug**
+**Status:** Fixed  
+**Priority:** Critical  
+**Fixed:** 2024-07-05  
+**Reporter:** User reports
+
+**Description:**
+Users could not type the letter "j" in authentication modal input fields due to global keyboard event interference.
+
+**Solution:**
+- Fixed global keyboard event handlers to respect input field focus
+- Added proper event.stopPropagation() for modal inputs
+- Implemented focus state checking before applying shortcuts
+
+---
+
+### **✅ Username System Privacy Issue**
+**Status:** Fixed  
+**Priority:** Critical  
+**Fixed:** 2024-07-05  
+**Reporter:** Security audit
+
+**Description:**
+User email addresses were being displayed publicly in forum posts, creating privacy concerns.
+
+**Solution:**
+- Implemented username/display name system
+- Updated database schema to separate usernames from emails
+- Modified all UI components to show usernames instead of emails
+
+---
 
 ### **✅ Nodemailer Method Name Error**
 **Status:** Fixed  
@@ -297,11 +296,12 @@ Moving HTML files to new directory structure broke relative CSS paths, causing s
 ## 📊 Issue Tracking Metrics
 
 ### **Issue Statistics**
-- **Total Open Issues:** 4
-- **Critical Issues:** 1
+- **Total Open Issues:** 2
+- **Critical Issues:** 0
 - **High Priority:** 1
-- **Medium Priority:** 2
-- **Low Priority:** 1
+- **Medium Priority:** 1
+- **Low Priority:** 0
+- **Recently Fixed:** 3 (Username system, "J" key bug, Nodemailer error)
 
 ### **Resolution Timeline**
 - **Critical Issues:** 24-48 hours

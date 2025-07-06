@@ -351,23 +351,7 @@ class SearchSystem {
 
     // Download item
     downloadItem(item) {
-        if (item === 'goto' || item === 'goto-split') {
-            const currentPath = window.location.pathname;
-            let downloadUrl = '/methodology/Goto split.md';
-            
-            // Adjust path based on current location
-            if (currentPath.includes('/foundation/') || currentPath.includes('/advanced/')) {
-                downloadUrl = '../methodology/Goto split.md';
-            } else if (currentPath.includes('/navigation/')) {
-                downloadUrl = '../methodology/Goto split.md';
-            } else {
-                downloadUrl = 'methodology/Goto split.md';
-            }
-            
-            window.location.href = downloadUrl;
-        } else {
-            alert(`Download for "${item}" not available yet.`);
-        }
+        alert(`Download for "${item}" not available yet.`);
     }
 
     // Show help

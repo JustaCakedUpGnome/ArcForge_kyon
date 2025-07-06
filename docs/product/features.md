@@ -171,6 +171,40 @@ CREATE TABLE votes (
 );
 ```
 
+### **📋 Future: Forum Reactions System**
+**User Story:** As a forum user, I want to quickly express emotions and reactions to posts beyond just voting.
+
+**Acceptance Criteria:**
+- 📋 Discord-style emoji reactions (👍, 👎, ❤️, 😂, 😮, 😢, 😡)
+- 📋 Quick reaction picker on hover/click
+- 📋 Multiple reactions per user per post
+- 📋 Reaction counts with user lists on hover
+- 📋 Custom reaction sets for different categories
+- 📋 Reaction notifications for post authors
+- 📋 Admin control over available reactions
+- 📋 Reaction analytics and trending emotions
+
+**Technical Implementation:**
+```sql
+-- Reactions table structure
+CREATE TABLE reactions (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id),
+    reactable_type VARCHAR(50) NOT NULL,
+    reactable_id INTEGER NOT NULL,
+    emoji_code VARCHAR(20) NOT NULL, -- :thumbs_up:, :heart:, etc.
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, reactable_type, reactable_id, emoji_code)
+);
+```
+
+**Reaction Features:**
+- **Standard Set**: 👍 👎 ❤️ 😂 😮 😢 😡 🚀 👀 🔥
+- **Category-Specific**: Code reactions (🐛, ✅, ⚡), fitness reactions (💪, 🏋️, 🥇)
+- **Quick Picker**: Floating emoji selector with keyboard shortcuts
+- **Analytics**: Most popular reactions, trending emotions
+- **Notifications**: "@user reacted with ❤️ to your post"
+
 ## ⌨️ Navigation and Interface
 
 ### **Vim-Style Keyboard Shortcuts**
@@ -191,10 +225,10 @@ CREATE TABLE votes (
 - **Modals**: `Esc` to close, `Enter` to confirm
 - **Forms**: `Tab` navigation, `Enter` to submit
 
-### **Command Palette**
+### **Command Palette (Ctrl+K)**
 **User Story:** As a power user, I want quick access to all features via a command palette.
 
-**Acceptance Criteria:**
+**Current Acceptance Criteria:**
 - ✅ `Ctrl+K` hotkey activation
 - ✅ Fuzzy search functionality
 - ✅ Quick navigation to any page
@@ -202,11 +236,51 @@ CREATE TABLE votes (
 - ✅ Keyboard navigation (arrow keys, Enter)
 - ✅ Recent commands history
 
-**Command Categories:**
-- **Navigation**: Go to categories, posts, profile
-- **Actions**: Create post, new reply, logout
-- **Search**: Find posts, users, categories
-- **Settings**: Profile, preferences, admin
+**📋 Future Enhanced Command Palette:**
+- 📋 **Advanced Search**: Multi-type results (posts, users, categories) in one interface
+- 📋 **Smart Autocomplete**: AI-powered suggestions based on context
+- 📋 **Multi-step Workflows**: Chain commands with pipe operators
+- 📋 **Quick Actions**: One-key shortcuts for common operations
+- 📋 **Command History**: Searchable history with recently used commands
+- 📋 **Custom Aliases**: User-defined shortcuts (alias "cp" = "create post")
+- 📋 **Result Previews**: Show post snippets, user info, category details
+- 📋 **Global Search**: Real-time search across all forum content
+- 📋 **Filter Options**: Search by date range, author, category, tags
+- 📋 **Bookmark Management**: Quick access to saved posts and favorites
+
+**Enhanced Command Categories:**
+```
+Navigation Commands:
+- goto <category>     - Jump to category
+- goto <username>     - View user profile  
+- goto latest         - Go to latest posts
+- goto trending       - View trending discussions
+
+Search Commands:
+- search <query>      - Global content search
+- search user:<name>  - Find specific user
+- search tag:<tag>    - Search by tag
+- search since:<date> - Time-based search
+
+Action Commands:
+- create post         - New post in current category
+- reply <post-id>     - Quick reply to post
+- vote up <post-id>   - Upvote specific post
+- bookmark <post-id>  - Save post to bookmarks
+- react :emoji:       - Add reaction to current post
+
+System Commands:
+- help <command>      - Get command help
+- settings            - Open user preferences  
+- logout              - Sign out of account
+- theme <name>        - Switch UI theme
+```
+
+**Power User Features:**
+- **Command Chaining**: `search "react hooks" | filter recent | bookmark`
+- **Quick Actions**: `Ctrl+K` → `r` → `Enter` = instant reply
+- **Smart Context**: Commands adapt based on current page/selection
+- **Fuzzy Matching**: "cpo" matches "create post", "gf" matches "goto forum"
 
 ### **Search System**
 **User Story:** As a user, I want to search for content across the forum.

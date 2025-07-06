@@ -139,6 +139,15 @@ graph TB
   - Reputation-based privileges
 
 ### **Advanced Forum Features**
+- [ ] **Forum Reactions System** *(High Priority)*
+  - Discord-style emoji reactions (👍, 👎, ❤️, 😂, 😮, 😢, 😡)
+  - Custom reaction sets for different categories
+  - Reaction counts and user lists
+  - Quick reaction picker interface
+  - Reaction notifications for post authors
+  - Analytics for most popular reactions
+  - Admin control over available reactions
+
 - [ ] **Real-time Notifications**
   - WebSocket integration
   - Live post updates
@@ -160,11 +169,20 @@ graph TB
   - Help system (`:help` command)
   - File navigation commands (`cd`, `ls`)
 
-- [ ] **Enhanced Search Features**
-  - Fuzzy finding across all docs
-  - Filter by content type
-  - Search within specific sections
-  - Dedicated search results page
+- [ ] **Enhanced Command Palette (Ctrl+K) Features**
+  - Advanced fuzzy search across all forum content
+  - Smart autocomplete with recent commands
+  - Multi-step command workflows (pipe commands)
+  - Search filtering by content type (posts, users, categories)
+  - Quick action shortcuts (reply, vote, bookmark)
+  - Command history with search
+  - Custom command aliases and shortcuts
+  - AI-powered command suggestions
+  - Global search with result previews
+  - Dedicated search results page with filtering
+  - Search within specific categories/timeframes
+  - User search with profile quick-view
+  - Bookmark and favorites quick access
 
 ### **Visual and Interaction Improvements**
 - [ ] **Improved Animations**

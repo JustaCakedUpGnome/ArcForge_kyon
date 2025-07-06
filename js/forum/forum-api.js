@@ -12,7 +12,7 @@ class ForumAPI {
             return await response.json();
         } catch (error) {
             console.error('Error fetching categories:', error);
-            return this.getMockCategories();
+            throw error;
         }
     }
 
@@ -24,7 +24,7 @@ class ForumAPI {
             return await response.json();
         } catch (error) {
             console.error('Error fetching posts:', error);
-            return this.getMockPosts();
+            throw error;
         }
     }
 
@@ -35,7 +35,7 @@ class ForumAPI {
             return await response.json();
         } catch (error) {
             console.error('Error fetching post:', error);
-            return this.getMockPost();
+            throw error;
         }
     }
 
@@ -119,7 +119,7 @@ class ForumAPI {
             return await response.json();
         } catch (error) {
             console.error('Error searching:', error);
-            return { posts: [], total: 0 };
+            throw error;
         }
     }
 
@@ -131,7 +131,7 @@ class ForumAPI {
             return await response.json();
         } catch (error) {
             console.error('Error fetching stats:', error);
-            return this.getMockStats();
+            throw error;
         }
     }
 
@@ -143,7 +143,7 @@ class ForumAPI {
             return await response.json();
         } catch (error) {
             console.error('Error fetching recent activity:', error);
-            return this.getMockRecentActivity();
+            throw error;
         }
     }
 
@@ -235,152 +235,6 @@ class ForumAPI {
         }
     }
 
-    // Mock data for development
-    getMockCategories() {
-        return [
-            {
-                id: 1,
-                name: 'Foundation',
-                description: 'Basic Heavy Duty principles, getting started with training',
-                access_level: 'public',
-                post_count: 12,
-                sort_order: 1
-            },
-            {
-                id: 2,
-                name: 'Methodology',
-                description: 'Training splits, progression methods, workout planning',
-                access_level: 'public',
-                post_count: 8,
-                sort_order: 2
-            },
-            {
-                id: 3,
-                name: 'Progress Logs',
-                description: 'Share your workout logs, progress photos, and achievements',
-                access_level: 'public',
-                post_count: 15,
-                sort_order: 3
-            },
-            {
-                id: 4,
-                name: 'Q&A',
-                description: 'General questions and community help',
-                access_level: 'public',
-                post_count: 6,
-                sort_order: 4
-            },
-            {
-                id: 5,
-                name: 'Advanced',
-                description: 'Premium: CNS management, advanced techniques, exclusive content',
-                access_level: 'premium',
-                post_count: 4,
-                sort_order: 5
-            },
-            {
-                id: 6,
-                name: 'Equipment',
-                description: 'Gear reviews, equipment recommendations, home gym setups',
-                access_level: 'public',
-                post_count: 3,
-                sort_order: 6
-            }
-        ];
-    }
-
-    getMockPosts() {
-        return {
-            posts: [
-                {
-                    id: 1,
-                    title: 'Getting started with Heavy Duty - beginner questions',
-                    content: 'I\'ve read about Heavy Duty training but not sure where to start...',
-                    user: { email: 'beginner@example.com', subscription_status: 'free' },
-                    upvotes: 5,
-                    downvotes: 0,
-                    reply_count: 3,
-                    created_at: '2025-07-01T10:00:00Z',
-                    last_activity: '2025-07-02T14:30:00Z'
-                },
-                {
-                    id: 2,
-                    title: 'CNS fatigue - how do you know when to rest?',
-                    content: 'Struggling to identify when I need extra rest days...',
-                    user: { email: 'trainer@example.com', subscription_status: 'premium' },
-                    upvotes: 8,
-                    downvotes: 1,
-                    reply_count: 7,
-                    created_at: '2025-07-01T15:00:00Z',
-                    last_activity: '2025-07-02T16:00:00Z'
-                }
-            ],
-            total: 2,
-            page: 1,
-            totalPages: 1
-        };
-    }
-
-    getMockPost() {
-        return {
-            id: 1,
-            title: 'Getting started with Heavy Duty - beginner questions',
-            content: 'I\'ve read about Heavy Duty training but not sure where to start. Should I jump right into the goto split or build up to it?',
-            user: { email: 'beginner@example.com', subscription_status: 'free' },
-            category: { id: 1, name: 'Foundation' },
-            upvotes: 5,
-            downvotes: 0,
-            reply_count: 3,
-            created_at: '2025-07-01T10:00:00Z',
-            replies: [
-                {
-                    id: 1,
-                    content: 'Start with the foundation principles first, then work up to the full split.',
-                    user: { email: 'expert@example.com', subscription_status: 'premium' },
-                    upvotes: 3,
-                    downvotes: 0,
-                    created_at: '2025-07-01T12:00:00Z'
-                }
-            ]
-        };
-    }
-
-    getMockStats() {
-        return {
-            totalPosts: 48,
-            totalReplies: 127,
-            totalMembers: 23
-        };
-    }
-
-    getMockRecentActivity() {
-        return [
-            { 
-                type: 'post',
-                title: 'Started my first HD routine - feedback needed', 
-                category_name: 'Foundation', 
-                username: 'NewTrainee', 
-                created_at: new Date(Date.now() - 23 * 60 * 1000).toISOString(),
-                reply_count: 3
-            },
-            { 
-                type: 'reply',
-                title: 'CNS recovery protocols for advanced trainees', 
-                category_name: 'Advanced', 
-                username: 'HDVeteran', 
-                created_at: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
-                reply_count: 7
-            },
-            { 
-                type: 'post',
-                title: '6 month progress - 40lb strength gains', 
-                category_name: 'Progress Logs', 
-                username: 'StrengthSeeker', 
-                created_at: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-                reply_count: 12
-            }
-        ];
-    }
 }
 
 // Global forum API instance

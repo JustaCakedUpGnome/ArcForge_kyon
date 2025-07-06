@@ -23,25 +23,25 @@ class SearchSystem {
             // Foundation content
             'motivation-and-identity': {
                 title: 'Why Do You Want the Muscles?',
-                url: '/foundation/motivation-and-identity.html',
+                url: '/pages/foundation/motivation-and-identity.html',
                 content: 'motivation identity training mindset why muscles self-filtering intro',
                 category: 'foundation'
             },
             'muscle-fiber-primer': {
                 title: 'Muscle Fibers & Nervous System Primer', 
-                url: '/foundation/muscle-fiber-primer.html',
+                url: '/pages/foundation/muscle-fiber-primer.html',
                 content: 'muscle fiber type I type II recruitment CNS fatigue nervous system primer',
                 category: 'foundation'
             },
             'training-philosophy': {
                 title: 'Training Philosophy & Structural Realism',
-                url: '/foundation/training-philosophy.html', 
+                url: '/pages/foundation/training-philosophy.html', 
                 content: 'philosophy structural realism genetics leverages exercise selection calisthenics weights',
                 category: 'foundation'
             },
             'myths-and-qa': {
                 title: 'Training Myths & Reader Misfires',
-                url: '/foundation/myths-and-qa.html',
+                url: '/pages/foundation/myths-and-qa.html',
                 content: 'myths misconceptions debunking logic fallacies reader misfires Q&A',
                 category: 'foundation'
             },
@@ -49,19 +49,19 @@ class SearchSystem {
             // Methodology content
             'heavy-duty-principles': {
                 title: 'Heavy Duty Principles',
-                url: '/methodology/heavy-duty-principles.html',
+                url: '/pages/methodology/heavy-duty-principles.html',
                 content: 'heavy duty mike mentzer intensity failure progressive overload',
                 category: 'methodology'
             },
             'goto-split': {
                 title: 'Goto Split Routine',
-                url: '/methodology/goto-split.html', 
+                url: '/pages/methodology/goto-split.html', 
                 content: 'goto split routine workout back shoulders chest legs recovery 8-9 day cycle',
                 category: 'methodology'
             },
             'progression-protocols': {
                 title: 'Progression Protocols',
-                url: '/methodology/progression-protocols.html',
+                url: '/pages/methodology/progression-protocols.html',
                 content: 'progression protocols strength size advancement autoregulation recovery indicators',
                 category: 'methodology'
             },
@@ -69,7 +69,7 @@ class SearchSystem {
             // Advanced content (premium)
             'recovery-guide': {
                 title: 'The Recovery Guide',
-                url: '/advanced/recovery-guide.html',
+                url: '/pages/advanced/recovery-guide.html',
                 content: 'recovery CNS fatigue local muscle fatigue rest optimization sleep premium',
                 category: 'advanced',
                 premium: true
@@ -78,9 +78,17 @@ class SearchSystem {
             // Navigation
             'navigation': {
                 title: 'Navigation & Terminal Interface',
-                url: '/navigation/index.html',
+                url: '/pages/navigation/index.html',
                 content: 'navigation terminal interface command palette search keyboard shortcuts keybinds',
                 category: 'navigation'
+            },
+            
+            // Forum content
+            'forum': {
+                title: 'Heavy Duty Forum',
+                url: '/pages/forum/forum.html',
+                content: 'forum community discussions training methodology progress logs questions',
+                category: 'forum'
             }
         };
     }
@@ -321,11 +329,11 @@ class SearchSystem {
     navigateToPage(page) {
         const routes = {
             'home': '/',
-            'foundation': '/foundation/motivation-and-identity.html',
-            'methodology': '/methodology/heavy-duty-principles.html',
-            'advanced': '/advanced/recovery-guide.html',
-            'navigation': '/navigation/index.html',
-            'forum': '/docs/forum.html'
+            'foundation': '/pages/foundation/motivation-and-identity.html',
+            'methodology': '/pages/methodology/heavy-duty-principles.html',
+            'advanced': '/pages/advanced/recovery-guide.html',
+            'navigation': '/pages/navigation/index.html',
+            'forum': '/pages/forum/forum.html'
         };
 
         const url = routes[page];

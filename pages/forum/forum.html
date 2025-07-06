@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum - ARCFORGE</title>
-    <link rel="stylesheet" href="css/terminal-theme.css">
+    <link rel="stylesheet" href="/css/terminal-theme.css">
     <style>
         .forum-container {
             max-width: 1200px;
@@ -550,7 +550,7 @@
     <div class="container">
         <header class="page-header">
             <nav class="breadcrumb">
-                <a href="index.html">arcforge</a> / 
+                <a href="/index.html">arcforge</a> / 
                 <span class="current">forum</span>
             </nav>
         </header>
@@ -653,9 +653,9 @@
         </div>
     </div>
 
-    <script src="js/auth.js"></script>
-    <script src="js/access-control.js"></script>
-    <script src="js/forum/forum-api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/access-control.js"></script>
+    <script src="/js/forum/forum-api.js"></script>
     <script>
         // Generate stars background
         function createStars() {
@@ -832,7 +832,7 @@
                         <div class="activity-avatar">${item.user.charAt(0).toUpperCase()}</div>
                         <div class="activity-content">
                             <div class="activity-text"><strong>${item.user}</strong> posted in <strong>${item.category}</strong></div>
-                            <div class="activity-title" style="color: #fff; margin: 4px 0; cursor: pointer;" onclick="window.location.href='/forum/post.html?id=${item.id}'">${item.title}</div>
+                            <div class="activity-title" style="color: #fff; margin: 4px 0; cursor: pointer;" onclick="window.location.href='/pages/forum/post.html?id=${item.id}'">${item.title}</div>
                             <div class="post-tags">
                                 ${item.tags.map(tag => `<span class="tag ${tag}">#${tag}</span>`).join('')}
                             </div>
@@ -845,7 +845,7 @@
             
             setupEventListeners() {
                 document.getElementById('create-post-btn').addEventListener('click', () => {
-                    window.location.href = '/forum/create-post.html';
+                    window.location.href = '/pages/forum/create-post.html';
                 });
                 
                 // Tag filter functionality
@@ -905,7 +905,7 @@
                 }
                 
                 // Navigate to category page
-                window.location.href = `/forum/category.html?id=${categoryId}`;
+                window.location.href = `/pages/forum/category.html?id=${categoryId}`;
             }
             
             showCreatePostModal() {

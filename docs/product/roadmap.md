@@ -107,7 +107,32 @@ gantt
 
 ## 🚀 Feature Roadmap
 
-### **Immediate Priorities (Next 30 Days)**
+### **Immediate Priorities (Next 30 Days) - UPDATED**
+1. **Backend Search System**
+   - Full-text search across posts and replies
+   - Advanced filtering (category, author, date)
+   - Search result ranking algorithm
+   - Search analytics tracking
+
+2. **Rich Text Editor**
+   - Markdown support for posts and replies
+   - Live preview functionality
+   - Code syntax highlighting
+   - Image upload and embedding
+
+3. **Post Management Features**
+   - Edit functionality for posts and replies
+   - Post deletion with confirmation
+   - Post history and revision tracking
+   - Content versioning system
+
+4. **Mobile & Cross-platform Optimization**
+   - Fix Mac keybind compatibility (Cmd vs Ctrl)
+   - Mobile keyboard shortcut alternatives
+   - Touch-friendly navigation improvements
+   - Safari/Chrome/Firefox testing
+
+### **Short-term Goals (3-6 Months)**
 1. **Premium Subscription System**
    - Payment integration (Stripe)
    - Tier-based access control
@@ -120,30 +145,17 @@ gantt
    - Analytics and reporting
    - System health monitoring
 
-3. **API Expansion**
-   - Complete RESTful API
-   - API documentation
-   - Rate limiting
-   - Authentication endpoints
-
-### **Short-term Goals (3-6 Months)**
-1. **Real-time Features**
+3. **Real-time Features**
    - WebSocket integration
    - Live post updates
    - Real-time notifications
    - Online user indicators
 
-2. **Mobile Applications**
+4. **Mobile Applications**
    - React Native development
    - iOS App Store submission
    - Android Play Store submission
    - Push notifications
-
-3. **Advanced Search**
-   - Full-text search engine
-   - Advanced filtering options
-   - Search analytics
-   - Saved search queries
 
 ### **Medium-term Goals (6-12 Months)**
 1. **Enterprise Features**

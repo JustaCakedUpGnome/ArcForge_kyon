@@ -50,7 +50,40 @@ graph TB
     style Done fill:#38a169,stroke:#48bb78,color:#e2e8f0
 ```
 
-## 🔥 Priority 1: Critical Issues (Immediate - 1-2 Weeks)
+## 🔥 Priority 1: Core Features & Critical Issues (Immediate - 1-2 Weeks)
+
+### **Core Platform Features** *(BUMPED UP - High Impact)*
+- [ ] **🔍 Backend Search Enhancement** *(High Priority)*
+  - Full-text search across posts and replies
+  - Advanced filtering (category, author, date)
+  - Search result ranking algorithm
+  - Search analytics tracking
+  - **Effort**: 3-5 days
+  - **Impact**: Major UX improvement
+
+- [ ] **📝 Rich Text Editor** *(High Priority)*
+  - Markdown support for posts and replies
+  - Live preview functionality
+  - Code syntax highlighting
+  - Image upload and embedding
+  - **Effort**: 4-6 days
+  - **Impact**: Essential for developer community
+
+- [ ] **✏️ Post Management Features** *(High Priority)*
+  - Edit functionality for posts and replies
+  - Post deletion with confirmation
+  - Post history and revision tracking
+  - Content versioning system
+  - **Effort**: 3-4 days
+  - **Impact**: Basic forum functionality
+
+- [ ] **📱 Mobile & Cross-platform Optimization** *(High Priority)*
+  - Fix Mac keybind compatibility (Cmd vs Ctrl)
+  - Mobile keyboard shortcut alternatives
+  - Touch-friendly navigation improvements
+  - Safari/Chrome/Firefox testing
+  - **Effort**: 2-3 days
+  - **Impact**: Accessibility for all users
 
 ### **Security and Privacy**
 - [x] **✅ Username System Implementation** *(COMPLETED)*
@@ -82,40 +115,21 @@ graph TB
   - Repair search highlighting functionality
   - Unify search interfaces
 
-## ⚡ Priority 2: Core Features (2-4 Weeks)
+## ⚡ Priority 2: Enhanced Features (2-4 Weeks)
 
-### **Forum Search Enhancement**
-- [ ] **Backend Search Endpoints**
-  - Full-text search across posts and replies
-  - Advanced filtering (category, author, date)
-  - Search result ranking algorithm
-  - Search analytics tracking
-
+### **Search System Enhancement**
 - [ ] **Frontend Search Improvements**
-  - Unified search interface
+  - Unified search interface design
   - Search autocomplete and suggestions
   - Search history and saved searches
-  - Performance optimization
+  - Performance optimization and caching
 
-### **User Experience Improvements**
-- [ ] **Rich Text Editor**
-  - Markdown support for posts and replies
-  - Live preview functionality
-  - Code syntax highlighting
-  - Image upload and embedding
-
-- [ ] **Post Management Features**
-  - Edit functionality for posts and replies
-  - Post deletion with confirmation
-  - Post history and revision tracking
-  - Content versioning system
-
-### **Mobile Optimization**
-- [ ] **Cross-platform Compatibility**
-  - Fix Mac keybind compatibility
-  - Mobile keyboard shortcut alternatives
-  - Touch-friendly navigation improvements
-  - Safari/Chrome/Firefox testing
+### **User Experience Polish**
+- [ ] **Advanced Text Features**
+  - @mentions with notifications
+  - Code block formatting improvements
+  - Copy/paste optimization
+  - Keyboard shortcut help overlay
 
 ## 📈 Priority 3: Enhancements (4-8 Weeks)
 

@@ -186,6 +186,7 @@ gantt
 ## 💡 Innovation Pipeline
 
 ### **Research and Development**
+- **Neovim Navigation**: Full modal editing with vim operators and commands
 - **Voice Interface**: Voice commands for accessibility
 - **AR/VR Integration**: Immersive forum experiences
 - **Blockchain Features**: Decentralized moderation

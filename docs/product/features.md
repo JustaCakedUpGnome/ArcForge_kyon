@@ -225,6 +225,61 @@ CREATE TABLE votes (
 - **User Search**: Find specific users
 - **Advanced Filters**: Date range, author, category
 
+### **🔥 Future: Neovim Navigation System**
+**User Story:** As a Neovim user, I want full modal editing capabilities throughout the forum interface.
+
+**Acceptance Criteria:**
+- 📋 Complete modal editing (normal, insert, visual, command modes)
+- 📋 Text operators (d, y, p, c) for post/reply manipulation
+- 📋 Motion commands (w, b, e, $, 0, gg, G) for content navigation
+- 📋 Buffer management for multiple posts/pages
+- 📋 Split navigation (Ctrl+w commands) for multi-pane view
+- 📋 Register system for advanced copy/paste workflows
+- 📋 Macro recording (q{register}) and playback (@{register})
+- 📋 Ex commands (:w, :q, :sp, :vsp) for forum actions
+- 📋 Search and replace (%s/pattern/replacement/g) for post editing
+- 📋 User-customizable key mappings and configuration
+- 📋 Plugin-like extension system for advanced users
+
+**Technical Implementation:**
+- **Modal State Machine**: JavaScript state management for vim modes
+- **Key Mapping Engine**: Configurable key binding system
+- **Text Object System**: Sophisticated text manipulation primitives
+- **Buffer Management**: Virtual file system for forum content
+- **Command Parser**: Ex command interpretation and execution
+- **Register System**: Clipboard management with named registers
+- **Configuration Storage**: Per-user vim configuration persistence
+
+**Neovim Features:**
+```
+Normal Mode Commands:
+- h,j,k,l - Basic navigation
+- w,b,e - Word movements  
+- 0,$ - Line boundaries
+- gg,G - Document boundaries
+- dd,yy,pp - Line operations
+- u,Ctrl+r - Undo/redo
+- /,?,n,N - Search operations
+- :commands - Ex command mode
+
+Visual Mode:
+- v - Character selection
+- V - Line selection
+- Ctrl+v - Block selection
+- d,y,c - Operations on selection
+
+Insert Mode:
+- i,a,o,O - Enter insert mode
+- Esc,Ctrl+[ - Return to normal
+
+Advanced Features:
+- Macros: q{reg}, @{reg}
+- Registers: "{reg}
+- Marks: m{mark}, '{mark}
+- Text objects: ciw, dap, yi)
+- Splits: :sp, :vsp, Ctrl+w navigation
+```
+
 ## 🎨 User Interface
 
 ### **Terminal Aesthetics**

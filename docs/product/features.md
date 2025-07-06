@@ -205,6 +205,51 @@ CREATE TABLE reactions (
 - **Analytics**: Most popular reactions, trending emotions
 - **Notifications**: "@user reacted with ❤️ to your post"
 
+**📋 Future: Custom Emoji System**
+**User Story:** As a premium user/admin, I want to upload and use custom emojis like Discord.
+
+**Tier-Based Custom Emoji Access:**
+- **Free Tier**: Standard emoji reactions only
+- **Premium Tier**: Can use admin-uploaded custom emojis
+- **Admin/Creator Tier**: Can upload and manage custom emojis
+- **Enterprise Tier**: Full custom emoji sets for organizations
+
+**Custom Emoji Features:**
+```sql
+-- Custom emojis table
+CREATE TABLE custom_emojis (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL, -- :arcforge_fire:
+    file_path VARCHAR(255) NOT NULL,
+    category VARCHAR(50),
+    uploaded_by INTEGER REFERENCES users(id),
+    tier_required VARCHAR(20) DEFAULT 'premium', -- free, premium, admin
+    is_animated BOOLEAN DEFAULT false,
+    file_size_kb INTEGER,
+    usage_count INTEGER DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT true
+);
+```
+
+**Implementation Details:**
+- **Upload Requirements**: PNG/GIF under 256KB, 128x128px max
+- **Naming Convention**: `:custom_name:` syntax like Discord
+- **Auto-resize**: Automatic optimization to standard sizes
+- **Moderation**: Admin approval queue for uploaded emojis
+- **Usage Analytics**: Track most popular custom emojis
+- **Category Organization**: Group by theme (fitness, code, memes, etc.)
+- **Search Integration**: Find custom emojis in reaction picker
+- **Import/Export**: Bulk emoji management for admins
+
+**Custom Emoji Management:**
+- **Upload Interface**: Drag-and-drop emoji uploader
+- **Preview System**: Test emojis before approval
+- **Bulk Operations**: Enable/disable emoji sets
+- **Usage Statistics**: See which custom emojis are most popular
+- **User Permissions**: Control who can upload/use custom emojis
+- **Storage Optimization**: CDN integration for fast emoji loading
+
 ## ⌨️ Navigation and Interface
 
 ### **Vim-Style Keyboard Shortcuts**
@@ -409,23 +454,40 @@ Advanced Features:
 Free Tier:
 ├── Public category access
 ├── Basic posting and replies
+├── Standard emoji reactions (👍, ❤️, 😂, etc.)
 ├── Standard voting
 └── Limited search
 
-Premium Tier:
+Premium Tier ($5/month):
 ├── All free features
 ├── Premium category access
-├── Advanced search
+├── Custom emoji usage (use admin-uploaded emojis)
+├── Advanced search and command palette
 ├── Priority support
 └── Custom themes (future)
 
-Admin Tier:
+Creator Tier ($15/month):
 ├── All premium features
+├── Custom emoji upload (up to 50 emojis)
+├── Custom emoji management dashboard
+├── Usage analytics for uploaded emojis
+├── Community branding features
+└── Revenue sharing from emoji usage
+
+Admin Tier:
+├── All creator features
 ├── User management
 ├── Content moderation
 ├── Analytics dashboard
+├── Unlimited custom emoji uploads
 └── System administration
 ```
+
+**Custom Emoji Monetization:**
+- **Revenue Stream**: Premium/Creator tiers for emoji features
+- **Engagement Driver**: Users upgrade to access custom expressions
+- **Community Building**: Unique emojis create forum identity
+- **Creator Economy**: Revenue sharing for popular emoji creators
 
 ### **Private Categories**
 **User Story:** As a premium user, I want access to exclusive discussion categories.

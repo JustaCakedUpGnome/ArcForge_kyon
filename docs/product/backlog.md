@@ -148,6 +148,16 @@ graph TB
   - Analytics for most popular reactions
   - Admin control over available reactions
 
+- [ ] **Custom Emoji System** *(Premium Feature)*
+  - User-uploaded custom emojis (like Discord)
+  - Tier-based access (Free: standard only, Premium: use custom, Admin: upload custom)
+  - Emoji upload interface (PNG/GIF, auto-resize, moderation queue)
+  - Custom emoji categories and organization
+  - Usage analytics and popularity tracking
+  - Bulk emoji management for admins
+  - Enterprise custom emoji sets for organizations
+  - CDN integration for fast loading
+
 - [ ] **Real-time Notifications**
   - WebSocket integration
   - Live post updates

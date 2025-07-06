@@ -17,7 +17,7 @@
         }
         
         .post-card {
-            background: rgba(17, 17, 17, 0.9);
+            background: #111;
             border: 1px solid #333;
             border-radius: 8px;
             padding: 25px;
@@ -195,7 +195,7 @@
         }
         
         .reply-form {
-            background: rgba(26, 26, 26, 0.8);
+            background: #1a1a1a;
             border: 1px solid #333;
             border-radius: 8px;
             padding: 20px;
@@ -268,13 +268,23 @@
         }
         
         .reply-item {
-            background: rgba(26, 26, 26, 0.6);
+            background: #1a1a1a;
             border: 1px solid #333;
             border-radius: 6px;
             padding: 20px;
             margin-bottom: 15px;
-            margin-left: 20px;
+            margin-left: 0px;
             border-left: 3px solid #ff6b6b;
+            position: relative;
+        }
+        
+        .reply-item::before {
+            content: "↳";
+            position: absolute;
+            left: -15px;
+            top: 20px;
+            color: #666;
+            font-size: 16px;
         }
         
         .reply-header {
@@ -352,7 +362,7 @@
             text-align: center;
             padding: 30px;
             color: #666;
-            background: rgba(42, 42, 42, 0.3);
+            background: #2a2a2a;
             border: 1px solid #444;
             border-radius: 6px;
         }
@@ -378,7 +388,7 @@
             text-align: center;
             padding: 40px;
             color: #ff6b6b;
-            background: rgba(255, 107, 107, 0.1);
+            background: #1a1a1a;
             border: 1px solid rgba(255, 107, 107, 0.3);
             border-radius: 6px;
         }
@@ -398,7 +408,11 @@
             }
             
             .reply-item {
-                margin-left: 10px;
+                margin-left: 0px;
+            }
+            
+            .reply-item::before {
+                left: -10px;
             }
         }
     </style>

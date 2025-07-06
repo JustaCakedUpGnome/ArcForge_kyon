@@ -1,166 +1,146 @@
-# System Architecture
+# Architecture Documentation
 
-## Overview
-ARCFORGE is a terminal-inspired web platform built around the metaphor of navigating a digital fortress. The architecture supports modular expansion while maintaining consistent terminal aesthetics.
+> System design and technical decisions for ARCFORGE terminal forum platform
 
-## System Architecture
+**Tags:** #architecture #system-design #documentation
+
+## 🚀 Quick Navigation
+
+- **[System Overview](system-overview.md)** - Complete architecture with Mermaid diagrams
+- **[Database Schema](database.md)** - PostgreSQL design with triggers and constraints  
+- **[Decision Records](adr/)** - Why we made key technical choices
+
+## 🏗️ Architecture Overview
+
+ARCFORGE is a production-grade forum platform with terminal-inspired UI, demonstrating enterprise patterns in a solo-developed application.
 
 ```mermaid
 graph TB
-    User[👤 User] --> Frontend[🌐 Frontend<br/>Terminal Interface]
-    Frontend --> API[🔧 Node.js API<br/>Express.js]
-    API --> DB[(🗄️ PostgreSQL<br/>Database)]
-    API --> Stripe[💳 Stripe<br/>Payments]
-    API --> Auth[🔐 JWT Auth<br/>bcrypt]
-    
-    Frontend --> Search[🔍 Hybrid Search<br/>Vim + Command Palette]
-    Frontend --> Navigation[🗂️ File Tree<br/>Navigation]
-    
-    subgraph "Content Structure"
-        Foundation[📖 Foundation<br/>Free Content]
-        Methodology[⚡ Methodology<br/>Core Training]
-        Advanced[🔒 Advanced<br/>Premium Content]
-        Forum[💬 Forum<br/>Community]
+    subgraph "Client Layer"
+        A[Terminal UI] --> B[Vanilla JavaScript]
+        B --> C[Hybrid Search]
+        C --> D[Vim + Command Palette]
     end
     
-    API --> Foundation
-    API --> Methodology
-    API --> Advanced
-    API --> Forum
+    subgraph "Application Layer" 
+        E[Express.js API] --> F[JWT Authentication]
+        E --> G[Forum Operations]
+        E --> H[User Management]
+    end
     
-    style User fill:#e1f5fe
-    style Frontend fill:#f3e5f5
-    style API fill:#e8f5e8
-    style DB fill:#fff3e0
-    style Stripe fill:#fce4ec
+    subgraph "Data Layer"
+        I[PostgreSQL] --> J[Advanced Schema]
+        I --> K[Triggers & Functions]
+        I --> L[Polymorphic Voting]
+    end
+    
+    subgraph "Infrastructure"
+        M[nginx] --> N[Reverse Proxy]
+        M --> O[Static Assets]
+        P[PM2] --> Q[Process Management]
+    end
+    
+    A --> E
+    E --> I
+    M --> E
+    P --> E
+    
+    style A fill:#4c51bf,stroke:#5a67d8,color:#e2e8f0
+    style E fill:#2b6cb0,stroke:#3182ce,color:#e2e8f0
+    style I fill:#38a169,stroke:#48bb78,color:#e2e8f0
+    style M fill:#d69e2e,stroke:#ed8936,color:#e2e8f0
 ```
 
-## Domain Architecture
+## 🎯 Key Architectural Highlights
 
+### **Production-Grade Features**
+- **Advanced Database Design**: PostgreSQL with triggers, UPSERT operations, polymorphic relations
+- **Enterprise Authentication**: JWT + bcrypt with role-based access control
+- **Scalable Infrastructure**: nginx + PM2 + VPS deployment
+- **Real-time Voting**: Optimistic updates with database consistency
+
+### **Terminal-Inspired UX**
+- **Fortress Navigation**: File-tree metaphor with collapsible folders
+- **Keyboard-First**: Full functionality via shortcuts (`j/k`, `/`, `Ctrl+K`)
+- **Progressive Enhancement**: Works without JavaScript, enhanced with it
+
+### **Performance Optimizations**
+- **Denormalized Counters**: Vote counts cached for fast queries
+- **Strategic Indexing**: Optimized for common forum access patterns
+- **Root-relative Assets**: Migration-proof CSS/JS loading
+
+## 📊 System Complexity
+
+### **Database Sophistication**
 ```mermaid
-graph LR
-    ARCFORGE[🏰 ARCFORGE] --> Fortress[⚔️ Fortress<br/>Heavy Duty Training]
-    ARCFORGE --> Laboratory[🧪 Laboratory<br/>Tech & Programming]
-    ARCFORGE --> Library[📚 Library<br/>Philosophy & Reading]
-    ARCFORGE --> Workshop[🔧 Workshop<br/>Tools & Utilities]
+erDiagram
+    USERS ||--o{ POSTS : creates
+    USERS ||--o{ VOTES : casts
+    POSTS ||--o{ REPLIES : has
+    VOTES }o--|| POSTS : targets
+    VOTES }o--|| REPLIES : targets
     
-    Fortress --> Foundation[📖 Foundation]
-    Fortress --> Methodology[⚡ Methodology]  
-    Fortress --> Advanced[🔒 Advanced]
-    Fortress --> Forum[💬 Forum]
-    
-    style ARCFORGE fill:#1a1a1a,color:#fff
-    style Fortress fill:#2d1b69,color:#fff
-    style Laboratory fill:#1b5e20,color:#fff
-    style Library fill:#b71c1c,color:#fff
-    style Workshop fill:#e65100,color:#fff
+    VOTES {
+        int user_id FK
+        string votable_type
+        int votable_id
+        enum vote_type
+    }
 ```
 
-## Technology Stack
+- **Polymorphic Voting**: Single table handles post AND reply votes
+- **Database Triggers**: Auto-update counts on vote changes
+- **Referential Integrity**: Cascade deletes maintain consistency
 
-| Layer | Technology | Purpose |
-|-------|------------|---------|
-| **Frontend** | Vanilla HTML/CSS/JS | Terminal interface, no framework overhead |
-| **Backend** | Node.js + Express.js | RESTful API, authentication, business logic |
-| **Database** | PostgreSQL | User data, forum posts, content metadata |
-| **Authentication** | JWT + bcrypt | Secure session management |
-| **Payments** | Stripe | Subscription and one-time payments |
-| **Deployment** | VPS | Self-hosted frontend + backend |
-
-## Core Components
-
-### Terminal Interface
-- **File Tree Navigation**: Collapsible folder structure
-- **Vim-Inspired Shortcuts**: `j/k` navigation, `/` search, `Ctrl+K` command palette
-- **Keyboard-First UX**: Full accessibility via keyboard
-- **Monospace Typography**: JetBrains Mono for developer aesthetic
-
-### Search System
-- **Vim-Style Search** (`/`): Page-level search with highlighting
-- **Command Palette** (`Ctrl+K`): Global search with action execution
-- **Real-time Highlighting**: Instant visual feedback
-- **Keyboard Navigation**: `n/N` for match navigation
-
-### Authentication Flow
+### **Authentication Flow**
 ```mermaid
 sequenceDiagram
-    participant U as User
-    participant F as Frontend
+    participant C as Client
     participant A as API
     participant D as Database
     
-    U->>F: Login Request
-    F->>A: POST /api/auth/login
-    A->>D: Validate Credentials
-    D-->>A: User Data
-    A-->>F: JWT Token
-    F-->>U: Login Success
-    
-    Note over F: Store JWT in localStorage
-    
-    U->>F: Access Protected Content
-    F->>A: Request with JWT Header
-    A->>A: Validate JWT
-    A-->>F: Protected Data
-    F-->>U: Display Content
+    C->>A: POST /auth/login
+    A->>D: Validate credentials
+    D-->>A: User data
+    A->>A: Generate JWT
+    A-->>C: Secure cookie + token
+    C->>A: Protected request + JWT
+    A->>A: Verify token
+    A-->>C: Authorized response
 ```
 
-## Design Principles
+## 🔧 Technology Stack Rationale
 
-### 1. Terminal Metaphor
-- File tree structure mimics filesystem navigation
-- Command-based interactions (`:goto`, `:help`, `:search`)
-- Dark theme with terminal color schemes
-- Consistent keyboard shortcuts across all features
+### **Why Vanilla JavaScript?**
+- **No build tools** - Deploy anywhere instantly
+- **Performance** - No framework overhead
+- **Learning** - Deep understanding of web fundamentals
+- **Maintainability** - No dependency hell
 
-### 2. Modular Architecture
-- **Domain Isolation**: Each domain is self-contained
-- **Shared Components**: Common terminal features reused
-- **Scalable Content**: Easy to add new domains
-- **Consistent Interface**: Same navigation patterns everywhere
+### **Why PostgreSQL?**
+- **Advanced features** - Triggers, functions, complex queries
+- **ACID compliance** - Data integrity for forum operations
+- **Scalability** - Production-ready with read replicas
+- **Developer experience** - Rich SQL ecosystem
 
-### 3. Progressive Enhancement
-- **Works Without JavaScript**: Basic functionality available
-- **Keyboard-First**: All features accessible via keyboard
-- **Mobile Responsive**: Terminal aesthetic adapts to mobile
-- **Fast Loading**: Minimal dependencies, optimized assets
+### **Why Express.js?**
+- **Minimal overhead** - Fast API responses
+- **Ecosystem maturity** - Battle-tested middleware
+- **Flexibility** - Not opinionated about structure
+- **JWT integration** - Clean authentication patterns
 
-## File Structure
-```
-arcForgeSite/
-├── index.html              # Main fortress landing
-├── 404.html               # Nginx error page
-├── pages/                  # All website HTML content
-│   ├── foundation/         # Free introductory content
-│   ├── methodology/        # Core Heavy Duty training
-│   ├── advanced/           # Premium content
-│   ├── forum/              # Community discussions
-│   ├── user/               # User-related pages (profile, settings)
-│   └── misc/               # Other site pages (routines, legacy)
-├── css/                    # Stylesheets
-├── js/                     # Frontend JavaScript
-├── backend/                # Node.js API server
-├── content/                # Markdown source files
-└── docs/                   # Project documentation
-```
+## 📈 Portfolio Demonstration
 
-## Performance Considerations
-- **Lazy Loading**: Content loaded on demand
-- **Minimal Dependencies**: Vanilla JS for core functionality
-- **Caching Strategy**: Browser and CDN caching
-- **Connection Pooling**: PostgreSQL optimization
+This architecture showcases:
 
-## Security
-- **Input Validation**: All user data sanitized
-- **XSS Protection**: Content sanitization
-- **JWT Security**: Proper token validation
-- **Rate Limiting**: API abuse prevention
+- **Systems thinking** - Understanding of full-stack concerns
+- **Database expertise** - Advanced PostgreSQL features
+- **Security awareness** - Proper authentication and authorization
+- **Performance consciousness** - Caching, indexing, denormalization
+- **Operational knowledge** - Production deployment and monitoring
 
-## Key Architectural Decisions
-See [Architecture Decision Records](adr/) for detailed rationale behind major technical choices:
+See individual documentation sections for detailed technical analysis.
 
-- [ADR-001: Terminal Interface Design](adr/001-terminal-interface-design.md)
-- [ADR-002: Hybrid Search System](adr/002-hybrid-search-system.md)
-- [ADR-003: Vanilla JavaScript Architecture](adr/003-vanilla-javascript-architecture.md)
-- [ADR-004: Node.js Backend Choice](adr/004-nodejs-backend-choice.md)
-- [ADR-005: HTML Structure Organization](adr/005-html-structure-organization.md)
+---
+
+*Built by a solo developer to demonstrate enterprise-level architecture patterns and production deployment capabilities.*

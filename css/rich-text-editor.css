@@ -1,0 +1,275 @@
+/* Rich Text Editor Styles for ARCFORGE */
+.rich-text-editor {
+    border: 2px solid #444;
+    border-radius: 8px;
+    background: #1a1a1a;
+    font-family: "JetBrains Mono", monospace;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.rich-text-editor:focus-within {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+/* Toolbar */
+.rte-toolbar {
+    background: #111;
+    border-bottom: 1px solid #333;
+    padding: 8px 12px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.rte-toolbar-group {
+    display: flex;
+    gap: 4px;
+    padding-right: 8px;
+    border-right: 1px solid #333;
+}
+
+.rte-toolbar-group:last-child {
+    border-right: none;
+}
+
+.rte-btn {
+    background: transparent;
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: #ccc;
+    cursor: pointer;
+    padding: 6px 8px;
+    font-size: 12px;
+    font-family: "JetBrains Mono", monospace;
+    transition: all 0.2s ease;
+    min-width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rte-btn:hover {
+    background: #333;
+    border-color: #555;
+    color: #fff;
+}
+
+.rte-btn:active,
+.rte-btn.active {
+    background: #ff6b6b;
+    border-color: #ff6b6b;
+    color: #000;
+}
+
+/* Editor Container */
+.rte-editor-container {
+    position: relative;
+    background: #1a1a1a;
+}
+
+/* Rich Text Editor */
+.rte-editor {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 12px 16px;
+    outline: none;
+    overflow-y: auto;
+    resize: vertical;
+}
+
+.rte-editor:empty::before {
+    content: attr(data-placeholder);
+    color: #666;
+    pointer-events: none;
+    position: absolute;
+}
+
+/* Markdown Textarea */
+.rte-textarea {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 12px 16px;
+    outline: none;
+    resize: vertical;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.rte-textarea::placeholder {
+    color: #666;
+}
+
+/* Mode Toggle */
+.rte-mode-toggle {
+    background: #111;
+    border-top: 1px solid #333;
+    padding: 6px 12px;
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end;
+}
+
+.rte-mode-btn {
+    background: transparent;
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: #888;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 11px;
+    font-family: "JetBrains Mono", monospace;
+    transition: all 0.2s ease;
+}
+
+.rte-mode-btn:hover {
+    background: #333;
+    border-color: #555;
+    color: #ccc;
+}
+
+.rte-mode-btn.active {
+    background: #ff6b6b;
+    border-color: #ff6b6b;
+    color: #000;
+    font-weight: 600;
+}
+
+/* Content Styling in Rich Text Mode */
+.rte-editor strong,
+.rte-editor b {
+    color: #fff;
+    font-weight: 700;
+}
+
+.rte-editor em,
+.rte-editor i {
+    color: #fff;
+    font-style: italic;
+}
+
+.rte-editor code {
+    background: #333;
+    border: 1px solid #555;
+    border-radius: 3px;
+    color: #ff6b6b;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    padding: 2px 4px;
+}
+
+.rte-editor pre {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #ccc;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    margin: 8px 0;
+    overflow-x: auto;
+    padding: 12px;
+}
+
+.rte-editor a {
+    color: #4a9eff;
+    text-decoration: underline;
+}
+
+.rte-editor a:hover {
+    color: #66b3ff;
+}
+
+.rte-editor ul,
+.rte-editor ol {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+.rte-editor li {
+    margin: 4px 0;
+}
+
+.rte-editor blockquote {
+    border-left: 3px solid #ff6b6b;
+    margin: 8px 0;
+    padding-left: 12px;
+    color: #ccc;
+    font-style: italic;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .rte-toolbar {
+        padding: 6px 8px;
+        gap: 8px;
+    }
+    
+    .rte-toolbar-group {
+        gap: 2px;
+        padding-right: 6px;
+    }
+    
+    .rte-btn {
+        padding: 4px 6px;
+        font-size: 11px;
+        min-width: 24px;
+    }
+    
+    .rte-editor,
+    .rte-textarea {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+    
+    .rte-mode-toggle {
+        padding: 4px 8px;
+    }
+    
+    .rte-mode-btn {
+        padding: 3px 6px;
+        font-size: 10px;
+    }
+}
+
+/* Integration with existing inline editing */
+.inline-edit-container .rich-text-editor {
+    margin-bottom: 10px;
+}
+
+.inline-edit-container .rich-text-editor .rte-editor,
+.inline-edit-container .rich-text-editor .rte-textarea {
+    min-height: 120px;
+}
+
+/* Focus states */
+.rte-editor:focus,
+.rte-textarea:focus {
+    background: rgba(255, 107, 107, 0.02);
+}
+
+/* Smooth transitions */
+.rte-editor,
+.rte-textarea {
+    transition: all 0.2s ease;
+}
+
+/* Disabled state */
+.rich-text-editor.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.rich-text-editor.disabled .rte-btn {
+    cursor: not-allowed;
+}

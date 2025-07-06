@@ -8,12 +8,49 @@
 
 ARCFORGE is a premium forum platform designed with terminal aesthetics and developer-focused features. Built for professional communities that value performance, security, and unique user experience.
 
+**Key Design Philosophy**: Developer-friendly features with mainstream accessibility - we use developer-inspired UX (terminal aesthetics, keyboard shortcuts) but design for broader audiences who may not be technical.
+
 ## 🗺️ Quick Navigation
 
 - **[Feature Specifications](features.md)** - Detailed feature documentation
 - **[Product Roadmap](roadmap.md)** - Development timeline and future plans
 - **[User Guide](user-guide.md)** - End-user documentation
 - **[Admin Guide](admin-guide.md)** - Administrative features
+
+## 👥 User Personas & Audience Strategy
+
+### **Primary Audience (70%): Fitness Enthusiasts & General Users**
+- **Profile**: People interested in fitness/training content who appreciate clean, professional interfaces
+- **Technical Level**: Limited - may not know Markdown, prefer visual editors
+- **Needs**: Easy content creation, intuitive navigation, mobile-friendly experience
+- **Feature Preferences**: Rich text editors, visual formatting, simple interfaces
+
+### **Secondary Audience (25%): Tech-Savvy Power Users**  
+- **Profile**: Developers, engineers, technical professionals who like efficiency
+- **Technical Level**: High - comfortable with Markdown, keyboard shortcuts, CLI tools
+- **Needs**: Speed, keyboard navigation, advanced features, customization
+- **Feature Preferences**: Markdown, vim shortcuts, command palette, advanced search
+
+### **Tertiary Audience (5%): Content Creators & Admins**
+- **Profile**: Community managers, fitness professionals, content creators
+- **Technical Level**: Moderate - willing to learn tools for content creation
+- **Needs**: Content management, analytics, moderation tools, SEO features
+- **Feature Preferences**: Rich editing tools, analytics dashboards, bulk operations
+
+## 🎯 **Design Principle: "Developer UX, Mainstream Accessibility"**
+
+**The Strategy**: Use developer-inspired aesthetics and optional power features, but ensure core functionality is accessible to non-technical users.
+
+**Examples**:
+- ✅ **Terminal aesthetics** (looks cool to everyone)
+- ✅ **Optional vim shortcuts** (power users love them, others ignore them)  
+- ✅ **Rich text editor WITH Markdown option** (accessible to all, powerful for devs)
+- ✅ **Command palette** (discoverable for beginners, efficient for experts)
+
+**Feature Decision Framework**:
+- **Always accessible**: Core features work for non-technical users
+- **Progressive enhancement**: Advanced features available for power users
+- **Visual first**: Default to visual/GUI options, offer text/code alternatives
 
 ## 🏗️ Product Architecture
 

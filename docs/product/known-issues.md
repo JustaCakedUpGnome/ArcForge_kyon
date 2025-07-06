@@ -57,6 +57,61 @@ Conflicts between global search (Ctrl+K) and forum search implementations causin
 
 ---
 
+#### **🔄 Post Management API Failures**
+**Status:** Open  
+**Priority:** High  
+**Reported:** 2025-07-06  
+**Impact:** High - Users cannot edit or delete their posts/replies
+
+**Description:**
+All post management operations (edit post, edit reply, delete reply) are failing with "Failed to edit/delete" errors, even for post authors with proper permissions.
+
+**Steps to Reproduce:**
+1. Log in as post author
+2. Navigate to your own post
+3. Click "Edit" button
+4. Make changes and click "Save Changes"
+5. Error: "Failed to edit post. Please try again."
+
+**Same issue affects:**
+- Post editing
+- Reply editing  
+- Reply deletion
+
+**Investigation Needed:**
+- [ ] Check backend API responses and error logs
+- [ ] Verify JWT token format and user ID matching
+- [ ] Test database migration 007 was applied correctly
+- [ ] Check authorization logic in backend routes
+
+---
+
+#### **🔄 Authentication State Refresh Issue**
+**Status:** Open  
+**Priority:** Medium  
+**Reported:** 2025-07-06  
+**Impact:** Medium - Poor UX after login
+
+**Description:**
+After logging in from a forum post page, the page still shows "Login to join discussion" instead of automatically updating to show the logged-in state. User must manually refresh page.
+
+**Steps to Reproduce:**
+1. Navigate to any forum post while logged out
+2. Click "Login / Sign Up" button
+3. Complete login process
+4. Page still shows login prompts instead of reply form
+
+**Expected Behavior:**
+- Page should automatically refresh/update to show logged-in UI
+- Reply form should appear without manual refresh
+
+**Fix Plan:**
+- [ ] Add authentication state listener to forum pages
+- [ ] Trigger page refresh or UI update after successful login
+- [ ] Update auth modal to notify parent page of login success
+
+---
+
 ### **Minor Issues**
 
 #### **📱 Mobile Keyboard Shortcuts**
@@ -296,11 +351,11 @@ Moving HTML files to new directory structure broke relative CSS paths, causing s
 ## 📊 Issue Tracking Metrics
 
 ### **Issue Statistics**
-- **Total Open Issues:** 2
+- **Total Open Issues:** 4
 - **Critical Issues:** 0
-- **High Priority:** 1
-- **Medium Priority:** 1
-- **Low Priority:** 0
+- **High Priority:** 2
+- **Medium Priority:** 2
+- **Low Priority:** 1
 - **Recently Fixed:** 3 (Username system, "J" key bug, Nodemailer error)
 
 ### **Resolution Timeline**

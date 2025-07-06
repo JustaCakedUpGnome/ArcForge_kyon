@@ -126,18 +126,21 @@ Premium Categories:
 **User Story:** As a forum member, I want to create posts and reply to discussions.
 
 **Acceptance Criteria:**
-- ✅ Rich text post creation
+- ✅ Post creation with title and content
 - ✅ Threaded reply system
-- ✅ Post and reply editing (time-limited)
-- ✅ Author information display
+- ✅ Post and reply editing (author and admin only)
+- ✅ Author information display with usernames
 - ✅ Timestamp and "time ago" formatting
-- ✅ Post and reply deletion (author and admin)
+- ✅ Post and reply deletion (author and admin only)
 - ✅ Character limits and validation
+- ✅ Edit tracking with visual indicators
 
 **Post Features:**
-- **Title**: 5-200 characters
-- **Content**: 10-10,000 characters
-- **Formatting**: Markdown support (future)
+- **Title**: 10-255 characters (posts only)
+- **Content**: 20+ characters (posts), 5+ characters (replies)
+- **Edit Tracking**: Shows "(edited)" indicators and tracks edit count
+- **Authorization**: Only authors or admins can modify content
+- **Formatting**: Plain text (Rich text/Markdown planned)
 - **Attachments**: Image uploads (future)
 - **Mentions**: @username notifications (future)
 
@@ -170,6 +173,61 @@ CREATE TABLE votes (
     UNIQUE(user_id, votable_type, votable_id)
 );
 ```
+
+### **✅ Post Management System**
+**User Story:** As a forum user, I want to edit and delete my posts and replies to correct mistakes or remove content.
+
+**Acceptance Criteria:**
+- ✅ Edit posts (title and content) - author or admin only
+- ✅ Edit replies (content) - author or admin only  
+- ✅ Delete posts - author or admin only
+- ✅ Delete replies - author or admin only
+- ✅ Edit history tracking with automatic timestamps
+- ✅ Visual indicators for edited content
+- ✅ Modal-based editing interface with validation
+- ✅ Confirmation dialogs for deletion
+- ✅ Authorization checks prevent unauthorized access
+
+**Technical Implementation:**
+- **Database Schema**: Added `edit_count` and `is_edited` columns to posts and replies
+- **Database Triggers**: Automatic edit tracking when content is modified
+- **Backend API**: PUT/DELETE endpoints with proper authorization
+- **Frontend UI**: Modal editing forms with validation and error handling
+- **Security**: Only content authors or admins can edit/delete
+
+```sql
+-- Edit tracking columns added to posts and replies tables
+ALTER TABLE posts ADD COLUMN edit_count INTEGER DEFAULT 0;
+ALTER TABLE posts ADD COLUMN is_edited BOOLEAN DEFAULT false;
+ALTER TABLE replies ADD COLUMN edit_count INTEGER DEFAULT 0;
+ALTER TABLE replies ADD COLUMN is_edited BOOLEAN DEFAULT false;
+
+-- Automatic edit tracking triggers
+CREATE OR REPLACE FUNCTION update_post_edit_tracking()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.title != NEW.title OR OLD.content != NEW.content THEN
+        NEW.edit_count = OLD.edit_count + 1;
+        NEW.is_edited = true;
+        NEW.updated_at = CURRENT_TIMESTAMP;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+**API Endpoints:**
+- `PUT /api/posts/:id` - Edit post (title + content)
+- `DELETE /api/posts/:id` - Delete post  
+- `PUT /api/replies/:id` - Edit reply (content)
+- `DELETE /api/replies/:id` - Delete reply
+
+**Features:**
+- **Edit Tracking**: Automatically tracks edit count and timestamps
+- **Visual Feedback**: Shows "(edited)" labels for modified content
+- **Authorization**: Comprehensive ownership and admin privilege checks
+- **User Experience**: Modal forms with validation and error handling
+- **Data Integrity**: Database triggers maintain edit history automatically
 
 ### **📋 Future: Forum Reactions System**
 **User Story:** As a forum user, I want to quickly express emotions and reactions to posts beyond just voting.

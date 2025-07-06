@@ -410,7 +410,7 @@
         <header class="page-header">
             <nav class="breadcrumb">
                 <a href="/index.html">arcforge</a> / 
-                <a href="../forum.html">forum</a> / 
+                <a href="/pages/forum/forum.html">forum</a> / 
                 <span class="current" id="breadcrumb-post">loading...</span>
             </nav>
         </header>
@@ -437,9 +437,9 @@
         </div>
     </div>
 
-    <script src="../js/auth.js"></script>
-    <script src="../js/access-control.js"></script>
-    <script src="../js/forum/forum-api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/access-control.js"></script>
+    <script src="/js/forum/forum-api.js"></script>
     <script>
         // Generate stars background
         function createStars() {
@@ -683,7 +683,7 @@ Tips for great replies:
                 try {
                     await window.forumAPI.deletePost(this.postId);
                     alert('Post deleted successfully!');
-                    window.location.href = '../forum.html';
+                    window.location.href = '/pages/forum/forum.html';
                 } catch (error) {
                     console.error('Delete error:', error);
                     alert('Failed to delete post. You may not have permission.');
@@ -707,7 +707,7 @@ Tips for great replies:
                     <div class="error-state">
                         <h3>Error Loading Post</h3>
                         <p>${message}</p>
-                        <a href="../forum.html" class="btn btn-secondary" style="display: inline-block; margin-top: 15px;">
+                        <a href="/pages/forum/forum.html" class="btn btn-secondary" style="display: inline-block; margin-top: 15px;">
                             ← Back to Forum
                         </a>
                     </div>

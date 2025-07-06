@@ -141,146 +141,6 @@
             background: #c82333;
         }
         
-        /* Edit Modal Styles */
-        .edit-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .edit-modal-backdrop {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-        }
-        
-        .edit-modal-content {
-            position: relative;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .edit-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid #333;
-        }
-        
-        .edit-modal-header h3 {
-            margin: 0;
-            color: #fff;
-            font-size: 18px;
-        }
-        
-        .edit-modal-close {
-            background: none;
-            border: none;
-            color: #aaa;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .edit-modal-close:hover {
-            color: #fff;
-        }
-        
-        .edit-modal-body {
-            padding: 20px;
-            overflow-y: auto;
-            flex: 1;
-        }
-        
-        .edit-form-group {
-            margin-bottom: 20px;
-        }
-        
-        .edit-form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #ccc;
-            font-weight: 500;
-        }
-        
-        .edit-form-group input,
-        .edit-form-group textarea {
-            width: 100%;
-            background: #222;
-            border: 1px solid #444;
-            border-radius: 6px;
-            padding: 12px;
-            color: #fff;
-            font-family: "JetBrains Mono", monospace;
-            font-size: 14px;
-            resize: vertical;
-        }
-        
-        .edit-form-group input:focus,
-        .edit-form-group textarea:focus {
-            outline: none;
-            border-color: #ff6b6b;
-        }
-        
-        .edit-modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            padding: 20px;
-            border-top: 1px solid #333;
-        }
-        
-        .btn-primary, .btn-secondary {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: "JetBrains Mono", monospace;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        
-        .btn-primary {
-            background: #ff6b6b;
-            color: #000;
-        }
-        
-        .btn-primary:hover {
-            background: #ff5252;
-        }
-        
-        .btn-secondary {
-            background: #333;
-            color: #ccc;
-            border: 1px solid #555;
-        }
-        
-        .btn-secondary:hover {
-            background: #444;
-            color: #fff;
-        }
         
         /* Reply Controls */
         .reply-actions {
@@ -298,6 +158,128 @@
         .reply-controls .delete-btn {
             padding: 4px 8px;
             font-size: 10px;
+        }
+        
+        /* Inline Editing Styles */
+        .inline-edit-container {
+            margin-top: 15px;
+        }
+        
+        .inline-edit-title,
+        .inline-edit-content {
+            width: 100%;
+            background: #1a1a1a;
+            border: 2px solid #ff6b6b;
+            border-radius: 6px;
+            padding: 12px;
+            color: #fff;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            margin-bottom: 10px;
+        }
+        
+        .inline-edit-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .inline-edit-content {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+        
+        .inline-edit-title:focus,
+        .inline-edit-content:focus {
+            outline: none;
+            border-color: #ff5252;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+        }
+        
+        .inline-edit-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .inline-save-btn {
+            background: #28a745;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .inline-save-btn:hover {
+            background: #218838;
+        }
+        
+        .inline-cancel-btn {
+            background: #6c757d;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: "JetBrains Mono", monospace;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .inline-cancel-btn:hover {
+            background: #5a6268;
+        }
+        
+        .edit-hint {
+            font-size: 11px;
+            color: #888;
+            margin-left: auto;
+        }
+        
+        /* Hide original content when editing with smooth transition */
+        .post-title,
+        .post-content,
+        .reply-content {
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        
+        .editing .post-title,
+        .editing .post-content,
+        .editing .reply-content {
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            position: absolute;
+            z-index: -1;
+        }
+        
+        /* Smooth appearance of edit containers */
+        .inline-edit-container {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .inline-edit-container[style*="block"] {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        
+        /* Smooth button states */
+        .inline-save-btn:disabled,
+        .inline-cancel-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
         
         .post-title {
@@ -738,6 +720,16 @@
                         
                         <div class="post-content">${this.post.content}</div>
                         
+                        <div class="inline-edit-container" id="post-edit-container" style="display: none;">
+                            <input type="text" class="inline-edit-title" id="edit-post-title" placeholder="Post title...">
+                            <textarea class="inline-edit-content" id="edit-post-content" placeholder="Write your post content..."></textarea>
+                            <div class="inline-edit-actions">
+                                <button class="inline-save-btn" onclick="postPage.saveInlineEdit()">💾 Save</button>
+                                <button class="inline-cancel-btn" onclick="postPage.cancelInlineEdit()">✖️ Cancel</button>
+                                <span class="edit-hint">Press Escape to cancel</span>
+                            </div>
+                        </div>
+                        
                         <div class="post-stats">
                             <span>💬 ${this.post.reply_count} replies</span>
                             <span>👁️ Last activity ${this.formatTimeAgo(this.post.last_activity || this.post.created_at)}</span>
@@ -791,7 +783,7 @@
                                     </div>
                                     ${canEdit ? `
                                         <div class="reply-controls">
-                                            <button class="edit-btn" onclick="postPage.editReply(${reply.id}, '${reply.content.replace(/'/g, '\\\'')}')" title="Edit Reply">
+                                            <button class="edit-btn" onclick="postPage.editReply(${reply.id})" title="Edit Reply">
                                                 ✏️
                                             </button>
                                             <button class="delete-btn" onclick="postPage.deleteReply(${reply.id})" title="Delete Reply">
@@ -802,6 +794,14 @@
                                 </div>
                             </div>
                             <div class="reply-content">${reply.content}</div>
+                            <div class="inline-edit-container reply-edit-container" id="reply-edit-${reply.id}" style="display: none;">
+                                <textarea class="inline-edit-content" id="edit-reply-content-${reply.id}" placeholder="Write your reply...">${reply.content}</textarea>
+                                <div class="inline-edit-actions">
+                                    <button class="inline-save-btn" onclick="postPage.saveReplyInlineEdit(${reply.id})">💾 Save</button>
+                                    <button class="inline-cancel-btn" onclick="postPage.cancelReplyInlineEdit(${reply.id})">✖️ Cancel</button>
+                                    <span class="edit-hint">Press Escape to cancel</span>
+                                </div>
+                            </div>
                         </div>
                     `;
                 }).join('');
@@ -926,111 +926,142 @@ Tips for great replies:
             }
             
             async editPost() {
-                // Create edit modal
-                const modal = document.createElement('div');
-                modal.className = 'edit-modal';
-                modal.innerHTML = `
-                    <div class="edit-modal-backdrop" onclick="postPage.closeEditModal()"></div>
-                    <div class="edit-modal-content">
-                        <div class="edit-modal-header">
-                            <h3>✏️ Edit Post</h3>
-                            <button class="edit-modal-close" onclick="postPage.closeEditModal()">×</button>
-                        </div>
-                        <div class="edit-modal-body">
-                            <div class="edit-form-group">
-                                <label for="edit-title">Title</label>
-                                <input type="text" id="edit-title" value="${this.post.title.replace(/"/g, '&quot;')}" maxlength="255">
-                            </div>
-                            <div class="edit-form-group">
-                                <label for="edit-content">Content</label>
-                                <textarea id="edit-content" rows="10">${this.post.content}</textarea>
-                            </div>
-                        </div>
-                        <div class="edit-modal-footer">
-                            <button class="btn-secondary" onclick="postPage.closeEditModal()">Cancel</button>
-                            <button class="btn-primary" onclick="postPage.savePostEdit()">Save Changes</button>
-                        </div>
-                    </div>
-                `;
+                // Get the post card and add editing class
+                const postCard = document.querySelector('.post-card');
+                postCard.classList.add('editing');
                 
-                document.body.appendChild(modal);
-                document.getElementById('edit-title').focus();
+                // Show the inline edit container
+                const editContainer = document.getElementById('post-edit-container');
+                editContainer.style.display = 'block';
+                
+                // Fill in current values
+                document.getElementById('edit-post-title').value = this.post.title;
+                document.getElementById('edit-post-content').value = this.post.content;
+                
+                // Focus on title field
+                document.getElementById('edit-post-title').focus();
+                
+                // Add escape key handler
+                this.escapeHandler = (e) => {
+                    if (e.key === 'Escape') {
+                        this.cancelInlineEdit();
+                    }
+                };
+                document.addEventListener('keydown', this.escapeHandler);
             }
             
-            closeEditModal() {
-                const modal = document.querySelector('.edit-modal');
-                if (modal) {
-                    modal.remove();
+            cancelInlineEdit() {
+                // Remove editing class
+                const postCard = document.querySelector('.post-card');
+                postCard.classList.remove('editing');
+                
+                // Hide the inline edit container
+                const editContainer = document.getElementById('post-edit-container');
+                editContainer.style.display = 'none';
+                
+                // Remove escape key handler
+                if (this.escapeHandler) {
+                    document.removeEventListener('keydown', this.escapeHandler);
+                    this.escapeHandler = null;
                 }
             }
             
-            async savePostEdit() {
-                const title = document.getElementById('edit-title').value.trim();
-                const content = document.getElementById('edit-content').value.trim();
+            async saveInlineEdit() {
+                const title = document.getElementById('edit-post-title').value.trim();
+                const content = document.getElementById('edit-post-content').value.trim();
                 
                 if (!title || title.length < 10) {
                     alert('Title must be at least 10 characters long');
+                    document.getElementById('edit-post-title').focus();
                     return;
                 }
                 
                 if (!content || content.length < 20) {
                     alert('Content must be at least 20 characters long');
+                    document.getElementById('edit-post-content').focus();
                     return;
                 }
                 
+                // Disable save button during save
+                const saveBtn = document.querySelector('.inline-save-btn');
+                const originalText = saveBtn.textContent;
+                saveBtn.disabled = true;
+                saveBtn.textContent = '💾 Saving...';
+                
                 try {
                     await window.forumAPI.editPost(this.postId, { title, content });
-                    this.closeEditModal();
+                    this.cancelInlineEdit();
                     await this.loadPost(); // Reload to show changes
                 } catch (error) {
                     console.error('Error editing post:', error);
                     alert('Failed to edit post. Please try again.');
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = originalText;
                 }
             }
             
-            async editReply(replyId, currentContent) {
-                // Create edit modal for reply
-                const modal = document.createElement('div');
-                modal.className = 'edit-modal';
-                modal.innerHTML = `
-                    <div class="edit-modal-backdrop" onclick="postPage.closeEditModal()"></div>
-                    <div class="edit-modal-content">
-                        <div class="edit-modal-header">
-                            <h3>✏️ Edit Reply</h3>
-                            <button class="edit-modal-close" onclick="postPage.closeEditModal()">×</button>
-                        </div>
-                        <div class="edit-modal-body">
-                            <div class="edit-form-group">
-                                <label for="edit-reply-content">Content</label>
-                                <textarea id="edit-reply-content" rows="6">${currentContent}</textarea>
-                            </div>
-                        </div>
-                        <div class="edit-modal-footer">
-                            <button class="btn-secondary" onclick="postPage.closeEditModal()">Cancel</button>
-                            <button class="btn-primary" onclick="postPage.saveReplyEdit(${replyId})">Save Changes</button>
-                        </div>
-                    </div>
-                `;
+            async editReply(replyId) {
+                // Find the reply item and add editing class
+                const replyItem = document.querySelector(`#reply-edit-${replyId}`).closest('.reply-item');
+                replyItem.classList.add('editing');
                 
-                document.body.appendChild(modal);
-                document.getElementById('edit-reply-content').focus();
+                // Show the inline edit container for this reply
+                const editContainer = document.getElementById(`reply-edit-${replyId}`);
+                editContainer.style.display = 'block';
+                
+                // Focus on the content field
+                const contentField = document.getElementById(`edit-reply-content-${replyId}`);
+                contentField.focus();
+                
+                // Add escape key handler for this specific reply
+                this.replyEscapeHandler = (e) => {
+                    if (e.key === 'Escape') {
+                        this.cancelReplyInlineEdit(replyId);
+                    }
+                };
+                document.addEventListener('keydown', this.replyEscapeHandler);
             }
             
-            async saveReplyEdit(replyId) {
-                const content = document.getElementById('edit-reply-content').value.trim();
+            cancelReplyInlineEdit(replyId) {
+                // Remove editing class from reply item
+                const replyItem = document.querySelector(`#reply-edit-${replyId}`).closest('.reply-item');
+                replyItem.classList.remove('editing');
+                
+                // Hide the inline edit container
+                const editContainer = document.getElementById(`reply-edit-${replyId}`);
+                editContainer.style.display = 'none';
+                
+                // Remove escape key handler
+                if (this.replyEscapeHandler) {
+                    document.removeEventListener('keydown', this.replyEscapeHandler);
+                    this.replyEscapeHandler = null;
+                }
+            }
+            
+            async saveReplyInlineEdit(replyId) {
+                const content = document.getElementById(`edit-reply-content-${replyId}`).value.trim();
                 
                 if (!content || content.length < 5) {
                     alert('Reply content must be at least 5 characters long');
+                    document.getElementById(`edit-reply-content-${replyId}`).focus();
                     return;
                 }
                 
+                // Disable save button during save
+                const saveBtn = document.querySelector(`#reply-edit-${replyId} .inline-save-btn`);
+                const originalText = saveBtn.textContent;
+                saveBtn.disabled = true;
+                saveBtn.textContent = '💾 Saving...';
+                
                 try {
                     await window.forumAPI.editReply(replyId, content);
-                    this.closeEditModal();
+                    this.cancelReplyInlineEdit(replyId);
                     await this.loadPost(); // Reload to show changes
                 } catch (error) {
                     console.error('Error editing reply:', error);
                     alert('Failed to edit reply. Please try again.');
+                    saveBtn.disabled = false;
+                    saveBtn.textContent = originalText;
                 }
             }
             

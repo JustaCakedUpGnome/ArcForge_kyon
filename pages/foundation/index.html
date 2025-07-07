@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foundation - ARCFORGE</title>
+    <link rel="stylesheet" href="/css/terminal-theme.css">
+    <style>
+        .foundation-header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid #333;
+            margin-bottom: 40px;
+        }
+        
+        .foundation-title {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .foundation-subtitle {
+            font-size: 16px;
+            color: #aaa;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        
+        .foundation-description {
+            font-size: 14px;
+            color: #ccc;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .content-section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            color: #fff;
+            text-transform: uppercase;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .content-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .content-item {
+            margin-bottom: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+        }
+        
+        .content-item:last-child {
+            border-bottom: none;
+        }
+        
+        .content-item:hover {
+            background: #222;
+            padding-left: 10px;
+            border-radius: 4px;
+        }
+        
+        .content-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 14px;
+            line-height: 1.4;
+            display: block;
+        }
+        
+        .content-link:hover {
+            color: #fff;
+        }
+        
+        .content-meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .view-all-section {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+        
+        .view-all-button {
+            display: inline-block;
+            background: #333;
+            border: 1px solid #555;
+            padding: 15px 30px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+        
+        .view-all-button:hover {
+            background: #444;
+            border-color: #666;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        
+        .section-icon {
+            display: inline-block;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+        
+        .premium-badge {
+            background: #2d4a22;
+            border: 1px solid #4a7c59;
+            color: #90ee90;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .foundation-title {
+                font-size: 28px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <header class="page-header">
+            <nav class="breadcrumb">
+                <a href="/index.html">arcforge</a> / 
+                <span class="current">foundation</span>
+            </nav>
+        </header>
+
+        <div class="foundation-header">
+            <h1 class="foundation-title">FOUNDATION</h1>
+            <p class="foundation-subtitle">Building the Heavy Duty Mindset</p>
+            <div class="foundation-description">
+                Essential knowledge for anyone beginning their Heavy Duty journey. These foundational concepts 
+                establish the philosophical and scientific groundwork that supports all advanced training principles.
+            </div>
+        </div>
+
+        <div class="terminal-content">
+            <div class="content-grid">
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">🆕</span>Recently Added
+                    </h2>
+                    <ul class="content-list">
+                        <li class="content-item">
+                            <a href="hydration-and-nutrients.html" class="content-link">
+                                Hydration and Nutrients
+                                <div class="content-meta">Essential fuel for optimal recovery and growth</div>
+                            </a>
+                        </li>
+                        <li class="content-item">
+                            <a href="myths-and-qa.html" class="content-link">
+                                Myths and Q&A
+                                <div class="content-meta">Debunking common training misconceptions</div>
+                            </a>
+                        </li>
+                        <li class="content-item">
+                            <a href="training-philosophy.html" class="content-link">
+                                Training Philosophy
+                                <div class="content-meta">The rational approach to muscle building</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">🔥</span>Essential Reading
+                    </h2>
+                    <ul class="content-list">
+                        <li class="content-item">
+                            <a href="motivation-and-identity.html" class="content-link">
+                                Motivation and Identity
+                                <div class="content-meta">Start here - the psychological foundation</div>
+                            </a>
+                        </li>
+                        <li class="content-item">
+                            <a href="muscle-fiber-primer.html" class="content-link">
+                                Muscle Fiber Primer
+                                <div class="content-meta">Understanding your body's adaptation mechanisms</div>
+                            </a>
+                        </li>
+                        <li class="content-item">
+                            <a href="training-philosophy.html" class="content-link">
+                                Training Philosophy
+                                <div class="content-meta">Core principles that guide everything</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">⭐</span>Highly Recommended
+                    </h2>
+                    <ul class="content-list">
+                        <li class="content-item">
+                            <a href="motivation-and-identity.html" class="content-link">
+                                Motivation and Identity
+                                <div class="content-meta">The most important foundation piece</div>
+                            </a>
+                        </li>
+                        <li class="content-item">
+                            <a href="hydration-and-nutrients.html" class="content-link">
+                                Hydration and Nutrients
+                                <div class="content-meta">Often overlooked but critically important</div>
+                            </a>
+                        </li>
+                        <li class="content-item">
+                            <a href="myths-and-qa.html" class="content-link">
+                                Myths and Q&A
+                                <div class="content-meta">Clear up confusion before you start</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="view-all-section">
+                <h3 style="color: #fff; margin-bottom: 15px; font-size: 16px;">Complete Foundation Library</h3>
+                <p style="color: #aaa; margin-bottom: 20px; font-size: 14px;">
+                    Browse all foundation content in one place with advanced filtering and search.
+                </p>
+                <a href="#all-foundation-content" class="view-all-button">
+                    View All Foundation Content →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/search.js"></script>
+    <script>
+        // Generate stars background
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numStars = 100;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        createStars();
+        
+        // Add hover effects to content items
+        document.querySelectorAll('.content-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced - ARCFORGE</title>
+    <link rel="stylesheet" href="/css/terminal-theme.css">
+    <style>
+        .advanced-header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid #333;
+            margin-bottom: 40px;
+        }
+        
+        .advanced-title {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .advanced-subtitle {
+            font-size: 16px;
+            color: #aaa;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        
+        .advanced-description {
+            font-size: 14px;
+            color: #ccc;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .premium-notice {
+            background: linear-gradient(145deg, #2d4a22, #1a2d15);
+            border: 2px solid #4a7c59;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .premium-notice-title {
+            color: #90ee90;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+        
+        .premium-notice-text {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        
+        .upgrade-button {
+            display: inline-block;
+            background: #4a7c59;
+            border: 1px solid #90ee90;
+            padding: 12px 24px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+        
+        .upgrade-button:hover {
+            background: #5a8c69;
+            box-shadow: 0 0 15px rgba(144, 238, 144, 0.3);
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .content-section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            position: relative;
+        }
+        
+        .premium-section {
+            border-color: #4a7c59;
+            background: linear-gradient(145deg, #1a2d15, #0d1a0a);
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            color: #fff;
+            text-transform: uppercase;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .premium-section .section-title {
+            border-bottom-color: #4a7c59;
+        }
+        
+        .content-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .content-item {
+            margin-bottom: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+        }
+        
+        .content-item:last-child {
+            border-bottom: none;
+        }
+        
+        .content-item:hover:not(.locked-item) {
+            background: #222;
+            padding-left: 10px;
+            border-radius: 4px;
+        }
+        
+        .content-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 14px;
+            line-height: 1.4;
+            display: block;
+        }
+        
+        .content-link:hover {
+            color: #fff;
+        }
+        
+        .locked-item {
+            opacity: 0.6;
+            position: relative;
+        }
+        
+        .locked-item .content-link {
+            color: #888;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .content-meta {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .premium-meta {
+            color: #90ee90;
+        }
+        
+        .premium-badge {
+            background: #2d4a22;
+            border: 1px solid #4a7c59;
+            color: #90ee90;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+        
+        .lock-icon {
+            color: #666;
+            margin-right: 8px;
+        }
+        
+        .coming-soon-badge {
+            background: #444;
+            border: 1px solid #666;
+            color: #aaa;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+        
+        .view-all-section {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(145deg, #1a2d15, #0d1a0a);
+            border: 1px solid #4a7c59;
+            border-radius: 8px;
+        }
+        
+        .view-all-button {
+            display: inline-block;
+            background: #4a7c59;
+            border: 1px solid #90ee90;
+            padding: 15px 30px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+        
+        .view-all-button:hover {
+            background: #5a8c69;
+            box-shadow: 0 0 15px rgba(144, 238, 144, 0.3);
+        }
+        
+        .section-icon {
+            display: inline-block;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .advanced-title {
+                font-size: 28px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <header class="page-header">
+            <nav class="breadcrumb">
+                <a href="/index.html">arcforge</a> / 
+                <span class="current">advanced</span>
+            </nav>
+        </header>
+
+        <div class="advanced-header">
+            <h1 class="advanced-title">ADVANCED 🔒</h1>
+            <p class="advanced-subtitle">Elite Training Protocols</p>
+            <div class="advanced-description">
+                Advanced Heavy Duty methodologies for experienced practitioners. These protocols assume 
+                mastery of foundational principles and methodology basics.
+            </div>
+        </div>
+
+        <div class="terminal-content">
+            <div class="premium-notice">
+                <div class="premium-notice-title">🔒 PREMIUM CONTENT</div>
+                <div class="premium-notice-text">
+                    Advanced content is reserved for premium subscribers. Upgrade to unlock 
+                    elite training protocols, advanced recovery strategies, and exclusive methodologies.
+                </div>
+                <a href="/pages/misc/upgrade.html" class="upgrade-button">
+                    Upgrade to Premium →
+                </a>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-section premium-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">🎯</span>Available Now
+                    </h2>
+                    <ul class="content-list">
+                        <li class="content-item">
+                            <a href="recovery-guide.html" class="content-link">
+                                🔒 Recovery Guide
+                                <span class="premium-badge">PREMIUM</span>
+                                <div class="content-meta premium-meta">Advanced recovery optimization protocols</div>
+                            </a>
+                        </li>
+                        <li class="content-item locked-item">
+                            <span class="content-link">
+                                <span class="lock-icon">🔒</span>Split Programming
+                                <span class="premium-badge">PREMIUM</span>
+                                <div class="content-meta">Custom split design for advanced trainees</div>
+                            </span>
+                        </li>
+                        <li class="content-item locked-item">
+                            <span class="content-link">
+                                <span class="lock-icon">🔒</span>Diet Blueprint
+                                <span class="premium-badge">PREMIUM</span>
+                                <div class="content-meta">Precision nutrition for muscle building</div>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section premium-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">🧬</span>Elite Protocols
+                    </h2>
+                    <ul class="content-list">
+                        <li class="content-item locked-item">
+                            <span class="content-link">
+                                <span class="lock-icon">🔒</span>Anatomy Movement
+                                <span class="premium-badge">PREMIUM</span>
+                                <div class="content-meta">Biomechanical optimization techniques</div>
+                            </span>
+                        </li>
+                        <li class="content-item locked-item">
+                            <span class="content-link">
+                                <span class="lock-icon">🔒</span>Plateau Breakers
+                                <span class="coming-soon-badge">COMING SOON</span>
+                                <div class="content-meta">Advanced intensity techniques</div>
+                            </span>
+                        </li>
+                        <li class="content-item locked-item">
+                            <span class="content-link">
+                                <span class="lock-icon">🔒</span>Neural Adaptation
+                                <span class="coming-soon-badge">COMING SOON</span>
+                                <div class="content-meta">CNS optimization strategies</div>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-section premium-section">
+                    <h2 class="section-title">
+                        <span class="section-icon">📊</span>Analytics & Tools
+                    </h2>
+                    <ul class="content-list">
+                        <li class="content-item locked-item">
+                            <span class="content-link">
+                                <span class="lock-icon">🔒</span>Progress Tracking
+                                <span class="coming-soon-badge">COMING SOON</span>
+                                <div class="content-meta">Advanced measurement protocols</div>
+                            </span>
+                        </li>
+                        <li class="content-item locked-item">
+                            <span class="content-link">
+                                <span class="lock-icon">🔒</span>Performance Metrics
+                                <span class="coming-soon-badge">COMING SOON</span>
+                                <div class="content-meta">Data-driven training optimization</div>
+                            </span>
+                        </li>
+                        <li class="content-item locked-item">
+                            <span class="content-link">
+                                <span class="lock-icon">🔒</span>Recovery Analytics
+                                <span class="coming-soon-badge">COMING SOON</span>
+                                <div class="content-meta">Biomarker tracking and analysis</div>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="view-all-section">
+                <h3 style="color: #90ee90; margin-bottom: 15px; font-size: 16px;">Complete Advanced Library</h3>
+                <p style="color: #aaa; margin-bottom: 20px; font-size: 14px;">
+                    Access the full advanced content library with premium subscription. 
+                    Includes exclusive protocols, tools, and ongoing content updates.
+                </p>
+                <a href="/pages/misc/upgrade.html" class="view-all-button">
+                    Unlock All Advanced Content →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/search.js"></script>
+    <script>
+        // Generate stars background
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numStars = 100;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        createStars();
+        
+        // Add hover effects to unlocked content items
+        document.querySelectorAll('.content-item:not(.locked-item)').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+        
+        // Add click handler for locked items
+        document.querySelectorAll('.locked-item').forEach(item => {
+            item.addEventListener('click', function() {
+                alert('This content requires a premium subscription. Click "Upgrade to Premium" to unlock.');
+            });
+        });
+    </script>
+</body>
+</html>

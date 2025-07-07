@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Demo - ARCFORGE</title>
+    <link rel="stylesheet" href="/css/terminal-theme.css">
+    <style>
+        .coming-soon-banner {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin: 60px auto;
+            max-width: 600px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+        }
+        
+        .banner-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+        
+        .banner-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        .banner-subtitle {
+            font-size: 16px;
+            color: #aaa;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        
+        .banner-description {
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .banner-link {
+            display: inline-block;
+            background: #333;
+            border: 1px solid #555;
+            padding: 12px 24px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .banner-link:hover {
+            background: #444;
+            border-color: #666;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+        
+        .construction-ascii {
+            font-family: monospace;
+            font-size: 12px;
+            color: #666;
+            margin: 20px 0;
+            white-space: pre;
+        }
+        
+        .shortcut-demo {
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+        
+        .demo-key {
+            background: #333;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .search-examples {
+            text-align: left;
+            margin: 20px 0;
+        }
+        
+        .search-examples h4 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .search-examples ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .search-examples li {
+            padding: 5px 0;
+            font-family: monospace;
+            font-size: 12px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <header class="page-header">
+            <nav class="breadcrumb">
+                <a href="/index.html">arcforge</a> / 
+                <span class="current">search_demo</span>
+            </nav>
+            <h1 class="page-title">SEARCH DEMO</h1>
+            <p class="page-subtitle">advanced search functionality showcase</p>
+        </header>
+
+        <div class="terminal-content">
+            <div class="coming-soon-banner">
+                <div class="banner-icon">🔍</div>
+                <h2 class="banner-title">COMING SOON</h2>
+                <p class="banner-subtitle">Advanced Search Showcase</p>
+                
+                <div class="construction-ascii">
+    ╔══════════════════════════════════════╗
+    ║           UNDER CONSTRUCTION         ║
+    ║    Semantic search capabilities      ║
+    ║    Real-time search suggestions      ║
+    ║    Advanced filtering & sorting      ║
+    ╚══════════════════════════════════════╝
+                </div>
+                
+                <div class="banner-description">
+                    This dedicated search demo will showcase advanced search features including 
+                    semantic matching, typo tolerance, real-time suggestions, advanced filtering 
+                    by content type, date ranges, and interactive search result previews.
+                </div>
+                
+                <div class="shortcut-demo">
+                    Current search options:
+                    <br>• Page search: <span class="demo-key">/</span> then type your query
+                    <br>• Forum search: Available on <a href="forum/forum.html" style="color: #aaa;">forum page</a>
+                </div>
+                
+                <div class="search-examples">
+                    <h4>Future Search Features:</h4>
+                    <ul>
+                        <li>• Fuzzy matching: "hevy dty" → "heavy duty"</li>
+                        <li>• Content type filters: posts, users, categories</li>
+                        <li>• Date range queries: created:2024, updated:last-week</li>
+                        <li>• Tag-based search: #training #nutrition #recovery</li>
+                        <li>• Author filtering: user:mentzer, author:justin</li>
+                    </ul>
+                </div>
+                
+                <a href="navigation/index.html" class="banner-link">
+                    Try Current Demo →
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/search.js"></script>
+    <script>
+        // Generate stars background
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            const numStars = 100;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        createStars();
+    </script>
+</body>
+</html>

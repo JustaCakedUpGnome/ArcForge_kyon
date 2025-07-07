@@ -613,4 +613,129 @@ router.get('/recent-activity', async (req, res) => {
     }
 });
 
+// GET /api/forum/search - Search posts and replies
+router.get('/search', async (req, res) => {
+    try {
+        const { q, category, author, limit = 20, offset = 0 } = req.query;
+        
+        if (!q || q.trim().length < 2) {
+            return res.status(400).json({ error: 'Search query must be at least 2 characters' });
+        }
+        
+        const searchTerm = `%${q.trim()}%`;
+        let searchQuery = '';
+        let queryParams = [searchTerm];
+        let paramCount = 1;
+        
+        // Build search query for posts
+        let postQuery = `
+            SELECT 
+                'post' as type,
+                p.id,
+                p.title,
+                p.content,
+                p.created_at,
+                p.updated_at,
+                u.username,
+                c.name as category_name,
+                c.id as category_id,
+                (CASE 
+                    WHEN p.title ILIKE $1 THEN 10 
+                    WHEN p.content ILIKE $1 THEN 5 
+                    ELSE 1 
+                END) as relevance_score
+            FROM posts p
+            JOIN users u ON p.user_id = u.id
+            JOIN categories c ON p.category_id = c.id
+            WHERE (p.title ILIKE $1 OR p.content ILIKE $1)
+              AND c.access_level = 'public'
+        `;
+        
+        // Build search query for replies
+        let replyQuery = `
+            SELECT 
+                'reply' as type,
+                r.id,
+                p.title,
+                r.content,
+                r.created_at,
+                r.updated_at,
+                u.username,
+                c.name as category_name,
+                c.id as category_id,
+                p.id as post_id,
+                3 as relevance_score
+            FROM replies r
+            JOIN posts p ON r.post_id = p.id
+            JOIN users u ON r.user_id = u.id
+            JOIN categories c ON p.category_id = c.id
+            WHERE r.content ILIKE $1
+              AND c.access_level = 'public'
+        `;
+        
+        // Add category filter if specified
+        if (category) {
+            paramCount++;
+            postQuery += ` AND c.id = $${paramCount}`;
+            replyQuery += ` AND c.id = $${paramCount}`;
+            queryParams.push(category);
+        }
+        
+        // Add author filter if specified
+        if (author) {
+            paramCount++;
+            postQuery += ` AND u.username ILIKE $${paramCount}`;
+            replyQuery += ` AND u.username ILIKE $${paramCount}`;
+            queryParams.push(`%${author}%`);
+        }
+        
+        // Combine queries and add ordering/limits
+        searchQuery = `
+            (${postQuery})
+            UNION ALL
+            (${replyQuery})
+            ORDER BY relevance_score DESC, created_at DESC
+            LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}
+        `;
+        
+        queryParams.push(limit, offset);
+        
+        console.log('Search query:', searchQuery);
+        console.log('Search params:', queryParams);
+        
+        const searchResult = await db.query(searchQuery, queryParams);
+        
+        // Get total count for pagination (simplified)
+        const countQuery = `
+            SELECT COUNT(*) as total FROM (
+                (SELECT p.id FROM posts p 
+                 JOIN categories c ON p.category_id = c.id 
+                 WHERE (p.title ILIKE $1 OR p.content ILIKE $1) AND c.access_level = 'public')
+                UNION ALL
+                (SELECT r.id FROM replies r 
+                 JOIN posts p ON r.post_id = p.id 
+                 JOIN categories c ON p.category_id = c.id 
+                 WHERE r.content ILIKE $1 AND c.access_level = 'public')
+            ) as combined_results
+        `;
+        
+        const countResult = await db.query(countQuery, [searchTerm]);
+        const totalResults = parseInt(countResult.rows[0].total);
+        
+        res.json({
+            results: searchResult.rows,
+            pagination: {
+                total: totalResults,
+                limit: parseInt(limit),
+                offset: parseInt(offset),
+                hasMore: (parseInt(offset) + parseInt(limit)) < totalResults
+            }
+        });
+        
+    } catch (error) {
+        console.error('Error performing search:', error);
+        res.status(500).json({ error: 'Search failed' });
+    }
+});
+
 module.exports = router;

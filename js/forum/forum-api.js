@@ -235,6 +235,23 @@ class ForumAPI {
         }
     }
 
+    // Search Forum
+    async searchForum(query, filters = {}) {
+        try {
+            const params = new URLSearchParams({
+                q: query,
+                ...filters
+            });
+            
+            const response = await fetch(`${this.baseURL}/api/forum/search?${params}`);
+            if (!response.ok) throw new Error('Failed to search forum');
+            return await response.json();
+        } catch (error) {
+            console.error('Error searching forum:', error);
+            throw error;
+        }
+    }
+
 }
 
 // Global forum API instance

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Post - ARCFORGE</title>
     <link rel="stylesheet" href="/css/terminal-theme.css">
+    <link rel="stylesheet" href="/css/rich-text-editor.css">
     <style>
         .create-post-container {
             max-width: 900px;
@@ -350,18 +351,9 @@
                     </div>
                     <div>
                         <label class="form-label" for="post-content">Share your thoughts, experience, or question in detail</label>
-                        <textarea class="form-textarea" id="post-content" placeholder="Write your post content here...
-
-Tips for great posts:
-• Share specific details and context
-• Include your training experience level
-• Ask clear, focused questions
-• Share what you've already tried
-• Be respectful and constructive
-
-The Heavy Duty community values depth and authenticity!" required></textarea>
+                        <div id="post-content-editor"></div>
                         <div class="character-counter">
-                            <span class="counter-text">Take your time - quality posts spark the best discussions</span>
+                            <span class="counter-text">Rich text editor with optional Markdown mode - take your time!</span>
                             <span class="counter-number"><span id="content-count">0</span> characters</span>
                         </div>
                         <div class="error-message" id="content-error"></div>
@@ -395,6 +387,7 @@ The Heavy Duty community values depth and authenticity!" required></textarea>
     <script src="/js/auth.js"></script>
     <script src="/js/access-control.js"></script>
     <script src="/js/forum/forum-api.js"></script>
+    <script src="/js/components/rich-text-editor.js"></script>
     <script>
         // Generate stars background
         function createStars() {
@@ -461,9 +454,15 @@ The Heavy Duty community values depth and authenticity!" required></textarea>
             
             setupEventListeners() {
                 const titleInput = document.getElementById('post-title');
-                const contentTextarea = document.getElementById('post-content');
                 const categorySelect = document.getElementById('post-category');
                 const form = document.getElementById('create-post-form');
+                
+                // Initialize Rich Text Editor
+                this.contentEditor = new RichTextEditor(document.getElementById('post-content-editor'), {
+                    placeholder: 'Write your post content here...\n\nTips for great posts:\n• Share specific details and context\n• Include your training experience level\n• Ask clear, focused questions\n• Share what you\'ve already tried\n• Be respectful and constructive\n\nThe Heavy Duty community values depth and authenticity!',
+                    minHeight: '300px',
+                    showModeToggle: true
+                });
                 
                 // Character counters
                 titleInput.addEventListener('input', () => {
@@ -475,8 +474,9 @@ The Heavy Duty community values depth and authenticity!" required></textarea>
                     counter.className = count > 200 ? 'counter-warning' : count > 240 ? 'counter-error' : 'counter-number';
                 });
                 
-                contentTextarea.addEventListener('input', () => {
-                    document.getElementById('content-count').textContent = contentTextarea.value.length;
+                // Content character counter using Rich Text Editor
+                this.contentEditor.onChange((content) => {
+                    document.getElementById('content-count').textContent = content.length;
                 });
                 
                 // Category selection feedback
@@ -525,7 +525,7 @@ The Heavy Duty community values depth and authenticity!" required></textarea>
             async handleSubmit() {
                 const categoryId = document.getElementById('post-category').value;
                 const title = document.getElementById('post-title').value.trim();
-                const content = document.getElementById('post-content').value.trim();
+                const content = this.contentEditor ? this.contentEditor.getValue().trim() : '';
                 const submitBtn = document.getElementById('submit-btn');
                 const submitText = document.getElementById('submit-text');
                 const submitIcon = document.getElementById('submit-icon');

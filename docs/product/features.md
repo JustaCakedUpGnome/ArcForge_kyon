@@ -265,6 +265,51 @@ $$ LANGUAGE plpgsql;
 - **Content Conversion**: Seamless switching between visual and Markdown
 - **Mobile Optimization**: Touch-friendly interface with responsive design
 
+### **✅ Forum Search System**
+**User Story:** As a forum user, I want to search across all posts and replies to find relevant discussions and information.
+
+**Acceptance Criteria:**
+- ✅ Real-time search across all forum posts
+- ✅ Search result relevance ranking (title matches > content matches)
+- ✅ Advanced filtering by category and author
+- ✅ Clean search interface with result previews
+- ✅ Fast PostgreSQL ILIKE queries for current scale
+- ✅ Search result navigation to specific posts
+- ✅ Responsive design with terminal aesthetics
+
+**Technical Implementation:**
+- **Backend API**: GET `/api/forum/search` with query parameters
+- **Database**: PostgreSQL ILIKE queries with JOIN operations
+- **Relevance Scoring**: CASE statements for title vs content matches
+- **Filtering**: Dynamic WHERE clauses for category and author
+- **Frontend**: Real-time search UI with event listeners
+
+**Search Features:**
+- **Query Processing**: Minimum 2 characters, case-insensitive matching
+- **Result Types**: Posts with type indicators and content previews
+- **Navigation**: Click results to navigate to specific posts
+- **Filtering**: Category dropdown and author text input
+- **Performance**: Fast ILIKE queries suitable for current forum size
+- **Error Handling**: Graceful fallbacks and user feedback
+
+**API Endpoints:**
+- `GET /api/forum/search?q=query&category=id&author=username`
+
+**Search Algorithm:**
+```sql
+-- Relevance scoring prioritizes title matches
+CASE 
+    WHEN p.title ILIKE '%query%' THEN 10 
+    WHEN p.content ILIKE '%query%' THEN 5 
+    ELSE 1 
+END as relevance_score
+```
+
+**Design Philosophy:**
+- **Pragmatic Approach**: PostgreSQL ILIKE over complex full-text search
+- **Performance First**: Optimized for current scale with upgrade path
+- **User Experience**: Clean, fast, intuitive search interface
+
 ### **📋 Future: Forum Reactions System**
 **User Story:** As a forum user, I want to quickly express emotions and reactions to posts beyond just voting.
 

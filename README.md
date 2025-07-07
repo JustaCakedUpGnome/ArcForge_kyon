@@ -25,8 +25,8 @@ Visit [arcforge.tech](https://arcforge.tech) to explore the live platform.
 ### **Local Development**
 ```bash
 # Clone repository
-git clone https://github.com/JustaCakedUpGnome/arcForgeSite.git
-cd arcForgeSite
+git clone https://github.com/JustaCakedUpGnome/ArcForge_kyon.git
+cd ArcForge_kyon
 
 # Backend setup
 cd backend

@@ -8,17 +8,12 @@ const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
-    console.log('Auth header:', authHeader);
-    console.log('Token:', token);
-    console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Not Set');
 
     if (!token) {
         return res.status(401).json({ error: 'Access token required' });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        console.log('JWT verify error:', err);
-        console.log('JWT verify user:', user);
         
         if (err) {
             return res.status(403).json({ error: 'Invalid or expired token' });
@@ -219,9 +214,6 @@ router.get('/post/:postId', optionalAuth, async (req, res) => {
 // POST /api/forum/posts - Create new post (requires auth)
 router.post('/posts', authenticateToken, async (req, res) => {
     try {
-        console.log('Creating post - req.user:', req.user);
-        console.log('req.user.id:', req.user?.id);
-        console.log('req.user.userId:', req.user?.userId);
         
         const { categoryId, title, content } = req.body;
 
@@ -674,8 +666,6 @@ router.get('/search', async (req, res) => {
         
         queryParams.push(limit, offset);
         
-        console.log('Search query:', searchQuery);
-        console.log('Search params:', queryParams);
         
         const searchResult = await db.query(searchQuery, queryParams);
         

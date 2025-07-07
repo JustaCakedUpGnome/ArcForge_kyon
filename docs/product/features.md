@@ -184,7 +184,8 @@ CREATE TABLE votes (
 - ✅ Delete replies - author or admin only
 - ✅ Edit history tracking with automatic timestamps
 - ✅ Visual indicators for edited content
-- ✅ Modal-based editing interface with validation
+- ✅ Modern inline editing interface (Discord/Reddit style)
+- ✅ Rich Text Editor with dual-mode support (Visual + Markdown)
 - ✅ Confirmation dialogs for deletion
 - ✅ Authorization checks prevent unauthorized access
 
@@ -192,7 +193,7 @@ CREATE TABLE votes (
 - **Database Schema**: Added `edit_count` and `is_edited` columns to posts and replies
 - **Database Triggers**: Automatic edit tracking when content is modified
 - **Backend API**: PUT/DELETE endpoints with proper authorization
-- **Frontend UI**: Modal editing forms with validation and error handling
+- **Frontend UI**: Inline editing with Rich Text Editor and validation
 - **Security**: Only content authors or admins can edit/delete
 
 ```sql
@@ -226,8 +227,43 @@ $$ LANGUAGE plpgsql;
 - **Edit Tracking**: Automatically tracks edit count and timestamps
 - **Visual Feedback**: Shows "(edited)" labels for modified content
 - **Authorization**: Comprehensive ownership and admin privilege checks
-- **User Experience**: Modal forms with validation and error handling
+- **User Experience**: Inline editing with Rich Text Editor
 - **Data Integrity**: Database triggers maintain edit history automatically
+
+### **✅ Rich Text Editor System**
+**User Story:** As a forum user, I want powerful content creation tools that work for both technical and non-technical users.
+
+**Acceptance Criteria:**
+- ✅ Dual-mode editor (Visual rich text + Markdown toggle)
+- ✅ Comprehensive formatting toolbar (bold, italic, strikethrough, code, links, lists)
+- ✅ Inline editing for posts and replies (Discord/Reddit style)
+- ✅ Keyboard shortcuts for power users (Ctrl+B, Ctrl+I, Escape)
+- ✅ Progressive enhancement design (accessible to all users)
+- ✅ Seamless mode conversion (rich text ↔ Markdown)
+- ✅ Mobile-responsive design with touch-friendly controls
+- ✅ Integration with existing post/reply forms
+
+**Technical Implementation:**
+- **Component Architecture**: Modular RichTextEditor class with event system
+- **Mode Switching**: Automatic HTML ↔ Markdown conversion
+- **Toolbar System**: Extensible button groups with action handlers
+- **Integration**: Works with inline editing and new content forms
+- **Progressive Enhancement**: Core functionality works without JavaScript
+
+**Design Philosophy: "Developer UX, Mainstream Accessibility"**
+- **70% Non-technical Users**: Get intuitive visual editor by default
+- **25% Tech-savvy Users**: Can toggle to Markdown mode for efficiency
+- **5% Admins/Power Users**: Full keyboard shortcuts and advanced features
+
+**Features:**
+- **Dual-Mode Support**: Visual editing with optional Markdown toggle
+- **Rich Formatting**: Bold, italic, strikethrough, inline code, code blocks
+- **Link Management**: Easy URL insertion with text selection
+- **List Support**: Bullet points and numbered lists
+- **Keyboard Shortcuts**: Standard shortcuts (Ctrl+B, Ctrl+I) for efficiency
+- **Mode Persistence**: Remembers user's preferred editing mode
+- **Content Conversion**: Seamless switching between visual and Markdown
+- **Mobile Optimization**: Touch-friendly interface with responsive design
 
 ### **📋 Future: Forum Reactions System**
 **User Story:** As a forum user, I want to quickly express emotions and reactions to posts beyond just voting.

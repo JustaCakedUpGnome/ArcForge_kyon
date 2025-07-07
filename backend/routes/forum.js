@@ -627,8 +627,8 @@ router.get('/search', async (req, res) => {
         let queryParams = [searchTerm];
         let paramCount = 1;
         
-        // Build search query for posts
-        let postQuery = `
+        // Simple, robust search query - search posts first
+        searchQuery = `
             SELECT 
                 'post' as type,
                 p.id,
@@ -639,6 +639,7 @@ router.get('/search', async (req, res) => {
                 u.username,
                 c.name as category_name,
                 c.id as category_id,
+                NULL as post_id,
                 (CASE 
                     WHEN p.title ILIKE $1 THEN 10 
                     WHEN p.content ILIKE $1 THEN 5 
@@ -651,49 +652,22 @@ router.get('/search', async (req, res) => {
               AND c.access_level = 'public'
         `;
         
-        // Build search query for replies
-        let replyQuery = `
-            SELECT 
-                'reply' as type,
-                r.id,
-                p.title,
-                r.content,
-                r.created_at,
-                r.updated_at,
-                u.username,
-                c.name as category_name,
-                c.id as category_id,
-                p.id as post_id,
-                3 as relevance_score
-            FROM replies r
-            JOIN posts p ON r.post_id = p.id
-            JOIN users u ON r.user_id = u.id
-            JOIN categories c ON p.category_id = c.id
-            WHERE r.content ILIKE $1
-              AND c.access_level = 'public'
-        `;
-        
         // Add category filter if specified
         if (category) {
             paramCount++;
-            postQuery += ` AND c.id = $${paramCount}`;
-            replyQuery += ` AND c.id = $${paramCount}`;
+            searchQuery += ` AND c.id = $${paramCount}`;
             queryParams.push(category);
         }
         
         // Add author filter if specified
         if (author) {
             paramCount++;
-            postQuery += ` AND u.username ILIKE $${paramCount}`;
-            replyQuery += ` AND u.username ILIKE $${paramCount}`;
+            searchQuery += ` AND u.username ILIKE $${paramCount}`;
             queryParams.push(`%${author}%`);
         }
         
-        // Combine queries and add ordering/limits
-        searchQuery = `
-            (${postQuery})
-            UNION ALL
-            (${replyQuery})
+        // Add ordering and limits
+        searchQuery += `
             ORDER BY relevance_score DESC, created_at DESC
             LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}
         `;
@@ -707,16 +681,10 @@ router.get('/search', async (req, res) => {
         
         // Get total count for pagination (simplified)
         const countQuery = `
-            SELECT COUNT(*) as total FROM (
-                (SELECT p.id FROM posts p 
-                 JOIN categories c ON p.category_id = c.id 
-                 WHERE (p.title ILIKE $1 OR p.content ILIKE $1) AND c.access_level = 'public')
-                UNION ALL
-                (SELECT r.id FROM replies r 
-                 JOIN posts p ON r.post_id = p.id 
-                 JOIN categories c ON p.category_id = c.id 
-                 WHERE r.content ILIKE $1 AND c.access_level = 'public')
-            ) as combined_results
+            SELECT COUNT(*) as total FROM posts p 
+            JOIN categories c ON p.category_id = c.id 
+            WHERE (p.title ILIKE $1 OR p.content ILIKE $1) 
+              AND c.access_level = 'public'
         `;
         
         const countResult = await db.query(countQuery, [searchTerm]);
